@@ -1,0 +1,48 @@
+{
+  "name": "sanity-board",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && tsc --noEmit",
+    "check:watch": "svelte-kit sync && tsc --noEmit --watch",
+    "lint": "prettier --plugin-search-dir . --check . && eslint .",
+    "format": "prettier --plugin-search-dir . --write ."
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-static": "^3.0.4",
+    "@sveltejs/kit": "^2.5.27",
+    "@sveltejs/vite-plugin-svelte": "^3.1.2",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "^22.5.4",
+    "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-svelte": "^2.43.0",
+    "globals": "^15.9.0",
+    "jszip": "^3.10.1",
+    "mdsvex": "^0.11.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-svelte": "^3.2.6",
+    "prettier-plugin-tailwindcss": "^0.6.6",
+    "rehype-pretty-code": "^0.14.0",
+    "shiki": "^1.16.2",
+    "svelte": "^5.0.0-next.242",
+    "svelte-check": "^3.8.6",
+    "tailwindcss": "^4.1.18",
+    "tslib": "^2.7.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.4.0",
+    "vite": "^5.4.3",
+    "zod": "^3.23.8"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-svelte": "^0.436.0",
+    "ogl": "^1.0.11",
+    "svelte-sonner": "^0.3.28",
+    "tailwind-merge": "^2.5.2"
+  },
+  "type": "module"
+}
