@@ -10,26 +10,74 @@ export const MetadataSchema = z.object({
     'Model Name': z.string(),
     'Provider Name': z.string(),
     'Run Date': z.string(),
-    'MCP tools available': z.string().optional()
+    'MCP tools available': z.string().optional(),
+    'verified': z.string().optional()
 });
 
-export const SummarySchema = z.object({
-    passed: z.number().optional(),
-    total: z.number().optional(),
-    pass_rate: z.number().optional(),
-    weighted_score: z.number().optional(),
+export const TaskResultSchema = z.object({
+    task: z.string(),
+    language: z.string(),
+    tier: z.string(),
+    difficulty: z.string(),
+    passed: z.boolean(),
+    status: z.string().optional(),
+    attempts: z.number(),
     duration_seconds: z.number().optional(),
-    by_language: z.record(z.any()).optional(),
-    by_tier: z.record(z.any()).optional()
+    agent_duration_seconds: z.number().optional(),
+    validation_duration_seconds: z.number().optional(),
+    prompt_chars: z.number().optional(),
+    weight: z.number().optional(),
+    weighted_score: z.number().optional()
+});
+
+export const LanguageStatsSchema = z.object({
+    passed: z.number(),
+    failed: z.number(),
+    total: z.number(),
+    pass_rate: z.number()
+}).passthrough();
+
+export const ResultsSchema = z.object({
+    results: z.array(TaskResultSchema),
+    by_tier: z.record(z.string(), LanguageStatsSchema).optional(),
+    by_difficulty: z.record(z.string(), LanguageStatsSchema).optional(),
+    by_language: z.record(z.string(), LanguageStatsSchema).optional()
+}).passthrough();
+
+export const StatsSchema = z.object({
+    agent: z.string().optional(),
+    model: z.string().optional(),
+    timestamp: z.string().optional(),
+    pass_rate: z.number().optional(),
+    weighted_pass_rate: z.number().optional(),
+    passed: z.number().optional(),
+    failed: z.number().optional(),
+    total: z.number().optional(),
+    weighted_score: z.number().optional(),
+    max_possible_score: z.number().optional(),
+    clean_passes: z.number().optional(),
+    partial_passes: z.number().optional(),
+    integrity_violations: z.number().optional(),
+    by_language: z.record(z.string(), LanguageStatsSchema).optional(),
+    total_duration_seconds: z.number().optional(),
+    agent_duration_seconds: z.number().optional(),
+    harness_version: z.string().optional(),
+    weight_version: z.string().optional(),
+    tasks_hash: z.string().optional(),
+    results_hash: z.string().optional()
 }).passthrough();
 
 export type Metadata = z.infer<typeof MetadataSchema>;
-export type Summary = z.infer<typeof SummarySchema>;
+export type TaskResult = z.infer<typeof TaskResultSchema>;
+export type LanguageStats = z.infer<typeof LanguageStatsSchema>;
+export type Results = z.infer<typeof ResultsSchema>;
+export type Stats = z.infer<typeof StatsSchema>;
 
 export interface RunData {
     id: string;
     metadata: Metadata;
-    summary: Summary | null;
+    stats: Stats | null;
+    results: Results | null;
 }
 
 export function getRunIds(): string[] {
@@ -62,16 +110,17 @@ export function getRunData(runId: string): RunData {
     return {
         id: runId,
         metadata: readJson('metadata.json', MetadataSchema)!, 
-        summary: readJson('summary.json', SummarySchema),
+        stats: readJson('submission.json', StatsSchema),
+        results: readJson('summary.json', ResultsSchema),
     };
 }
 
 export function getAllRuns(): RunData[] {
     const ids = getRunIds();
     return ids.map(id => getRunData(id)).sort((a, b) => {
-        // Sort by score desc, then date desc
-        const scoreA = a.summary?.weighted_score || 0;
-        const scoreB = b.summary?.weighted_score || 0;
+        // Sort by weighted_score desc, then date desc
+        const scoreA = a.stats?.weighted_score || 0;
+        const scoreB = b.stats?.weighted_score || 0;
         if (scoreA !== scoreB) return scoreB - scoreA;
         
         return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();

@@ -12,18 +12,10 @@
     // Derived filtered list
     let visibleRuns = $derived(
         data.runs.filter(run => {
-            // PROPOSAL says: Verified is default. Third-party hidden by default.
-            // Assumption: If MCP is 'yes', maybe it's verified? Or we need a field.
-            // For now, let's treat all as "Third Party" except maybe known ones.
-            // PROPOSAL says: "All successful external submissions are strictly classified as 'Third Party / Unverified'"
-            // So we need a way to distinguish.
-            // For this demo, let's assume we show all if 'Community' is on, or maybe just hardcode some as verified.
-            // Let's assume there is a curated list.
-            // Without a 'verified' field in json, I will show ALL for now, but respect the toggle if I had the field.
-            
-            // Temporary Logic: Show all for now since we don't have 'verified' bit in JSON schema yet.
-            // But to demonstrate functionality:
-            return true; 
+            if (filters.verifiedOnly) {
+                return run.metadata.verified === 'yes';
+            }
+            return true;
         })
     );
 </script>

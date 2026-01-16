@@ -4,5 +4,6 @@
     "Model Name": "MiniMax M2.1",
     "Provider Name": "MiniMax AI (OpenAI API)",
     "Run Date": "2026-01-14",
-    "MCP tools available": "no"
+    "MCP tools available": "no",
+    "verified": "yes"
 }

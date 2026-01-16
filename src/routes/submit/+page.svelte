@@ -42,10 +42,10 @@
                 </div>
 
                 <div class="flex gap-4 pt-2">
-                    <button class="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all flex items-center gap-2">
+                    <a href="mailto:lemon07r@gmail.com?subject=SanityBoard Submission&body=Please find the eval-results.zip attached for my agent." class="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all flex items-center gap-2">
                         <Upload size={18} />
                         Upload Run Data (.zip)
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

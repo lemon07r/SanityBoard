@@ -2,7 +2,7 @@
   import { spring } from 'svelte/motion';
   import { slide } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
-  import type { RunData } from '$lib/server/data';
+  import type { RunData, LanguageStats } from '$lib/server/data';
   import RankBadge from './RankBadge.svelte';
   import { Check, X, Box, ExternalLink, Zap } from 'lucide-svelte';
 
@@ -26,13 +26,14 @@
 
   // Helpers
   let meta = $derived(run.metadata);
-  let summary = $derived(run.summary);
-  let score = $derived(summary?.weighted_score?.toFixed(2) || '0.00');
-  let passRate = $derived(summary?.pass_rate?.toFixed(1) || '0.0');
-  let duration = $derived(summary?.duration_seconds ? Math.round(summary.duration_seconds / 60) : 0);
-  let agentDuration = $derived(summary?.agent_duration_seconds ? Math.round(summary.agent_duration_seconds / 60) : 0);
-  let languages = $derived(summary?.by_language || {});
-  let tiers = $derived(summary?.by_tier || {});
+  let stats = $derived(run.stats);
+  let score = $derived(stats?.weighted_score?.toFixed(2) || '0.00');
+  let passRate = $derived(stats?.pass_rate?.toFixed(1) || '0.0');
+  let duration = $derived(stats?.total_duration_seconds ? Math.round(stats.total_duration_seconds / 60) : 0);
+  let agentDuration = $derived(stats?.agent_duration_seconds ? Math.round(stats.agent_duration_seconds / 60) : 0);
+  
+  // Safe extraction without complex casting in derivation
+  let languages = $derived(stats?.by_language || {});
   
   // Colors for languages
   const langColors: Record<string, string> = {
@@ -81,7 +82,7 @@
     <div class="col-span-2">
         <div class="flex items-center gap-2">
             <div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                <div class="h-full bg-white transition-all duration-1000" style="width: {(summary?.weighted_score || 0) / 32 * 100}%"></div>
+                <div class="h-full bg-white transition-all duration-1000" style="width: {(stats?.weighted_score || 0) / 32 * 100}%"></div>
             </div>
             <span class="font-mono text-sm font-bold w-12 text-right">{score}</span>
         </div>
@@ -103,7 +104,8 @@
   </button>
 
   <!-- Expanded Details (Hydraulic) -->
-  <div class="overflow-hidden border-b border-white/5 bg-black/20" style="display: {isOpen || $height > 0.5 ? 'block' : 'none'}">
+  {#if isOpen || $height > 0.5}
+  <div class="overflow-hidden border-b border-white/5 bg-black/20">
     <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-8" transition:slide={{ duration: 300, easing: cubicOut }}>
         
         <!-- Col 1: Meta -->
@@ -125,7 +127,8 @@
         <div class="space-y-4 w-full">
             <div class="text-xs uppercase tracking-widest text-white/30 font-semibold">Language Spectrum</div>
             <div class="w-full h-3 flex rounded-full overflow-hidden ring-1 ring-white/10">
-                {#each Object.entries(languages) as [lang, stats]}
+                {#each Object.entries(languages) as [lang, langStats]}
+                    {@const stats = langStats as import('$lib/server/data').LanguageStats}
                     <div 
                         class="h-full {getLangColor(lang)} transition-all hover:brightness-110" 
                         style="width: {(stats.total / 26) * 100}%"
@@ -134,10 +137,19 @@
                 {/each}
             </div>
             <div class="flex flex-wrap gap-2 text-[10px] text-white/40 uppercase font-mono">
-                {#each Object.entries(languages) as [lang, stats]}
+                {#each Object.entries(languages) as [lang, langStats]}
+                    {@const stats = langStats as import('$lib/server/data').LanguageStats}
                     <div class="flex items-center gap-1">
                         <div class="w-2 h-2 rounded-full {getLangColor(lang)}"></div>
                         {lang} {stats.pass_rate.toFixed(0)}%
+                    </div>
+                {/each}
+            </div>
+            <div class="flex flex-wrap gap-2 text-[10px] text-white/40 uppercase font-mono">
+                {#each Object.entries(languages) as [lang, langStats]}
+                    <div class="flex items-center gap-1">
+                        <div class="w-2 h-2 rounded-full {getLangColor(lang)}"></div>
+                        {lang} {langStats.pass_rate.toFixed(0)}%
                     </div>
                 {/each}
             </div>
@@ -156,4 +168,5 @@
 
     </div>
   </div>
+  {/if}
 </div>

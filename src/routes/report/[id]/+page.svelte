@@ -1,14 +1,20 @@
 <script lang="ts">
     import { ArrowLeft, Download, Calendar, Zap, Check, X } from 'lucide-svelte';
+    import Tabs from '$lib/components/core/Tabs.svelte';
+    import TaskMatrix from '$lib/components/report/TaskMatrix.svelte';
+    import { slide } from 'svelte/transition';
     
     let { data } = $props();
     let run = $derived(data.run);
     let reportHtml = $derived(data.reportHtml);
     let meta = $derived(run.metadata);
-    let summary = $derived(run.summary);
+    let stats = $derived(run.stats);
+    let results = $derived(run.results?.results || []);
 
-    let passRate = $derived(summary?.pass_rate?.toFixed(1) || 0);
-    let isPass = $derived((summary?.pass_rate || 0) > 50); 
+    let passRate = $derived(stats?.pass_rate?.toFixed(1) || 0);
+    let isPass = $derived((stats?.pass_rate || 0) > 50); 
+
+    let activeTab = $state('report');
 </script>
 
 <svelte:head>
@@ -40,7 +46,7 @@
             <div class="flex items-center gap-4">
                 <div class="flex flex-col items-end mr-4">
                     <div class="text-xs text-white/40 uppercase tracking-widest">Score</div>
-                    <div class="font-mono text-2xl font-bold text-white">{summary?.weighted_score?.toFixed(2)}</div>
+                    <div class="font-mono text-2xl font-bold text-white">{stats?.weighted_score?.toFixed(2)}</div>
                 </div>
                 
                 <a href="/report/{run.id}/download" class="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 transition-colors flex items-center gap-2 text-sm">
@@ -68,10 +74,21 @@
                 </div>
             </div>
 
-            <!-- Markdown Content -->
-            <article class="prose prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-h1:text-3xl prose-h2:text-2xl prose-a:text-indigo-400 prose-pre:bg-[#181825] prose-pre:border prose-pre:border-white/10">
-                {@html reportHtml}
-            </article>
+            <!-- Tabs -->
+            <Tabs bind:activeTab />
+
+            <!-- Content Area -->
+            {#if activeTab === 'report'}
+                <div in:slide={{duration: 300}}>
+                    <article class="prose prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-h1:text-3xl prose-h2:text-2xl prose-a:text-indigo-400 prose-pre:bg-[#181825] prose-pre:border prose-pre:border-white/10">
+                        {@html reportHtml}
+                    </article>
+                </div>
+            {:else if activeTab === 'matrix'}
+                <div in:slide={{duration: 300}}>
+                    <TaskMatrix {results} />
+                </div>
+            {/if}
         </div>
 
         <!-- Right Column: Stats Sticky -->
@@ -84,11 +101,11 @@
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
                             <span class="text-sm text-white/50">Tasks Passed</span>
-                            <span class="font-mono text-white">{summary?.passed} / {summary?.total}</span>
+                            <span class="font-mono text-white">{stats?.passed} / {stats?.total}</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-sm text-white/50">Duration</span>
-                            <span class="font-mono text-white">{(summary?.duration_seconds / 60).toFixed(0)}m</span>
+                            <span class="font-mono text-white">{(stats?.total_duration_seconds / 60).toFixed(0)}m</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-sm text-white/50">Cost (Est)</span>
@@ -99,14 +116,14 @@
                     <div class="pt-4 border-t border-white/5">
                         <div class="text-xs font-bold uppercase tracking-widest text-white/30 mb-4">By Language</div>
                         <div class="space-y-3">
-                            {#each Object.entries(summary?.by_language || {}) as [lang, stats]}
+                            {#each Object.entries(stats?.by_language || {}) as [lang, s]}
                                 <div>
                                     <div class="flex justify-between text-xs mb-1">
                                         <span class="capitalize text-white/70">{lang}</span>
-                                        <span class="font-mono text-white/40">{stats.pass_rate.toFixed(0)}%</span>
+                                        <span class="font-mono text-white/40">{s.pass_rate.toFixed(0)}%</span>
                                     </div>
                                     <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                                        <div class="h-full bg-indigo-500/50" style="width: {stats.pass_rate}%"></div>
+                                        <div class="h-full bg-indigo-500/50" style="width: {s.pass_rate}%"></div>
                                     </div>
                                 </div>
                             {/each}
