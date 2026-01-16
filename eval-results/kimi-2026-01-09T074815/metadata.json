@@ -1,9 +1,9 @@
 {
-    "Agent Name": "Kimi CLI",
-    "Agent Version": "0.72",
-    "Model Name": "Kimi K2 Thinking",
-    "Provider Name": "Moonshot AI (Kimi For Coding)",
-    "Run Date": "2026-01-09",
-    "MCP tools available": "no",
-    "verified": "yes"
+  "Agent Name": "Kimi CLI",
+  "Agent Version": "0.72",
+  "Model Name": "Kimi K2 Thinking",
+  "Provider Name": "Moonshot AI (Kimi For Coding)",
+  "Run Date": "2026-01-09",
+  "MCP tools available": "no",
+  "verified": "no"
 }

@@ -1,10 +1,14 @@
-export class FilterStore {
-    verifiedOnly = $state(true);
-    showThirdParty = $derived(!this.verifiedOnly);
+export type SortOption = "score" | "pass_rate" | "date";
 
-    toggleVerified() {
-        this.verifiedOnly = !this.verifiedOnly;
-    }
+export class FilterStore {
+  verifiedOnly = $state(true);
+  sortBy = $state<SortOption>("score");
+
+  showThirdParty = $derived(!this.verifiedOnly);
+
+  toggleVerified() {
+    this.verifiedOnly = !this.verifiedOnly;
+  }
 }
 
 export const filters = new FilterStore();

@@ -11,12 +11,28 @@
 
     // Derived filtered list
     let visibleRuns = $derived(
-        data.runs.filter(run => {
-            if (filters.verifiedOnly) {
-                return run.metadata.verified === 'yes';
-            }
-            return true;
-        })
+        data.runs
+            .filter(run => {
+                if (filters.verifiedOnly) {
+                    return run.metadata.verified === 'yes';
+                }
+                return run.metadata.verified !== 'yes';
+            })
+            .sort((a, b) => {
+                switch (filters.sortBy) {
+                    case 'pass_rate':
+                        return (b.stats?.pass_rate || 0) - (a.stats?.pass_rate || 0);
+                    case 'date':
+                        return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();
+                    case 'score':
+                    default:
+                        // Primary: Weighted Score
+                        const scoreDiff = (b.stats?.weighted_score || 0) - (a.stats?.weighted_score || 0);
+                        if (scoreDiff !== 0) return scoreDiff;
+                        // Secondary: Date
+                        return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();
+                }
+            })
     );
 </script>
 

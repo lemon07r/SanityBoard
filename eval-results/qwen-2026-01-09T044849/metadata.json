@@ -1,9 +1,9 @@
 {
-    "Agent Name": "Qwen Code",
-    "Agent Version": "v0.6.1",
-    "Model Name": "Qwen3 Coder Plus (2025-09-23)",
-    "Provider Name": "Alibaba Cloud (Qwen CLI Proxy)",
-    "Run Date": "2026-01-09",
-    "MCP tools available": "no",
-    "verified": "yes"
+  "Agent Name": "Qwen Code",
+  "Agent Version": "v0.6.1",
+  "Model Name": "Qwen3 Coder Plus (2025-09-23)",
+  "Provider Name": "Alibaba Cloud (Qwen CLI Proxy)",
+  "Run Date": "2026-01-09",
+  "MCP tools available": "no",
+  "verified": "no"
 }
