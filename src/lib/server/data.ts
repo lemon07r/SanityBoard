@@ -1,50 +1,55 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { z } from 'zod';
+import fs from "node:fs";
+import path from "node:path";
+import { z } from "zod";
 
-const DATA_DIR = path.join(process.cwd(), 'eval-results');
+const DATA_DIR = path.join(process.cwd(), "eval-results");
 
 export const MetadataSchema = z.object({
-    'Agent Name': z.string(),
-    'Agent Version': z.string(),
-    'Model Name': z.string(),
-    'Provider Name': z.string(),
-    'Run Date': z.string(),
-    'MCP tools available': z.string().optional(),
-    'verified': z.string().optional()
+  "Agent Name": z.string(),
+  "Agent Version": z.string(),
+  "Model Name": z.string(),
+  "Provider Name": z.string(),
+  "Run Date": z.string(),
+  "MCP tools available": z.string().optional(),
+  verified: z.string().optional(),
 });
 
 export const TaskResultSchema = z.object({
-    task: z.string(),
-    language: z.string(),
-    tier: z.string(),
-    difficulty: z.string(),
-    passed: z.boolean(),
-    status: z.string().optional(),
-    attempts: z.number(),
-    duration_seconds: z.number().optional(),
-    agent_duration_seconds: z.number().optional(),
-    validation_duration_seconds: z.number().optional(),
-    prompt_chars: z.number().optional(),
-    weight: z.number().optional(),
-    weighted_score: z.number().optional()
+  task: z.string(),
+  language: z.string(),
+  tier: z.string(),
+  difficulty: z.string(),
+  passed: z.boolean(),
+  status: z.string().optional(),
+  attempts: z.number(),
+  duration_seconds: z.number().optional(),
+  agent_duration_seconds: z.number().optional(),
+  validation_duration_seconds: z.number().optional(),
+  prompt_chars: z.number().optional(),
+  weight: z.number().optional(),
+  weighted_score: z.number().optional(),
 });
 
-export const LanguageStatsSchema = z.object({
+export const LanguageStatsSchema = z
+  .object({
     passed: z.number(),
     failed: z.number(),
     total: z.number(),
-    pass_rate: z.number()
-}).passthrough();
+    pass_rate: z.number(),
+  })
+  .passthrough();
 
-export const ResultsSchema = z.object({
+export const ResultsSchema = z
+  .object({
     results: z.array(TaskResultSchema),
     by_tier: z.record(z.string(), LanguageStatsSchema).optional(),
     by_difficulty: z.record(z.string(), LanguageStatsSchema).optional(),
-    by_language: z.record(z.string(), LanguageStatsSchema).optional()
-}).passthrough();
+    by_language: z.record(z.string(), LanguageStatsSchema).optional(),
+  })
+  .passthrough();
 
-export const StatsSchema = z.object({
+export const StatsSchema = z
+  .object({
     agent: z.string().optional(),
     model: z.string().optional(),
     timestamp: z.string().optional(),
@@ -64,8 +69,9 @@ export const StatsSchema = z.object({
     harness_version: z.string().optional(),
     weight_version: z.string().optional(),
     tasks_hash: z.string().optional(),
-    results_hash: z.string().optional()
-}).passthrough();
+    results_hash: z.string().optional(),
+  })
+  .passthrough();
 
 export type Metadata = z.infer<typeof MetadataSchema>;
 export type TaskResult = z.infer<typeof TaskResultSchema>;
@@ -74,55 +80,60 @@ export type Results = z.infer<typeof ResultsSchema>;
 export type Stats = z.infer<typeof StatsSchema>;
 
 export interface RunData {
-    id: string;
-    metadata: Metadata;
-    stats: Stats | null;
-    results: Results | null;
+  id: string;
+  metadata: Metadata;
+  stats: Stats | null;
+  results: Results | null;
 }
 
 export function getRunIds(): string[] {
-    if (!fs.existsSync(DATA_DIR)) return [];
-    
-    return fs.readdirSync(DATA_DIR).filter(file => {
-        return fs.statSync(path.join(DATA_DIR, file)).isDirectory();
-    });
+  if (!fs.existsSync(DATA_DIR)) return [];
+
+  return fs.readdirSync(DATA_DIR).filter((file) => {
+    return fs.statSync(path.join(DATA_DIR, file)).isDirectory();
+  });
 }
 
 export function getRunData(runId: string): RunData {
-    const runPath = path.join(DATA_DIR, runId);
-    
-    if (!fs.existsSync(runPath)) {
-        throw new Error(`Run ID ${runId} not found`);
+  const runPath = path.join(DATA_DIR, runId);
+
+  if (!fs.existsSync(runPath)) {
+    throw new Error(`Run ID ${runId} not found`);
+  }
+
+  const readJson = <T>(filename: string, schema: z.ZodType<T>): T | null => {
+    const filePath = path.join(runPath, filename);
+    if (!fs.existsSync(filePath)) return null;
+    try {
+      const content = fs.readFileSync(filePath, "utf-8");
+      return schema.parse(JSON.parse(content));
+    } catch (e) {
+      console.error(`Error parsing ${filename} for ${runId}:`, e);
+      throw e;
     }
+  };
 
-    const readJson = <T>(filename: string, schema: z.ZodType<T>): T | null => {
-        const filePath = path.join(runPath, filename);
-        if (!fs.existsSync(filePath)) return null;
-        try {
-            const content = fs.readFileSync(filePath, 'utf-8');
-            return schema.parse(JSON.parse(content));
-        } catch (e) {
-            console.error(`Error parsing ${filename} for ${runId}:`, e);
-            throw e; 
-        }
-    };
-
-    return {
-        id: runId,
-        metadata: readJson('metadata.json', MetadataSchema)!, 
-        stats: readJson('submission.json', StatsSchema),
-        results: readJson('summary.json', ResultsSchema),
-    };
+  return {
+    id: runId,
+    metadata: readJson("metadata.json", MetadataSchema)!,
+    stats: readJson("submission.json", StatsSchema),
+    results: readJson("summary.json", ResultsSchema),
+  };
 }
 
 export function getAllRuns(): RunData[] {
-    const ids = getRunIds();
-    return ids.map(id => getRunData(id)).sort((a, b) => {
-        // Sort by weighted_score desc, then date desc
-        const scoreA = a.stats?.weighted_score || 0;
-        const scoreB = b.stats?.weighted_score || 0;
-        if (scoreA !== scoreB) return scoreB - scoreA;
-        
-        return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();
+  const ids = getRunIds();
+  return ids
+    .map((id) => getRunData(id))
+    .sort((a, b) => {
+      // Sort by weighted_score desc, then date desc
+      const scoreA = a.stats?.weighted_score || 0;
+      const scoreB = b.stats?.weighted_score || 0;
+      if (scoreA !== scoreB) return scoreB - scoreA;
+
+      return (
+        new Date(b.metadata["Run Date"]).getTime() -
+        new Date(a.metadata["Run Date"]).getTime()
+      );
     });
 }

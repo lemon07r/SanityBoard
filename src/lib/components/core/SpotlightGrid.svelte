@@ -1,6 +1,9 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte';
+
   let container: HTMLDivElement;
   let frameId: number;
+  let { children }: { children: Snippet } = $props();
 
   function handleMouseMove(e: MouseEvent) {
     if (!container) return;
@@ -18,16 +21,15 @@
   }
 </script>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div 
   bind:this={container}
   onmousemove={handleMouseMove}
   class="relative group rounded-xl border border-white/5 bg-black/40 overflow-hidden"
-  role="grid"
-  tabindex="-1"
 >
   <!-- Content -->
   <div class="relative z-10 flex flex-col divide-y divide-white/5">
-     <slot />
+     {@render children()}
   </div>
 
   <!-- Spotlight Overlay -->

@@ -4,7 +4,6 @@
     import SpotlightGrid from '$lib/components/core/SpotlightGrid.svelte';
     import LeaderboardRow from '$lib/components/leaderboard/LeaderboardRow.svelte';
     import { filters } from '$lib/stores/filter.svelte';
-    import { flip } from 'svelte/animate';
     import { fade } from 'svelte/transition';
     import { Github } from 'lucide-svelte';
 

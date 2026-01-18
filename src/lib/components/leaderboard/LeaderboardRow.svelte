@@ -1,9 +1,10 @@
 <script lang="ts">
   import type { RunData, LanguageStats } from '$lib/server/data';
   import RankBadge from './RankBadge.svelte';
-  import { Check, X, Box, ExternalLink, Zap } from 'lucide-svelte';
+  import { Check, Box, ExternalLink, Zap } from 'lucide-svelte';
+  import { prefersReducedMotion } from 'svelte/motion';
 
-  let { run, rank } = $props();
+  let { run, rank }: { run: RunData; rank: number } = $props();
 
   let isOpen = $state(false);
 
@@ -11,9 +12,13 @@
     isOpen = !isOpen;
   }
 
-  // Helpers
+  // Use $derived for stable references from props
+  // These are simple passthroughs that avoid deep traversal on toggle
   let meta = $derived(run.metadata);
   let stats = $derived(run.stats);
+  let runId = $derived(run.id);
+
+  // Derived values that depend on stats (computed once, cached)
   let score = $derived(stats?.weighted_score?.toFixed(2) || '0.00');
   let passRate = $derived(stats?.pass_rate?.toFixed(1) || '0.0');
   let duration = $derived(stats?.total_duration_seconds ? Math.round(stats.total_duration_seconds / 60) : 0);
@@ -36,6 +41,13 @@
   function getLangColor(lang: string) {
       return langColors[lang.toLowerCase()] || 'bg-gray-500';
   }
+
+  // Transition class based on reduced motion preference
+  let transitionClass = $derived(
+    prefersReducedMotion.current 
+      ? '' 
+      : 'transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]'
+  );
 </script>
 
 <div class="relative group/row">
@@ -92,10 +104,10 @@
 
   <!-- Expanded Details (Hydraulic via Grid) -->
   <div 
-    class="grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] border-b border-white/5 bg-black/20 will-change-[grid-template-rows]"
-    style="grid-template-rows: {isOpen ? '1fr' : '0fr'};"
+    class="grid {transitionClass} border-b border-white/5 bg-black/20 will-change-[grid-template-rows] [contain:layout_style_paint] [content-visibility:auto]"
+    style="grid-template-rows: {isOpen ? '1fr' : '0fr'}; transform: translateZ(0);"
   >
-      <div class="overflow-hidden min-h-0">
+      <div class="overflow-hidden min-h-0 [transform:translateZ(0)] [backface-visibility:hidden]">
           <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-8">
               
               <!-- Col 1: Meta -->
@@ -117,7 +129,7 @@
               <div class="space-y-4 w-full">
                   <div class="text-xs uppercase tracking-widest text-white/30 font-semibold">Language Spectrum</div>
                   <div class="w-full h-3 flex rounded-full overflow-hidden ring-1 ring-white/10">
-                      {#each Object.entries(languages) as [lang, langStats]}
+                      {#each Object.entries(languages) as [lang, langStats] (lang)}
                           {@const stats = langStats as import('$lib/server/data').LanguageStats}
                           <div 
                               class="h-full {getLangColor(lang)} transition-all hover:brightness-110" 
@@ -127,7 +139,7 @@
                       {/each}
                   </div>
                   <div class="flex flex-wrap gap-2 text-[10px] text-white/40 uppercase font-mono">
-                      {#each Object.entries(languages) as [lang, langStats]}
+                      {#each Object.entries(languages) as [lang, langStats] (lang)}
                           {@const stats = langStats as import('$lib/server/data').LanguageStats}
                           <div class="flex items-center gap-1">
                               <div class="w-2 h-2 rounded-full {getLangColor(lang)}"></div>
@@ -140,7 +152,7 @@
               <!-- Col 3: Action -->
               <div class="flex items-center justify-end">
                   <a 
-                      href="/report/{run.id}" 
+                      href="/report/{runId}" 
                       class="group flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                       Open Flight Recorder

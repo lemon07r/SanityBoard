@@ -1,35 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', sans-serif;
-  
+  --font-sans: "Inter", sans-serif;
+
   --color-border: hsl(240 3.7% 15.9%);
   --color-input: hsl(240 3.7% 15.9%);
   --color-ring: hsl(240 4.9% 83.9%);
   --color-background: hsl(240 10% 3.9%);
   --color-foreground: hsl(0 0% 98%);
-  
+
   --color-primary: hsl(0 0% 98%);
   --color-primary-foreground: hsl(240 5.9% 10%);
-  
+
   --color-secondary: hsl(240 3.7% 15.9%);
   --color-secondary-foreground: hsl(0 0% 98%);
-  
+
   --color-destructive: hsl(0 62.8% 30.6%);
   --color-destructive-foreground: hsl(0 0% 98%);
-  
+
   --color-muted: hsl(240 3.7% 15.9%);
   --color-muted-foreground: hsl(240 5% 64.9%);
-  
+
   --color-accent: hsl(240 3.7% 15.9%);
   --color-accent-foreground: hsl(0 0% 98%);
-  
+
   --color-popover: hsl(240 10% 3.9%);
   --color-popover-foreground: hsl(0 0% 98%);
-  
+
   --color-card: hsl(240 10% 3.9%);
   --color-card-foreground: hsl(0 0% 98%);
-  
+
   --radius: 0.5rem;
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -78,3 +78,22 @@ body {
   @apply bg-background text-foreground antialiased font-sans;
 }
 
+/* Firefox-specific optimizations for smoother animations */
+@supports (-moz-appearance: none) {
+  /* Shorter transition duration for Firefox to minimize visible jank */
+  .group\/row > div:nth-child(2) {
+    transition-duration: 300ms !important;
+  }
+
+  /* Force GPU compositing for spotlight effects in Firefox */
+  .group\/row .pointer-events-none {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Optimize grid transitions in Firefox */
+  .group\/row [style*="grid-template-rows"] {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}

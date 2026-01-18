@@ -63,16 +63,32 @@
     const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
 
     let animateId: number;
+    let isAnimating = true;
+
     function update(t: number) {
+      if (!isAnimating) return;
       animateId = requestAnimationFrame(update);
       program.uniforms.uTime.value = t * 0.001;
       renderer.render({ scene: mesh });
     }
+
+    function handleVisibilityChange() {
+      if (document.hidden) {
+        isAnimating = false;
+        cancelAnimationFrame(animateId);
+      } else {
+        isAnimating = true;
+        animateId = requestAnimationFrame(update);
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     animateId = requestAnimationFrame(update);
 
     return () => {
       cancelAnimationFrame(animateId);
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   });
 </script>
