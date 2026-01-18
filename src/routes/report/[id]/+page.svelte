@@ -2,6 +2,8 @@
     import { ArrowLeft, Download, Calendar, Zap, Check, X } from 'lucide-svelte';
     import Tabs from '$lib/components/core/Tabs.svelte';
     import TaskMatrix from '$lib/components/report/TaskMatrix.svelte';
+    import PassRateChart from '$lib/components/report/PassRateChart.svelte';
+    import SpotlightCard from '$lib/components/core/SpotlightCard.svelte';
     import { slide } from 'svelte/transition';
     
     let { data } = $props();
@@ -9,10 +11,11 @@
     let reportHtml = $derived(data.reportHtml);
     let meta = $derived(run.metadata);
     let stats = $derived(run.stats);
-    let results = $derived(run.results?.results || []);
+    let results = $derived((run.results?.results || []) as any[]);
 
     let passRate = $derived(stats?.pass_rate?.toFixed(1) || 0);
     let isPass = $derived((stats?.pass_rate || 0) > 50); 
+    let duration = $derived(stats?.total_duration_seconds ? (stats.total_duration_seconds / 60).toFixed(0) : '0');
 
     let activeTab = $state('report');
 </script>
@@ -74,18 +77,21 @@
                 </div>
             </div>
 
+            <!-- Chart -->
+            <PassRateChart {run} />
+
             <!-- Tabs -->
             <Tabs bind:activeTab />
 
             <!-- Content Area -->
             {#if activeTab === 'report'}
-                <div in:slide={{duration: 300}}>
+                <div>
                     <article class="prose prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-h1:text-3xl prose-h2:text-2xl prose-a:text-indigo-400 prose-pre:bg-[#181825] prose-pre:border prose-pre:border-white/10">
                         {@html reportHtml}
                     </article>
                 </div>
             {:else if activeTab === 'matrix'}
-                <div in:slide={{duration: 300}}>
+                <div>
                     <TaskMatrix {results} />
                 </div>
             {/if}
@@ -95,7 +101,7 @@
         <div class="lg:col-span-1">
             <div class="sticky top-24 space-y-6">
                 <!-- Mini Stats Card -->
-                <div class="rounded-xl bg-white/[0.02] border border-white/5 p-6 space-y-6">
+                <SpotlightCard class="p-6 space-y-6">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-white/30">Run Statistics</h3>
                     
                     <div class="space-y-4">
@@ -105,7 +111,7 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-sm text-white/50">Duration</span>
-                            <span class="font-mono text-white">{(stats?.total_duration_seconds / 60).toFixed(0)}m</span>
+                            <span class="font-mono text-white">{duration}m</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-sm text-white/50">Cost (Est)</span>
@@ -129,7 +135,7 @@
                             {/each}
                         </div>
                     </div>
-                </div>
+                </SpotlightCard>
             </div>
         </div>
 

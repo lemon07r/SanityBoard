@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { filters, type SortOption } from '$lib/stores/filter.svelte';
-    import { Filter, ChevronDown, Check } from 'lucide-svelte';
+    import { filters, type SortOption, type FilterType } from '$lib/stores/filter.svelte';
+    import { Filter, ChevronDown, Check, Users, ShieldCheck, Globe } from 'lucide-svelte';
     import { scale } from 'svelte/transition';
 
     let isOpen = $state(false);
@@ -9,6 +9,12 @@
         { label: 'Weighted Score', value: 'score' },
         { label: 'Pass Rate', value: 'pass_rate' },
         { label: 'Run Date', value: 'date' }
+    ];
+
+    const filterOptions: { label: string; value: FilterType; icon: any }[] = [
+        { label: 'All', value: 'all', icon: Globe },
+        { label: 'Verified', value: 'verified', icon: ShieldCheck },
+        { label: 'Community', value: 'community', icon: Users }
     ];
 </script>
 
@@ -61,20 +67,17 @@
             {/if}
         </div>
 
-        <!-- Right: Toggles -->
-        <div class="flex items-center gap-4">
-            <button 
-                class="text-sm px-3 py-1.5 rounded-full transition-all border {filters.verifiedOnly ? 'bg-white/10 border-white/20 text-white' : 'border-transparent text-white/40 hover:text-white'}"
-                onclick={() => filters.verifiedOnly = true}
-            >
-                Verified
-            </button>
-            <button 
-                class="text-sm px-3 py-1.5 rounded-full transition-all border {!filters.verifiedOnly ? 'bg-white/10 border-white/20 text-white' : 'border-transparent text-white/40 hover:text-white'}"
-                onclick={() => filters.verifiedOnly = false}
-            >
-                Community
-            </button>
+        <!-- Right: Segmented Control -->
+        <div class="flex items-center p-1 bg-white/5 rounded-lg border border-white/5">
+            {#each filterOptions as option}
+                <button 
+                    class="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-all {filters.filterType === option.value ? 'bg-white/10 text-white shadow-sm' : 'text-white/40 hover:text-white hover:bg-white/5'}"
+                    onclick={() => filters.setFilter(option.value)}
+                >
+                    <option.icon size={14} />
+                    <span class="hidden sm:inline">{option.label}</span>
+                </button>
+            {/each}
         </div>
     </div>
 </div>

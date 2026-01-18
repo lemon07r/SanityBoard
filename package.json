@@ -6,6 +6,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
+    "test": "playwright test",
     "check": "svelte-kit sync && tsc --noEmit",
     "check:watch": "svelte-kit sync && tsc --noEmit --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",

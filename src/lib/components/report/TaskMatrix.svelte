@@ -22,7 +22,7 @@
         tier: string;
         difficulty: string;
         duration_seconds?: number;
-        status: 'pass' | 'fail' | string;
+        status: string; // Changed from union to string to match data
         [key: string]: unknown;
     }
 
@@ -32,6 +32,7 @@
     let searchQuery = $state('');
     let statusFilter = $state('all'); // all, pass, fail
     let difficultyFilter = $state('all'); // all, basic, expert, ...
+    let languageFilter = $state('all'); // all, python, etc.
     
     type SortField = 'task' | 'language' | 'tier' | 'difficulty' | 'duration_seconds' | 'status';
     let sortField = $state<SortField>('task');
@@ -40,6 +41,11 @@
     // Derived: Unique Difficulties for Filter Dropdown
     let availableDifficulties = $derived(
         [...new Set(results.map(r => r.difficulty || 'Unknown'))].sort()
+    );
+
+    // Derived: Unique Languages for Filter Dropdown
+    let availableLanguages = $derived(
+        [...new Set(results.map(r => r.language || 'Unknown'))].sort()
     );
 
     // Derived: Filtered and Sorted Results
@@ -58,7 +64,10 @@
                 // Difficulty Filter
                 const matchesDifficulty = difficultyFilter === 'all' || r.difficulty === difficultyFilter;
 
-                return matchesSearch && matchesStatus && matchesDifficulty;
+                // Language Filter
+                const matchesLanguage = languageFilter === 'all' || r.language === languageFilter;
+
+                return matchesSearch && matchesStatus && matchesDifficulty && matchesLanguage;
             })
             .sort((a, b) => {
                 let valA = a[sortField];
@@ -162,6 +171,20 @@
                     {/each}
                 </select>
                 <Layers class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" size={14} />
+            </div>
+
+            <!-- Language Filter -->
+            <div class="relative">
+                <select 
+                    bind:value={languageFilter}
+                    class="appearance-none bg-black/40 border border-white/10 rounded-lg py-2.5 pl-4 pr-10 text-sm text-white focus:outline-none focus:border-white/30 hover:bg-white/5 transition-all cursor-pointer min-w-[160px]"
+                >
+                    <option value="all">All Languages</option>
+                    {#each availableLanguages as lang}
+                        <option value={lang}>{lang}</option>
+                    {/each}
+                </select>
+                <Code2 class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" size={14} />
             </div>
         </div>
     </div>

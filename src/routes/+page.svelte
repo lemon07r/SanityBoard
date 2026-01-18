@@ -6,6 +6,7 @@
     import { filters } from '$lib/stores/filter.svelte';
     import { flip } from 'svelte/animate';
     import { fade } from 'svelte/transition';
+    import { Github } from 'lucide-svelte';
 
     let { data } = $props();
 
@@ -13,10 +14,13 @@
     let visibleRuns = $derived(
         data.runs
             .filter(run => {
-                if (filters.verifiedOnly) {
+                if (filters.filterType === 'verified') {
                     return run.metadata.verified === 'yes';
                 }
-                return run.metadata.verified !== 'yes';
+                if (filters.filterType === 'community') {
+                    return run.metadata.verified !== 'yes';
+                }
+                return true; // 'all'
             })
             .sort((a, b) => {
                 switch (filters.sortBy) {
@@ -49,19 +53,19 @@
         
         <SpotlightGrid>
             <!-- Header Row -->
-            <div class="grid grid-cols-12 gap-4 px-4 py-3 text-xs font-bold uppercase tracking-widest text-white/30 border-b border-white/5">
-                <div class="col-span-1 text-center">Rank</div>
-                <div class="col-span-3">Agent</div>
-                <div class="col-span-2">Model</div>
-                <div class="col-span-2">Provider</div>
-                <div class="col-span-2">Score (W)</div>
-                <div class="col-span-1 text-center">Pass %</div>
-                <div class="col-span-1 text-center">MCP</div>
+            <div class="grid grid-cols-12 gap-2 md:gap-4 px-4 py-3 text-xs font-bold uppercase tracking-widest text-white/30 border-b border-white/5">
+                <div class="col-span-2 md:col-span-1 text-center">Rank</div>
+                <div class="col-span-7 md:col-span-3">Agent</div>
+                <div class="col-span-2 hidden md:block">Model</div>
+                <div class="col-span-2 hidden md:block">Provider</div>
+                <div class="col-span-3 md:col-span-2 text-right md:text-left">Score</div>
+                <div class="col-span-1 text-center hidden md:block">Pass %</div>
+                <div class="col-span-1 text-center hidden md:block">MCP</div>
             </div>
 
             <!-- Rows -->
             {#each visibleRuns as run, index (run.id)}
-                <div animate:flip={{duration: 300}} in:fade>
+                <div in:fade>
                     <LeaderboardRow {run} rank={index + 1} />
                 </div>
             {/each}
@@ -77,8 +81,12 @@
 
     <!-- Footer -->
     <footer class="border-t border-white/5 bg-black/40 py-12 text-center">
-        <div class="text-white/40 text-sm">
-            &copy; 2026 SanityHarness. <a href="https://github.com/lemon07r/SanityHarness" class="hover:text-white underline">GitHub</a>
+        <div class="text-white/40 text-sm flex items-center justify-center gap-4">
+            <span>&copy; 2026 SanityHarness.</span>
+            <a href="https://github.com/lemon07r/SanityHarness" class="hover:text-white flex items-center gap-2 transition-colors">
+                <Github size={16} />
+                GitHub
+            </a>
         </div>
     </footer>
 </div>

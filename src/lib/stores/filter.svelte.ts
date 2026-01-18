@@ -1,13 +1,12 @@
 export type SortOption = "score" | "pass_rate" | "date";
+export type FilterType = "all" | "verified" | "community";
 
 export class FilterStore {
-  verifiedOnly = $state(true);
+  filterType = $state<FilterType>("verified");
   sortBy = $state<SortOption>("score");
 
-  showThirdParty = $derived(!this.verifiedOnly);
-
-  toggleVerified() {
-    this.verifiedOnly = !this.verifiedOnly;
+  setFilter(type: FilterType) {
+    this.filterType = type;
   }
 }
 

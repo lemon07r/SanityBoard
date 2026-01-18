@@ -9,7 +9,7 @@
     
     <p class="text-xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
         High-Signal Agent Evaluation. <br/>
-        <span class="text-white/40">Isolated. Weighted. Reproducible.</span>
+        <span class="text-white/40">Isolated. Weighted. Empirical.</span>
     </p>
 
     <div class="flex items-center justify-center gap-4">

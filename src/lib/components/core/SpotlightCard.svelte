@@ -1,6 +1,7 @@
 <script lang="ts">
   let container: HTMLDivElement;
   let frameId: number;
+  let { children, class: className = "" } = $props();
 
   function handleMouseMove(e: MouseEvent) {
     if (!container) return;
@@ -21,13 +22,11 @@
 <div 
   bind:this={container}
   onmousemove={handleMouseMove}
-  class="relative group rounded-xl border border-white/5 bg-black/40 overflow-hidden"
-  role="grid"
-  tabindex="-1"
+  class="relative group rounded-2xl border border-white/5 bg-white/[0.02] overflow-hidden {className}"
 >
   <!-- Content -->
-  <div class="relative z-10 flex flex-col divide-y divide-white/5">
-     <slot />
+  <div class="relative z-10 h-full">
+     {@render children()}
   </div>
 
   <!-- Spotlight Overlay -->
@@ -40,7 +39,7 @@
   
   <!-- Border Beam Mask -->
   <div 
-    class="pointer-events-none absolute inset-0 z-30 border border-white/10 rounded-xl"
+    class="pointer-events-none absolute inset-0 z-30 border border-white/10 rounded-2xl"
     style="
       -webkit-mask-image: radial-gradient(200px circle at var(--mouse-x) var(--mouse-y), black, transparent);
       mask-image: radial-gradient(200px circle at var(--mouse-x) var(--mouse-y), black, transparent);
