@@ -101,7 +101,7 @@
         <div class="lg:col-span-1">
             <div class="sticky top-24 space-y-6">
                 <!-- Mini Stats Card -->
-                <SpotlightCard class="p-6 space-y-6">
+                <div class="rounded-xl bg-white/[0.02] border border-white/5 p-6 space-y-6">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-white/30">Run Statistics</h3>
                     
                     <div class="space-y-4">
@@ -135,7 +135,7 @@
                             {/each}
                         </div>
                     </div>
-                </SpotlightCard>
+                </div>
             </div>
         </div>
 
