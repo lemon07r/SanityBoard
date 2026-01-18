@@ -51,34 +51,11 @@
   mask-image: linear-gradient(to bottom, transparent, black);
 }
 
-:root {
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 240 4.9% 83.9%;
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 240 5.9% 10%;
-  --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
-  --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 98%;
-  --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
-  --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --radius: 0.5rem;
-}
-
 body {
   @apply bg-background text-foreground antialiased font-sans;
 }
 
-/* Row expansion animation - Chromium uses grid-template-rows */
+/* Row expansion animation */
 .row-expansion {
   display: grid;
   grid-template-rows: 0fr;
@@ -94,34 +71,51 @@ body {
   min-height: 0;
 }
 
-/* Firefox fallback - simple fade animation since grid-template-rows is choppy */
-@supports (-moz-appearance: none) {
-  .row-expansion {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: none;
-  }
-
-  .row-expansion--open {
-    grid-template-rows: 1fr;
-  }
-
-  .row-expansion__content {
-    min-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: opacity 200ms ease-out;
-  }
-
-  .row-expansion--open .row-expansion__content {
-    opacity: 1;
-  }
-}
-
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .row-expansion,
   .row-expansion__content {
     transition: none !important;
   }
+}
+
+/* Markdown Report Table Styles */
+.prose table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 0.5rem; /* fallback for theme value */
+  border-radius: var(--radius-lg); 
+  overflow: hidden;
+}
+
+.prose thead {
+  background-color: rgb(255 255 255 / 0.05);
+}
+
+.prose th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: rgb(255 255 255 / 0.9);
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+  white-space: nowrap;
+}
+
+.prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgb(255 255 255 / 0.05);
+  color: rgb(255 255 255 / 0.7);
+  vertical-align: top;
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tr:hover td {
+  background-color: rgb(255 255 255 / 0.02);
 }

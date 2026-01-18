@@ -9,17 +9,46 @@
 
     let { data } = $props();
 
+    // Derived unique options for filters
+    let availableProviders = $derived([...new Set(data.runs.map(r => r.metadata['Provider Name']))].sort());
+    let availableModels = $derived([...new Set(data.runs.map(r => r.metadata['Model Name']))].sort());
+
     // Derived filtered list
     let visibleRuns = $derived(
         data.runs
             .filter(run => {
-                if (filters.filterType === 'verified') {
-                    return run.metadata.verified === 'yes';
+                // Category Filter
+                if (filters.filterType === 'verified' && run.metadata.verified !== 'yes') return false;
+                if (filters.filterType === 'community' && run.metadata.verified === 'yes') return false;
+
+                // Search Filter
+                if (filters.searchQuery) {
+                    const q = filters.searchQuery.toLowerCase();
+                    const match = 
+                        run.metadata['Agent Name'].toLowerCase().includes(q) ||
+                        run.metadata['Provider Name'].toLowerCase().includes(q) ||
+                        run.metadata['Model Name'].toLowerCase().includes(q);
+                    if (!match) return false;
                 }
-                if (filters.filterType === 'community') {
-                    return run.metadata.verified !== 'yes';
+
+                // Provider Filter
+                if (filters.selectedProviders.length > 0) {
+                    if (!filters.selectedProviders.includes(run.metadata['Provider Name'])) return false;
                 }
-                return true; // 'all'
+
+                // Model Filter
+                if (filters.selectedModels.length > 0) {
+                    if (!filters.selectedModels.includes(run.metadata['Model Name'])) return false;
+                }
+
+                // MCP Filter
+                if (filters.mcpFilter !== 'all') {
+                    const hasMcp = run.metadata['MCP tools available']?.toLowerCase().includes('yes');
+                    if (filters.mcpFilter === 'yes' && !hasMcp) return false;
+                    if (filters.mcpFilter === 'no' && hasMcp) return false;
+                }
+
+                return true;
             })
             .sort((a, b) => {
                 switch (filters.sortBy) {
@@ -27,6 +56,12 @@
                         return (b.stats?.pass_rate || 0) - (a.stats?.pass_rate || 0);
                     case 'date':
                         return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();
+                    case 'agent':
+                        return a.metadata['Agent Name'].localeCompare(b.metadata['Agent Name']);
+                    case 'provider':
+                        return a.metadata['Provider Name'].localeCompare(b.metadata['Provider Name']);
+                    case 'model':
+                        return a.metadata['Model Name'].localeCompare(b.metadata['Model Name']);
                     case 'score':
                     default: {
                         // Primary: Weighted Score
@@ -47,7 +82,7 @@
 <div class="flex flex-col min-h-screen">
     <Hero />
     
-    <ControlBar />
+    <ControlBar {availableProviders} {availableModels} />
 
     <main class="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-12">
         
