@@ -78,22 +78,50 @@ body {
   @apply bg-background text-foreground antialiased font-sans;
 }
 
-/* Firefox-specific optimizations for smoother animations */
+/* Row expansion animation - Chromium uses grid-template-rows */
+.row-expansion {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.row-expansion--open {
+  grid-template-rows: 1fr;
+}
+
+.row-expansion__content {
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Firefox fallback - simple fade animation since grid-template-rows is choppy */
 @supports (-moz-appearance: none) {
-  /* Shorter transition duration for Firefox to minimize visible jank */
-  .group\/row > div:nth-child(2) {
-    transition-duration: 300ms !important;
+  .row-expansion {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: none;
   }
 
-  /* Force GPU compositing for spotlight effects in Firefox */
-  .group\/row .pointer-events-none {
-    transform: translateZ(0);
-    backface-visibility: hidden;
+  .row-expansion--open {
+    grid-template-rows: 1fr;
   }
 
-  /* Optimize grid transitions in Firefox */
-  .group\/row [style*="grid-template-rows"] {
-    transform: translateZ(0);
-    backface-visibility: hidden;
+  .row-expansion__content {
+    min-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+  }
+
+  .row-expansion--open .row-expansion__content {
+    opacity: 1;
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .row-expansion,
+  .row-expansion__content {
+    transition: none !important;
   }
 }

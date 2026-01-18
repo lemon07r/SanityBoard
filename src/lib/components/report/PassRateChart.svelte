@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type { RunData } from '$lib/server/data';
+    import type { RunData, LanguageStats } from '$lib/server/data';
     
     let { run }: { run: RunData } = $props();
     
     // Sort by pass rate desc
     let chartData = $derived(
         Object.entries(run.stats?.by_language || {})
-            .map(([lang, stats]: [string, any]) => ({
+            .map(([lang, stats]: [string, LanguageStats]) => ({
                 lang,
                 passRate: stats.pass_rate,
                 total: stats.total
@@ -26,7 +26,7 @@
 </script>
 
 <div class="h-48 flex items-end justify-between gap-2 px-6 py-6 bg-white/[0.02] border border-white/5 rounded-2xl mb-8">
-    {#each chartData as item}
+    {#each chartData as item (item.lang)}
         <div class="flex-1 flex flex-col items-center gap-3 group relative h-full justify-end">
             <!-- Tooltip -->
             <div class="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/90 backdrop-blur text-white text-xs px-3 py-1.5 rounded border border-white/10 whitespace-nowrap z-10 shadow-xl pointer-events-none">

@@ -11,7 +11,9 @@
         { label: 'Run Date', value: 'date' }
     ];
 
-    const filterOptions: { label: string; value: FilterType; icon: any }[] = [
+    type LucideIcon = typeof Globe | typeof ShieldCheck | typeof Users;
+
+    const filterOptions: { label: string; value: FilterType; icon: LucideIcon }[] = [
         { label: 'All', value: 'all', icon: Globe },
         { label: 'Verified', value: 'verified', icon: ShieldCheck },
         { label: 'Community', value: 'community', icon: Users }
@@ -48,7 +50,7 @@
                         Sort Order
                     </div>
                     <div class="p-1">
-                        {#each sortOptions as option}
+                        {#each sortOptions as option (option.value)}
                             <button
                                 class="w-full text-left px-3 py-2 text-sm rounded-md flex items-center justify-between group transition-colors {filters.sortBy === option.value ? 'bg-white/10 text-white' : 'text-white/60 hover:bg-white/5 hover:text-white'}"
                                 onclick={() => {
@@ -69,7 +71,7 @@
 
         <!-- Right: Segmented Control -->
         <div class="flex items-center p-1 bg-white/5 rounded-lg border border-white/5">
-            {#each filterOptions as option}
+            {#each filterOptions as option (option.value)}
                 <button 
                     class="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-all {filters.filterType === option.value ? 'bg-white/10 text-white shadow-sm' : 'text-white/40 hover:text-white hover:bg-white/5'}"
                     onclick={() => filters.setFilter(option.value)}

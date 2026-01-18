@@ -1,23 +1,57 @@
 <script lang="ts">
-    import { ArrowLeft, Download, Calendar, Zap, Check, X } from 'lucide-svelte';
+    import { ArrowLeft, Download, Check, X } from 'lucide-svelte';
     import Tabs from '$lib/components/core/Tabs.svelte';
     import TaskMatrix from '$lib/components/report/TaskMatrix.svelte';
     import PassRateChart from '$lib/components/report/PassRateChart.svelte';
-    import SpotlightCard from '$lib/components/core/SpotlightCard.svelte';
-    import { slide } from 'svelte/transition';
+    import type { TaskResult } from '$lib/server/data';
+    import JSZip from 'jszip';
     
     let { data } = $props();
     let run = $derived(data.run);
     let reportHtml = $derived(data.reportHtml);
     let meta = $derived(run.metadata);
     let stats = $derived(run.stats);
-    let results = $derived((run.results?.results || []) as any[]);
+    let results = $derived((run.results?.results || []) as TaskResult[]);
 
     let passRate = $derived(stats?.pass_rate?.toFixed(1) || 0);
     let isPass = $derived((stats?.pass_rate || 0) > 50); 
     let duration = $derived(stats?.total_duration_seconds ? (stats.total_duration_seconds / 60).toFixed(0) : '0');
 
     let activeTab = $state('report');
+    let downloading = $state(false);
+
+    async function downloadEvalData() {
+        downloading = true;
+        try {
+            const zip = new JSZip();
+            
+            // Add metadata
+            zip.file('metadata.json', JSON.stringify(run.metadata, null, 2));
+            
+            // Add stats/submission data
+            if (run.stats) {
+                zip.file('submission.json', JSON.stringify(run.stats, null, 2));
+            }
+            
+            // Add results/summary data
+            if (run.results) {
+                zip.file('summary.json', JSON.stringify(run.results, null, 2));
+            }
+            
+            // Generate and download
+            const blob = await zip.generateAsync({ type: 'blob' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sanity-eval-${run.id}.zip`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } finally {
+            downloading = false;
+        }
+    }
 </script>
 
 <svelte:head>
@@ -52,10 +86,14 @@
                     <div class="font-mono text-2xl font-bold text-white">{stats?.weighted_score?.toFixed(2)}</div>
                 </div>
                 
-                <a href="/report/{run.id}/download" class="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 transition-colors flex items-center gap-2 text-sm">
-                    <Download size={16} />
-                    Download Evidence
-                </a>
+                <button 
+                    onclick={downloadEvalData}
+                    disabled={downloading}
+                    class="px-4 py-2 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 transition-colors flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-wait"
+                >
+                    <Download size={16} class={downloading ? 'animate-pulse' : ''} />
+                    {downloading ? 'Preparing...' : 'Download Eval Data'}
+                </button>
             </div>
         </div>
     </div>
@@ -122,7 +160,7 @@
                     <div class="pt-4 border-t border-white/5">
                         <div class="text-xs font-bold uppercase tracking-widest text-white/30 mb-4">By Language</div>
                         <div class="space-y-3">
-                            {#each Object.entries(stats?.by_language || {}) as [lang, s]}
+                            {#each Object.entries(stats?.by_language || {}) as [lang, s] (lang)}
                                 <div>
                                     <div class="flex justify-between text-xs mb-1">
                                         <span class="capitalize text-white/70">{lang}</span>

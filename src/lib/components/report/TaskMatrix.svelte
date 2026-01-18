@@ -8,25 +8,28 @@
         Code2, 
         Trophy,
         Layers,
-        ArrowUpDown,
         ArrowUp,
         ArrowDown
     } from 'lucide-svelte';
     import { slide } from 'svelte/transition';
+    import type { TaskResult as ServerTaskResult } from '$lib/server/data';
 
-    // Type definition for a task result
-    // Inferred from requirements: Task Name, Language, Tier, Difficulty, Duration, Result
-    export interface TaskResult {
-        task: string;
-        language: string;
-        tier: string;
-        difficulty: string;
-        duration_seconds?: number;
-        status: string; // Changed from union to string to match data
+    // Extended TaskResult interface for this component
+    // The server type has optional status, but we need it for display
+    interface TaskResult extends Omit<ServerTaskResult, 'status'> {
+        status: string;
         [key: string]: unknown;
     }
 
-    let { results = [] }: { results: TaskResult[] } = $props();
+    let { results = [] }: { results: ServerTaskResult[] } = $props();
+
+    // Map server results to display results with default status
+    let displayResults = $derived(
+        results.map(r => ({
+            ...r,
+            status: r.status ?? (r.passed ? 'pass' : 'fail')
+        })) as TaskResult[]
+    );
 
     // State
     let searchQuery = $state('');
@@ -40,17 +43,17 @@
 
     // Derived: Unique Difficulties for Filter Dropdown
     let availableDifficulties = $derived(
-        [...new Set(results.map(r => r.difficulty || 'Unknown'))].sort()
+        [...new Set(displayResults.map(r => r.difficulty || 'Unknown'))].sort()
     );
 
     // Derived: Unique Languages for Filter Dropdown
     let availableLanguages = $derived(
-        [...new Set(results.map(r => r.language || 'Unknown'))].sort()
+        [...new Set(displayResults.map(r => r.language || 'Unknown'))].sort()
     );
 
     // Derived: Filtered and Sorted Results
     let filteredResults = $derived(
-        results
+        displayResults
             .filter(r => {
                 // Search
                 const matchesSearch = r.task.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -70,12 +73,8 @@
                 return matchesSearch && matchesStatus && matchesDifficulty && matchesLanguage;
             })
             .sort((a, b) => {
-                let valA = a[sortField];
-                let valB = b[sortField];
-
-                // Handle undefined/null
-                if (valA === undefined) valA = '';
-                if (valB === undefined) valB = '';
+                const valA = a[sortField] ?? '';
+                const valB = b[sortField] ?? '';
 
                 // String comparison
                 if (typeof valA === 'string' && typeof valB === 'string') {
@@ -166,7 +165,7 @@
                     class="appearance-none bg-black/40 border border-white/10 rounded-lg py-2.5 pl-4 pr-10 text-sm text-white focus:outline-none focus:border-white/30 hover:bg-white/5 transition-all cursor-pointer min-w-[160px]"
                 >
                     <option value="all">All Difficulties</option>
-                    {#each availableDifficulties as diff}
+                    {#each availableDifficulties as diff (diff)}
                         <option value={diff}>{diff}</option>
                     {/each}
                 </select>
@@ -180,7 +179,7 @@
                     class="appearance-none bg-black/40 border border-white/10 rounded-lg py-2.5 pl-4 pr-10 text-sm text-white focus:outline-none focus:border-white/30 hover:bg-white/5 transition-all cursor-pointer min-w-[160px]"
                 >
                     <option value="all">All Languages</option>
-                    {#each availableLanguages as lang}
+                    {#each availableLanguages as lang (lang)}
                         <option value={lang}>{lang}</option>
                     {/each}
                 </select>
@@ -262,7 +261,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-white/5">
-                    {#each filteredResults as result}
+                    {#each filteredResults as result (result.task + result.language)}
                         <tr class="hover:bg-white/[0.02] transition-colors group">
                             <!-- Status -->
                             <td class="p-4">
@@ -328,9 +327,9 @@
         <!-- Footer Stats -->
         <div class="px-4 py-3 bg-white/[0.02] border-t border-white/5 text-xs text-white/40 flex justify-between items-center">
             <div>
-                Showing {filteredResults.length} of {results.length} tasks
+                Showing {filteredResults.length} of {displayResults.length} tasks
             </div>
-            {#if results.length > 0}
+            {#if displayResults.length > 0}
             <div>
                 Pass Rate: {Math.round((filteredResults.filter(r => r.status === 'pass' || r.status === 'passed').length / filteredResults.length) * 100) || 0}%
             </div>

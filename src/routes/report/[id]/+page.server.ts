@@ -1,9 +1,7 @@
 import { getRunData, getAllRuns } from "$lib/server/data";
 import fs from "node:fs";
 import path from "node:path";
-import { error } from "@sveltejs/kit";
 import { compile } from "mdsvex";
-import mdsvexConfig from "../../../../svelte.config.js"; // Hacky import, or reuse config
 
 export const prerender = true;
 
@@ -49,9 +47,10 @@ export const load = async ({ params }: { params: { id: string } }) => {
       compiledReport = await compile(reportContent, {
         rehypePlugins: [
           [
-            rehypePrettyCode as any,
-            { theme: "catppuccin-macchiato", keepBackground: true } as any,
-          ],
+            rehypePrettyCode,
+            { theme: "catppuccin-macchiato", keepBackground: true },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ] as any,
         ],
       });
     } catch (e) {

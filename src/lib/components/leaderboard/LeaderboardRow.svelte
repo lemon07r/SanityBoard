@@ -1,8 +1,7 @@
 <script lang="ts">
-  import type { RunData, LanguageStats } from '$lib/server/data';
+  import type { RunData } from '$lib/server/data';
   import RankBadge from './RankBadge.svelte';
   import { Check, Box, ExternalLink, Zap } from 'lucide-svelte';
-  import { prefersReducedMotion } from 'svelte/motion';
 
   let { run, rank }: { run: RunData; rank: number } = $props();
 
@@ -41,13 +40,6 @@
   function getLangColor(lang: string) {
       return langColors[lang.toLowerCase()] || 'bg-gray-500';
   }
-
-  // Transition class based on reduced motion preference
-  let transitionClass = $derived(
-    prefersReducedMotion.current 
-      ? '' 
-      : 'transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]'
-  );
 </script>
 
 <div class="relative group/row">
@@ -102,12 +94,12 @@
     </div>
   </button>
 
-  <!-- Expanded Details (Hydraulic via Grid) -->
+  <!-- Expanded Details -->
   <div 
-    class="grid {transitionClass} border-b border-white/5 bg-black/20 will-change-[grid-template-rows] [contain:layout_style_paint] [content-visibility:auto]"
-    style="grid-template-rows: {isOpen ? '1fr' : '0fr'}; transform: translateZ(0);"
+    class="row-expansion border-b border-white/5 bg-black/20"
+    class:row-expansion--open={isOpen}
   >
-      <div class="overflow-hidden min-h-0 [transform:translateZ(0)] [backface-visibility:hidden]">
+      <div class="row-expansion__content">
           <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-8">
               
               <!-- Col 1: Meta -->

@@ -28,12 +28,13 @@
                     case 'date':
                         return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();
                     case 'score':
-                    default:
+                    default: {
                         // Primary: Weighted Score
                         const scoreDiff = (b.stats?.weighted_score || 0) - (a.stats?.weighted_score || 0);
                         if (scoreDiff !== 0) return scoreDiff;
                         // Secondary: Date
                         return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();
+                    }
                 }
             })
     );

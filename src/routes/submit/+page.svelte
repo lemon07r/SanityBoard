@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Upload, GitPullRequest, AlertTriangle, FileArchive, CheckCircle, Copy, Terminal, Send, Link as LinkIcon, Server, Cpu, Box } from 'lucide-svelte';
-    import { fade, slide } from 'svelte/transition';
+    import { FileArchive, CheckCircle, Copy, Terminal, Send, Link as LinkIcon, Server, Cpu, Box } from 'lucide-svelte';
+    import { slide } from 'svelte/transition';
     import SpotlightCard from '$lib/components/core/SpotlightCard.svelte';
 
     let formData = $state({
@@ -49,8 +49,8 @@
             } else {
                 error = 'Submission failed. Please try again or email lemon07r@lr7.dev';
             }
-        } catch (err) {
-            error = 'Connection error. Please try again.';
+        } catch {
+            error = 'Connection error. Please try again';
         } finally {
             submitting = false;
         }
