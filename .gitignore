@@ -17,7 +17,6 @@ dist/
 *.swp
 *.swo
 *~
-.DS_Store
 
 # Logs
 logs/
@@ -30,6 +29,10 @@ pnpm-debug.log*
 # Testing
 coverage/
 .nyc_output/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
 
 # Cache
 .cache/
@@ -45,11 +48,11 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# TypeScript
-*.tsbuildinfo
+# Agent instructions (local only)
+AGENTS.md
+PROPOSAL.md
 
-# Optional: Lock files (uncomment if you only want one)
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
-# bun.lock
+# Lock files (keep bun.lock tracked for reproducible builds)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
