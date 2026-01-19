@@ -9,6 +9,7 @@ export class FilterStore {
   searchQuery = $state("");
   selectedProviders = $state<string[]>([]);
   selectedModels = $state<string[]>([]);
+  selectedAgents = $state<string[]>([]);
   mcpFilter = $state<McpFilter>("all");
 
   setFilter(type: FilterType) {
@@ -30,11 +31,20 @@ export class FilterStore {
         this.selectedModels.push(model);
     }
   }
+
+  toggleAgent(agent: string) {
+    if (this.selectedAgents.includes(agent)) {
+        this.selectedAgents = this.selectedAgents.filter(a => a !== agent);
+    } else {
+        this.selectedAgents.push(agent);
+    }
+  }
   
   resetFilters() {
     this.searchQuery = "";
     this.selectedProviders = [];
     this.selectedModels = [];
+    this.selectedAgents = [];
     this.mcpFilter = "all";
     this.filterType = "all";
   }

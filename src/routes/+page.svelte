@@ -12,6 +12,7 @@
     // Derived unique options for filters
     let availableProviders = $derived([...new Set(data.runs.map(r => r.metadata['Provider Name']))].sort());
     let availableModels = $derived([...new Set(data.runs.map(r => r.metadata['Model Name']))].sort());
+    let availableAgents = $derived([...new Set(data.runs.map(r => r.metadata['Agent Name']))].sort());
 
     // Derived filtered list
     let visibleRuns = $derived(
@@ -39,6 +40,11 @@
                 // Model Filter
                 if (filters.selectedModels.length > 0) {
                     if (!filters.selectedModels.includes(run.metadata['Model Name'])) return false;
+                }
+                
+                // Agent Filter
+                if (filters.selectedAgents.length > 0) {
+                    if (!filters.selectedAgents.includes(run.metadata['Agent Name'])) return false;
                 }
 
                 // MCP Filter
@@ -82,7 +88,7 @@
 <div class="flex flex-col min-h-screen">
     <Hero />
     
-    <ControlBar {availableProviders} {availableModels} />
+    <ControlBar {availableProviders} {availableModels} {availableAgents} />
 
     <main class="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-12">
         

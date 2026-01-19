@@ -1,15 +1,12 @@
 <script lang="ts">
     import { filters, type SortOption, type FilterType, type McpFilter } from '$lib/stores/filter.svelte';
-    import { ChevronDown, Check, Users, ShieldCheck, Globe, Search, X, ListFilter, ArrowUpDown, Server, Box } from 'lucide-svelte';
+    import { ChevronDown, Check, Users, ShieldCheck, Globe, Search, X, ListFilter, ArrowUpDown, Server, Box, Bot } from 'lucide-svelte';
     import { scale } from 'svelte/transition';
 
-    let { availableProviders = [], availableModels = [] }: { availableProviders: string[], availableModels: string[] } = $props();
+    let { availableProviders = [], availableModels = [], availableAgents = [] }: { availableProviders: string[], availableModels: string[], availableAgents: string[] } = $props();
 
     let isFilterOpen = $state(false);
     let isSortOpen = $state(false);
-    
-    // We bind directly to the store's state for the input
-    // No need for a separate local state variable that gets out of sync
 
     const sortOptions: { label: string; value: SortOption }[] = [
         { label: 'Weighted Score', value: 'score' },
@@ -47,14 +44,14 @@
             <!-- Filter Menu -->
             <div class="relative">
                 <button 
-                    class="flex items-center gap-2 text-sm font-medium transition-colors border border-transparent rounded-lg px-2 py-1.5 hover:bg-white/5 {isFilterOpen || filters.selectedProviders.length > 0 || filters.selectedModels.length > 0 || filters.mcpFilter !== 'all' ? 'text-white border-white/10 bg-white/5' : 'text-white/60'}"
+                    class="flex items-center gap-2 text-sm font-medium transition-colors border border-transparent rounded-lg px-2 py-1.5 hover:bg-white/5 {isFilterOpen || filters.selectedProviders.length > 0 || filters.selectedModels.length > 0 || filters.selectedAgents.length > 0 || filters.mcpFilter !== 'all' ? 'text-white border-white/10 bg-white/5' : 'text-white/60'}"
                     onclick={() => { isFilterOpen = !isFilterOpen; isSortOpen = false; }}
                 >
                     <ListFilter size={16} />
                     <span class="hidden sm:inline">Filters</span>
-                    {#if filters.selectedProviders.length + filters.selectedModels.length > 0}
+                    {#if filters.selectedProviders.length + filters.selectedModels.length + filters.selectedAgents.length > 0}
                         <span class="flex items-center justify-center w-4 h-4 rounded-full bg-indigo-500 text-[10px] font-bold text-white shadow-lg shadow-indigo-500/20">
-                            {filters.selectedProviders.length + filters.selectedModels.length}
+                            {filters.selectedProviders.length + filters.selectedModels.length + filters.selectedAgents.length}
                         </span>
                     {/if}
                     <ChevronDown size={14} class="opacity-50 {isFilterOpen ? 'rotate-180' : ''} transition-transform" />
@@ -80,6 +77,38 @@
                                 {/each}
                             </div>
                         </div>
+
+                        <!-- Agents -->
+                        {#if availableAgents.length > 0}
+                        <div class="p-4 border-b border-white/5">
+                            <div class="flex items-center justify-between mb-3 px-1">
+                                <div class="flex items-center gap-2">
+                                    <Bot size={12} class="text-white/40" />
+                                    <span class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Agents</span>
+                                </div>
+                                {#if filters.selectedAgents.length > 0}
+                                    <button class="text-[10px] text-indigo-400 hover:text-indigo-300 font-medium transition-colors" onclick={() => filters.selectedAgents = []}>Clear</button>
+                                {/if}
+                            </div>
+                            <div class="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
+                                {#each availableAgents as agent}
+                                    {@const isSelected = filters.selectedAgents.includes(agent)}
+                                    <label class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-white/5 cursor-pointer group transition-colors">
+                                        <div class="relative flex items-center justify-center size-4 rounded border transition-all {isSelected ? 'bg-indigo-500 border-indigo-500 shadow-sm shadow-indigo-500/20' : 'border-white/20 bg-white/5 group-hover:border-white/30'}">
+                                            {#if isSelected}
+                                                <Check size={10} class="text-white" strokeWidth={3} />
+                                            {/if}
+                                            <input type="checkbox" class="hidden" 
+                                                checked={isSelected}
+                                                onchange={() => filters.toggleAgent(agent)}
+                                            />
+                                        </div>
+                                        <span class="text-sm transition-colors {isSelected ? 'text-white' : 'text-white/70 group-hover:text-white'}">{agent}</span>
+                                    </label>
+                                {/each}
+                            </div>
+                        </div>
+                        {/if}
 
                         <!-- Providers -->
                         {#if availableProviders.length > 0}
