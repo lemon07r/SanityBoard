@@ -1,0 +1,9 @@
+{
+  "Agent Name": "Claude Code CLI",
+  "Agent Version": "v2.1.12",
+  "Model Name": "Minimax M2.1",
+  "Provider Name": "MiniMax AI",
+  "Run Date": "2026-01-18",
+  "MCP tools available": "no",
+  "verified": "yes"
+}
