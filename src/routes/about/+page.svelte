@@ -1,11 +1,30 @@
 <script>
     import { Mail, MessageCircle, Heart } from 'lucide-svelte';
     import SpotlightCard from '$lib/components/core/SpotlightCard.svelte';
+    import Seo from '$lib/components/core/Seo.svelte';
 </script>
 
-<svelte:head>
-    <title>About - SanityHarness</title>
-</svelte:head>
+<Seo 
+    title="About"
+    description="Learn about SanityHarness - providing high-signal, agent-agnostic evaluation for AI coding agents. Support the project or get in touch."
+    openGraph={{
+        title: 'About SanityHarness',
+        description: 'High-signal, agent-agnostic evaluation for AI coding agents. Support our mission or contact us.'
+    }}
+    jsonLd={{
+        '@context': 'https://schema.org',
+        '@type': 'AboutPage',
+        name: 'About SanityHarness',
+        description: 'Learn about SanityHarness and its mission to provide high-signal, agent-agnostic evaluation for AI coding agents.',
+        url: 'https://sanityboard.lr7.dev/about',
+        mainEntity: {
+            '@type': 'Organization',
+            name: 'SanityHarness',
+            url: 'https://sanityboard.lr7.dev',
+            sameAs: ['https://github.com/lemon07r/SanityHarness']
+        }
+    }}
+/>
 
 <div class="max-w-3xl mx-auto px-6 py-12 space-y-16 text-center">
     

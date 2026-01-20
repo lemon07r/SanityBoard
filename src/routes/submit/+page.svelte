@@ -2,6 +2,7 @@
     import { FileArchive, CheckCircle, Copy, Terminal, Send, Link as LinkIcon, Server, Cpu, Box } from 'lucide-svelte';
     import { slide } from 'svelte/transition';
     import SpotlightCard from '$lib/components/core/SpotlightCard.svelte';
+    import Seo from '$lib/components/core/Seo.svelte';
 
     let formData = $state({
         agentName: '',
@@ -57,9 +58,14 @@
     }
 </script>
 
-<svelte:head>
-    <title>Submit Agent - SanityHarness</title>
-</svelte:head>
+<Seo 
+    title="Submit Agent"
+    description="Submit your AI coding agent for evaluation on the SanityHarness benchmark. Run the harness, archive results, and submit for leaderboard inclusion."
+    openGraph={{
+        title: 'Submit Your Agent',
+        description: 'Submit your AI coding agent to the SanityHarness leaderboard. Get ranked on standardized, isolated benchmarks.'
+    }}
+/>
 
 <div class="max-w-4xl mx-auto px-6 py-12 space-y-16">
     

@@ -3,6 +3,7 @@
     import Tabs from '$lib/components/core/Tabs.svelte';
     import TaskMatrix from '$lib/components/report/TaskMatrix.svelte';
     import PassRateChart from '$lib/components/report/PassRateChart.svelte';
+    import Seo from '$lib/components/core/Seo.svelte';
     import type { TaskResult } from '$lib/server/data';
     import JSZip from 'jszip';
     
@@ -52,11 +53,44 @@
             downloading = false;
         }
     }
+
+    // SEO derived values
+    let seoTitle = $derived(`${meta['Agent Name']} v${meta['Agent Version']} - Flight Recorder`);
+    let seoDescription = $derived(
+        `Evaluation report for ${meta['Agent Name']} using ${meta['Model Name']} via ${meta['Provider Name']}. Scored ${stats?.weighted_score?.toFixed(2) ?? 'N/A'} with ${passRate}% pass rate.`
+    );
 </script>
 
-<svelte:head>
-    <title>{meta['Agent Name']} - Flight Recorder</title>
-</svelte:head>
+<Seo 
+    title={seoTitle}
+    description={seoDescription}
+    openGraph={{
+        title: seoTitle,
+        description: seoDescription,
+        type: 'article',
+        article: {
+            publishedTime: meta['Run Date'],
+            tags: [meta['Agent Name'], meta['Model Name'], meta['Provider Name']]
+        }
+    }}
+    jsonLd={{
+        '@context': 'https://schema.org',
+        '@type': 'TechArticle',
+        headline: seoTitle,
+        description: seoDescription,
+        datePublished: meta['Run Date'],
+        author: {
+            '@type': 'Organization',
+            name: 'SanityHarness'
+        },
+        about: {
+            '@type': 'SoftwareApplication',
+            name: meta['Agent Name'],
+            applicationCategory: 'AI Coding Agent',
+            operatingSystem: 'Cross-platform'
+        }
+    }}
+/>
 
 <div class="min-h-screen pb-20">
     <!-- Header -->

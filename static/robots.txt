@@ -1,0 +1,8 @@
+# SanityBoard Robots.txt
+# https://sanityboard.lr7.dev
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://sanityboard.lr7.dev/sitemap.xml

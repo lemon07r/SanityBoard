@@ -1,7 +1,7 @@
 {
   "Agent Name": "Droid",
   "Agent Version": "v0.53.0",
-  "Model Name": "Gemini 3 Flash Preview (High Reasoning)",
+  "Model Name": "Gemini 3 Flash Preview (High)",
   "Provider Name": "Google (Factory Subscription)",
   "Run Date": "2026-01-18",
   "MCP tools available": "no",

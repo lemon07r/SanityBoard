@@ -3,6 +3,7 @@
     import ControlBar from '$lib/components/leaderboard/ControlBar.svelte';
     import SpotlightGrid from '$lib/components/core/SpotlightGrid.svelte';
     import LeaderboardRow from '$lib/components/leaderboard/LeaderboardRow.svelte';
+    import Seo from '$lib/components/core/Seo.svelte';
     import { filters } from '$lib/stores/filter.svelte';
     import { fade } from 'svelte/transition';
     import { Github } from 'lucide-svelte';
@@ -81,9 +82,32 @@
     );
 </script>
 
-<svelte:head>
-    <title>SanityHarness Leaderboard</title>
-</svelte:head>
+<Seo 
+    title="SanityHarness Leaderboard"
+    description="Compare AI coding agents on standardized, isolated benchmarks. View rankings by weighted score, pass rate, and model across verified and community submissions."
+    openGraph={{
+        title: 'SanityHarness Leaderboard',
+        description: 'High-signal, agent-agnostic evaluation for AI coding agents. Compare rankings by weighted score, pass rate, and model.'
+    }}
+    jsonLd={{
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: 'SanityHarness Leaderboard',
+        description: 'AI agent evaluation leaderboard providing high-signal, agent-agnostic benchmarks for coding agents.',
+        url: 'https://sanityboard.lr7.dev',
+        mainEntity: {
+            '@type': 'ItemList',
+            name: 'AI Agent Leaderboard',
+            numberOfItems: data.runs.length,
+            itemListElement: data.runs.slice(0, 10).map((run, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: `${run.metadata['Agent Name']} v${run.metadata['Agent Version']}`,
+                description: `${run.metadata['Model Name']} via ${run.metadata['Provider Name']} - Score: ${run.stats?.weighted_score?.toFixed(2) ?? 'N/A'}`
+            }))
+        }
+    }}
+/>
 
 <div class="flex flex-col min-h-screen">
     <Hero />
