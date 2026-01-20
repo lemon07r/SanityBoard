@@ -5,5 +5,7 @@
   "Provider Name": "MiniMax AI (OpenAI API)",
   "Run Date": "2026-01-14",
   "MCP tools available": "no",
-  "verified": "yes"
+  "verified": "yes",
+  "Agent Type": "Open Source",
+  "Model Type": "Open Source"
 }

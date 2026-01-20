@@ -4,9 +4,9 @@
     import SpotlightGrid from '$lib/components/core/SpotlightGrid.svelte';
     import LeaderboardRow from '$lib/components/leaderboard/LeaderboardRow.svelte';
     import Seo from '$lib/components/core/Seo.svelte';
-    import { filters } from '$lib/stores/filter.svelte';
+    import { filters, type SortOption } from '$lib/stores/filter.svelte';
     import { fade } from 'svelte/transition';
-    import { Github } from 'lucide-svelte';
+    import { Github, ArrowUp, ArrowDown } from 'lucide-svelte';
 
     let { data } = $props();
 
@@ -55,31 +55,56 @@
                     if (filters.mcpFilter === 'no' && hasMcp) return false;
                 }
 
+                // Agent Type Filter
+                if (filters.agentTypeFilter !== 'all') {
+                     const type = run.metadata['Agent Type'] === 'Open Source' ? 'open' : 'proprietary';
+                     if (filters.agentTypeFilter !== type) return false;
+                }
+
+                // Model Type Filter
+                if (filters.modelTypeFilter !== 'all') {
+                     const type = run.metadata['Model Type'] === 'Open Source' ? 'open' : 'proprietary';
+                     if (filters.modelTypeFilter !== type) return false;
+                }
+
                 return true;
             })
             .sort((a, b) => {
+                let diff = 0;
                 switch (filters.sortBy) {
                     case 'pass_rate':
-                        return (b.stats?.pass_rate || 0) - (a.stats?.pass_rate || 0);
+                        diff = (a.stats?.pass_rate || 0) - (b.stats?.pass_rate || 0);
+                        break;
                     case 'date':
-                        return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();
+                        diff = new Date(a.metadata['Run Date']).getTime() - new Date(b.metadata['Run Date']).getTime();
+                        break;
                     case 'agent':
-                        return a.metadata['Agent Name'].localeCompare(b.metadata['Agent Name']);
+                        diff = a.metadata['Agent Name'].localeCompare(b.metadata['Agent Name']);
+                        break;
                     case 'provider':
-                        return a.metadata['Provider Name'].localeCompare(b.metadata['Provider Name']);
+                        diff = a.metadata['Provider Name'].localeCompare(b.metadata['Provider Name']);
+                        break;
                     case 'model':
-                        return a.metadata['Model Name'].localeCompare(b.metadata['Model Name']);
+                        diff = a.metadata['Model Name'].localeCompare(b.metadata['Model Name']);
+                        break;
                     case 'score':
                     default: {
-                        // Primary: Weighted Score
-                        const scoreDiff = (b.stats?.weighted_score || 0) - (a.stats?.weighted_score || 0);
-                        if (scoreDiff !== 0) return scoreDiff;
-                        // Secondary: Date
-                        return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();
+                        diff = (a.stats?.weighted_score || 0) - (b.stats?.weighted_score || 0);
+                        if (diff === 0) {
+                             // Secondary sort by date
+                             return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();
+                        }
+                        break;
                     }
                 }
+                
+                return filters.sortDirection === 'asc' ? diff : -diff;
             })
     );
+
+    function handleSort(column: SortOption) {
+        filters.toggleSort(column);
+    }
 </script>
 
 <Seo 
@@ -118,13 +143,70 @@
         
         <SpotlightGrid>
             <!-- Header Row -->
-            <div class="grid grid-cols-12 gap-2 md:gap-4 px-4 py-3 text-xs font-bold uppercase tracking-widest text-white/30 border-b border-white/5">
+            <div class="grid grid-cols-12 gap-2 md:gap-4 px-4 py-3 text-xs font-bold uppercase tracking-widest text-white/30 border-b border-white/5 items-center">
                 <div class="col-span-2 md:col-span-1 text-center">Rank</div>
-                <div class="col-span-7 md:col-span-3">Agent</div>
-                <div class="col-span-2 hidden md:block">Model</div>
-                <div class="col-span-2 hidden md:block">Provider</div>
-                <div class="col-span-3 md:col-span-2 text-right md:text-left">Score</div>
-                <div class="col-span-1 text-center hidden md:block">Pass %</div>
+                
+                <!-- Agent -->
+                <button class="col-span-7 md:col-span-3 text-left flex items-center gap-1 hover:text-white transition-colors group" onclick={() => handleSort('agent')}>
+                    Agent
+                    {#if filters.sortBy === 'agent'}
+                        {#if filters.sortDirection === 'asc'}
+                             <ArrowUp size={12} class="text-emerald-400" />
+                        {:else}
+                             <ArrowDown size={12} class="text-emerald-400" />
+                        {/if}
+                    {/if}
+                </button>
+
+                <!-- Model -->
+                <button class="col-span-2 hidden md:flex items-center gap-1 hover:text-white transition-colors group" onclick={() => handleSort('model')}>
+                    Model
+                    {#if filters.sortBy === 'model'}
+                        {#if filters.sortDirection === 'asc'}
+                             <ArrowUp size={12} class="text-emerald-400" />
+                        {:else}
+                             <ArrowDown size={12} class="text-emerald-400" />
+                        {/if}
+                    {/if}
+                </button>
+
+                <!-- Provider -->
+                <button class="col-span-2 hidden md:flex items-center gap-1 hover:text-white transition-colors group" onclick={() => handleSort('provider')}>
+                    Provider
+                    {#if filters.sortBy === 'provider'}
+                        {#if filters.sortDirection === 'asc'}
+                             <ArrowUp size={12} class="text-emerald-400" />
+                        {:else}
+                             <ArrowDown size={12} class="text-emerald-400" />
+                        {/if}
+                    {/if}
+                </button>
+
+                <!-- Score -->
+                <button class="col-span-3 md:col-span-2 text-right md:text-left flex items-center justify-end md:justify-start gap-1 hover:text-white transition-colors group" onclick={() => handleSort('score')}>
+                    Score
+                    {#if filters.sortBy === 'score'}
+                        {#if filters.sortDirection === 'asc'}
+                             <ArrowUp size={12} class="text-emerald-400" />
+                        {:else}
+                             <ArrowDown size={12} class="text-emerald-400" />
+                        {/if}
+                    {/if}
+                </button>
+
+                <!-- Pass Rate -->
+                <button class="col-span-1 hidden md:flex items-center justify-center gap-1 hover:text-white transition-colors group" onclick={() => handleSort('pass_rate')}>
+                    Pass %
+                    {#if filters.sortBy === 'pass_rate'}
+                        {#if filters.sortDirection === 'asc'}
+                             <ArrowUp size={12} class="text-emerald-400" />
+                        {:else}
+                             <ArrowDown size={12} class="text-emerald-400" />
+                        {/if}
+                    {/if}
+                </button>
+                
+                <!-- MCP (Not sortable) -->
                 <div class="col-span-1 text-center hidden md:block">MCP</div>
             </div>
 

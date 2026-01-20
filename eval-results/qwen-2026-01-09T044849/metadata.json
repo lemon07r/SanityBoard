@@ -5,5 +5,7 @@
   "Provider Name": "Alibaba Cloud (Qwen CLI Proxy)",
   "Run Date": "2026-01-09",
   "MCP tools available": "no",
-  "verified": "yes"
+  "verified": "yes",
+  "Agent Type": "Open Source",
+  "Model Type": "Proprietary"
 }

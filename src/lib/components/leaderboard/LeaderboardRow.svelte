@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { RunData } from '$lib/server/data';
   import RankBadge from './RankBadge.svelte';
-  import { Check, Box, ExternalLink, Zap } from 'lucide-svelte';
+  import { Check, Box, ExternalLink, Zap, Lock, Unlock } from 'lucide-svelte';
 
   let { run, rank }: { run: RunData; rank: number } = $props();
 
@@ -55,13 +55,25 @@
 
     <!-- Agent -->
     <div class="col-span-7 md:col-span-3">
-        <div class="font-semibold text-white tracking-tight text-sm md:text-base">{meta['Agent Name']}</div>
+        <div class="font-semibold text-white tracking-tight text-sm md:text-base flex items-center gap-1.5">
+            {meta['Agent Name']}
+            {#if meta['Agent Type'] === 'Proprietary'}
+                <div title="Proprietary Agent"><Lock size={12} class="text-white/20" /></div>
+            {:else}
+                <div title="Open Source Agent"><Unlock size={12} class="text-cyan-400/30" /></div>
+            {/if}
+        </div>
         <div class="text-[10px] md:text-xs text-white/40 font-mono mt-0.5">{meta['Agent Version']}</div>
     </div>
 
     <!-- Model -->
-    <div class="col-span-2 hidden md:block text-sm text-white/70 truncate" title={meta['Model Name']}>
-        {meta['Model Name']}
+    <div class="col-span-2 hidden md:flex items-center gap-2 text-sm text-white/70 overflow-hidden">
+        <span class="truncate" title={meta['Model Name']}>{meta['Model Name']}</span>
+        {#if meta['Model Type'] === 'Proprietary'}
+            <div title="Proprietary Model"><Lock size={12} class="text-white/20 shrink-0" /></div>
+        {:else}
+            <div title="Open Source Model"><Unlock size={12} class="text-cyan-400/30 shrink-0" /></div>
+        {/if}
     </div>
 
     <!-- Provider -->

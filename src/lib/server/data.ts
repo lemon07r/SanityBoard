@@ -7,7 +7,9 @@ const DATA_DIR = path.join(process.cwd(), "eval-results");
 export const MetadataSchema = z.object({
   "Agent Name": z.string(),
   "Agent Version": z.string(),
+  "Agent Type": z.enum(["Open Source", "Proprietary"]).optional(),
   "Model Name": z.string(),
+  "Model Type": z.enum(["Open Source", "Proprietary"]).optional(),
   "Provider Name": z.string(),
   "Run Date": z.string(),
   "MCP tools available": z.string().optional(),

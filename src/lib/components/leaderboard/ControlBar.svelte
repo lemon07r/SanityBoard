@@ -29,6 +29,12 @@
         { label: 'Disabled', value: 'no' }
     ];
 
+    const openSourceOptions: { label: string; value: import('$lib/stores/filter.svelte').OpenSourceFilter }[] = [
+        { label: 'All', value: 'all' },
+        { label: 'Open', value: 'open' },
+        { label: 'Proprietary', value: 'proprietary' }
+    ];
+
     function closeDropdowns() {
         isFilterOpen = false;
         isSortOpen = false;
@@ -44,7 +50,7 @@
             <!-- Filter Menu -->
             <div class="relative">
                 <button 
-                    class="flex items-center gap-2 text-sm font-medium transition-colors border border-transparent rounded-lg px-2 py-1.5 hover:bg-white/5 {isFilterOpen || filters.selectedProviders.length > 0 || filters.selectedModels.length > 0 || filters.selectedAgents.length > 0 || filters.mcpFilter !== 'all' ? 'text-white border-white/10 bg-white/5' : 'text-white/60'}"
+                    class="flex items-center gap-2 text-sm font-medium transition-colors border border-transparent rounded-lg px-2 py-1.5 hover:bg-white/5 {isFilterOpen || filters.selectedProviders.length > 0 || filters.selectedModels.length > 0 || filters.selectedAgents.length > 0 || filters.mcpFilter !== 'all' || filters.agentTypeFilter !== 'all' || filters.modelTypeFilter !== 'all' ? 'text-white border-white/10 bg-white/5' : 'text-white/60'}"
                     onclick={() => { isFilterOpen = !isFilterOpen; isSortOpen = false; }}
                 >
                     <ListFilter size={16} />
@@ -63,6 +69,36 @@
                         class="absolute top-full left-0 mt-2 w-72 bg-[#09090b] backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden max-h-[80vh] overflow-y-auto ring-1 ring-white/5"
                         transition:scale={{duration: 150, start: 0.95}}
                     >
+                         <!-- Agent Type Filter -->
+                         <div class="p-4 border-b border-white/5">
+                            <div class="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 px-1">Agent Type</div>
+                            <div class="grid grid-cols-3 gap-1 bg-black/20 rounded-lg p-1 border border-white/5">
+                                {#each openSourceOptions as opt}
+                                    <button 
+                                        class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.agentTypeFilter === opt.value ? 'bg-white/15 text-white font-medium shadow-sm border border-white/5' : 'text-white/40 hover:text-white hover:bg-white/5 border border-transparent'}"
+                                        onclick={() => filters.agentTypeFilter = opt.value}
+                                    >
+                                        {opt.label}
+                                    </button>
+                                {/each}
+                            </div>
+                        </div>
+
+                        <!-- Model Type Filter -->
+                        <div class="p-4 border-b border-white/5">
+                            <div class="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 px-1">Model Type</div>
+                            <div class="grid grid-cols-3 gap-1 bg-black/20 rounded-lg p-1 border border-white/5">
+                                {#each openSourceOptions as opt}
+                                    <button 
+                                        class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.modelTypeFilter === opt.value ? 'bg-white/15 text-white font-medium shadow-sm border border-white/5' : 'text-white/40 hover:text-white hover:bg-white/5 border border-transparent'}"
+                                        onclick={() => filters.modelTypeFilter = opt.value}
+                                    >
+                                        {opt.label}
+                                    </button>
+                                {/each}
+                            </div>
+                        </div>
+
                         <!-- MCP Filter -->
                         <div class="p-4 border-b border-white/5">
                             <div class="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 px-1">MCP Support</div>
