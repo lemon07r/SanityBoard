@@ -88,7 +88,7 @@ body {
   margin-bottom: 2rem;
   border: 1px solid rgb(255 255 255 / 0.1);
   border-radius: 0.5rem; /* fallback for theme value */
-  border-radius: var(--radius-lg); 
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 

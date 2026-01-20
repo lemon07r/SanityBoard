@@ -70,12 +70,12 @@
 			<meta property="article:modified_time" content={openGraph.article.modifiedTime} />
 		{/if}
 		{#if openGraph.article.authors}
-			{#each openGraph.article.authors as author}
+			{#each openGraph.article.authors as author (author)}
 				<meta property="article:author" content={author} />
 			{/each}
 		{/if}
 		{#if openGraph.article.tags}
-			{#each openGraph.article.tags as tag}
+			{#each openGraph.article.tags as tag (tag)}
 				<meta property="article:tag" content={tag} />
 			{/each}
 		{/if}

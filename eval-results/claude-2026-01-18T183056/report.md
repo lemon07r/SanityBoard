@@ -2,14 +2,14 @@
 
 ## Summary
 
-| Metric | Value |
-|--------|-------|
-| Agent | **claude** |
-| Timestamp | 2026-01-18T183056 |
-| Pass Rate | **26.9%** (7/26) |
-| Weighted Pass Rate | **25.4%** |
-| Weighted Score | 8.46 / 33.29 |
-| Duration | 1713.0s |
+| Metric             | Value             |
+| ------------------ | ----------------- |
+| Agent              | **claude**        |
+| Timestamp          | 2026-01-18T183056 |
+| Pass Rate          | **26.9%** (7/26)  |
+| Weighted Pass Rate | **25.4%**         |
+| Weighted Score     | 8.46 / 33.29      |
+| Duration           | 1713.0s           |
 
 ## Quality Breakdown
 
@@ -20,52 +20,52 @@
 
 ## Results by Language
 
-| Language | Passed | Failed | Total | Pass Rate |
-|----------|--------|--------|-------|-----------|
-| dart | 0 | 3 | 3 | 0.0% |
-| go | 3 | 3 | 6 | 50.0% |
-| kotlin | 1 | 2 | 3 | 33.3% |
-| rust | 2 | 4 | 6 | 33.3% |
-| typescript | 1 | 4 | 5 | 20.0% |
-| zig | 0 | 3 | 3 | 0.0% |
+| Language   | Passed | Failed | Total | Pass Rate |
+| ---------- | ------ | ------ | ----- | --------- |
+| dart       | 0      | 3      | 3     | 0.0%      |
+| go         | 3      | 3      | 6     | 50.0%     |
+| kotlin     | 1      | 2      | 3     | 33.3%     |
+| rust       | 2      | 4      | 6     | 33.3%     |
+| typescript | 1      | 4      | 5     | 20.0%     |
+| zig        | 0      | 3      | 3     | 0.0%      |
 
 ## Results by Tier
 
-| Tier | Passed | Failed | Total | Pass Rate |
-|------|--------|--------|-------|-----------|
-| core | 3 | 9 | 12 | 25.0% |
-| extended | 4 | 10 | 14 | 28.6% |
+| Tier     | Passed | Failed | Total | Pass Rate |
+| -------- | ------ | ------ | ----- | --------- |
+| core     | 3      | 9      | 12    | 25.0%     |
+| extended | 4      | 10     | 14    | 28.6%     |
 
 ## Task Results
 
-| Task | Status | Weight | Score | Duration |
-|------|--------|--------|-------|----------|
-| dart/future-pool | ❌ FAIL | 1.46 | 0.00 | 91.7s |
-| dart/isolate-pool | ❌ FAIL | 1.50 | 0.00 | 122.5s |
-| dart/reactive-cache | ❌ FAIL | 1.50 | 0.00 | 84.4s |
-| go/bank-account | ✅ PASS | 1.04 | 1.04 | 30.9s |
-| go/dining-philosophers | ❌ FAIL | 1.04 | 0.00 | 48.5s |
-| go/errgroup-limit | ❌ FAIL | 1.14 | 0.00 | 62.1s |
-| go/parallel-letter-frequency | ❌ FAIL | 1.04 | 0.00 | 45.1s |
-| go/react | ✅ PASS | 1.14 | 1.14 | 273.2s |
-| go/singleflight | ✅ PASS | 1.28 | 1.28 | 53.2s |
-| kotlin/channel-multiplexer | ✅ PASS | 1.50 | 1.50 | 67.6s |
-| kotlin/flow-processor | ❌ FAIL | 1.50 | 0.00 | 40.4s |
-| kotlin/lru-cache | ❌ FAIL | 1.09 | 0.00 | 44.1s |
-| rust/circular-buffer | ❌ FAIL | 1.12 | 0.00 | 27.4s |
-| rust/doubly-linked-list | ✅ PASS | 1.24 | 1.24 | 40.3s |
-| rust/generational-arena | ❌ FAIL | 1.24 | 0.00 | 44.5s |
-| rust/macros | ❌ FAIL | 1.50 | 0.00 | 33.5s |
-| rust/parallel-letter-frequency | ✅ PASS | 1.12 | 1.12 | 64.0s |
-| rust/regex-lite | ❌ FAIL | 1.40 | 0.00 | 120.6s |
-| typescript/csv-lite | ❌ FAIL | 1.36 | 0.00 | 16.5s |
-| typescript/forth | ❌ FAIL | 1.26 | 0.00 | 68.7s |
-| typescript/glob | ✅ PASS | 1.14 | 1.14 | 107.7s |
-| typescript/promise-pool | ❌ FAIL | 1.20 | 0.00 | 27.3s |
-| typescript/react | ❌ FAIL | 1.14 | 0.00 | 73.0s |
-| zig/arena-allocator | ❌ FAIL | 1.50 | 0.00 | 57.9s |
-| zig/comptime-json | ❌ FAIL | 1.50 | 0.00 | 43.6s |
-| zig/small-vector | ❌ FAIL | 1.34 | 0.00 | 24.3s |
+| Task                           | Status  | Weight | Score | Duration |
+| ------------------------------ | ------- | ------ | ----- | -------- |
+| dart/future-pool               | ❌ FAIL | 1.46   | 0.00  | 91.7s    |
+| dart/isolate-pool              | ❌ FAIL | 1.50   | 0.00  | 122.5s   |
+| dart/reactive-cache            | ❌ FAIL | 1.50   | 0.00  | 84.4s    |
+| go/bank-account                | ✅ PASS | 1.04   | 1.04  | 30.9s    |
+| go/dining-philosophers         | ❌ FAIL | 1.04   | 0.00  | 48.5s    |
+| go/errgroup-limit              | ❌ FAIL | 1.14   | 0.00  | 62.1s    |
+| go/parallel-letter-frequency   | ❌ FAIL | 1.04   | 0.00  | 45.1s    |
+| go/react                       | ✅ PASS | 1.14   | 1.14  | 273.2s   |
+| go/singleflight                | ✅ PASS | 1.28   | 1.28  | 53.2s    |
+| kotlin/channel-multiplexer     | ✅ PASS | 1.50   | 1.50  | 67.6s    |
+| kotlin/flow-processor          | ❌ FAIL | 1.50   | 0.00  | 40.4s    |
+| kotlin/lru-cache               | ❌ FAIL | 1.09   | 0.00  | 44.1s    |
+| rust/circular-buffer           | ❌ FAIL | 1.12   | 0.00  | 27.4s    |
+| rust/doubly-linked-list        | ✅ PASS | 1.24   | 1.24  | 40.3s    |
+| rust/generational-arena        | ❌ FAIL | 1.24   | 0.00  | 44.5s    |
+| rust/macros                    | ❌ FAIL | 1.50   | 0.00  | 33.5s    |
+| rust/parallel-letter-frequency | ✅ PASS | 1.12   | 1.12  | 64.0s    |
+| rust/regex-lite                | ❌ FAIL | 1.40   | 0.00  | 120.6s   |
+| typescript/csv-lite            | ❌ FAIL | 1.36   | 0.00  | 16.5s    |
+| typescript/forth               | ❌ FAIL | 1.26   | 0.00  | 68.7s    |
+| typescript/glob                | ✅ PASS | 1.14   | 1.14  | 107.7s   |
+| typescript/promise-pool        | ❌ FAIL | 1.20   | 0.00  | 27.3s    |
+| typescript/react               | ❌ FAIL | 1.14   | 0.00  | 73.0s    |
+| zig/arena-allocator            | ❌ FAIL | 1.50   | 0.00  | 57.9s    |
+| zig/comptime-json              | ❌ FAIL | 1.50   | 0.00  | 43.6s    |
+| zig/small-vector               | ❌ FAIL | 1.34   | 0.00  | 24.3s    |
 
 ## Verification
 
@@ -75,4 +75,5 @@
 - **Results Hash**: `blake3:894a11eea102a86ffdcb91eae78df2a0058fb11b476ba4c0ac3ecdf50b713a06`
 
 ---
-*Generated by SanityHarness on 2026-01-18T183056*
+
+_Generated by SanityHarness on 2026-01-18T183056_

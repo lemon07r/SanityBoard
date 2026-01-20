@@ -17,7 +17,7 @@
         { label: 'Model', value: 'model' }
     ];
 
-    const filterOptions: { label: string; value: FilterType; icon: any }[] = [
+    const filterOptions: { label: string; value: FilterType; icon: typeof Globe }[] = [
         { label: 'All', value: 'all', icon: Globe },
         { label: 'Verified', value: 'verified', icon: ShieldCheck },
         { label: 'Community', value: 'community', icon: Users }
@@ -73,7 +73,7 @@
                          <div class="p-4 border-b border-white/5">
                             <div class="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 px-1">Agent Type</div>
                             <div class="grid grid-cols-3 gap-1 bg-black/20 rounded-lg p-1 border border-white/5">
-                                {#each openSourceOptions as opt}
+                                {#each openSourceOptions as opt (opt.value)}
                                     <button 
                                         class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.agentTypeFilter === opt.value ? 'bg-white/15 text-white font-medium shadow-sm border border-white/5' : 'text-white/40 hover:text-white hover:bg-white/5 border border-transparent'}"
                                         onclick={() => filters.agentTypeFilter = opt.value}
@@ -88,7 +88,7 @@
                         <div class="p-4 border-b border-white/5">
                             <div class="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 px-1">Model Type</div>
                             <div class="grid grid-cols-3 gap-1 bg-black/20 rounded-lg p-1 border border-white/5">
-                                {#each openSourceOptions as opt}
+                                {#each openSourceOptions as opt (opt.value)}
                                     <button 
                                         class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.modelTypeFilter === opt.value ? 'bg-white/15 text-white font-medium shadow-sm border border-white/5' : 'text-white/40 hover:text-white hover:bg-white/5 border border-transparent'}"
                                         onclick={() => filters.modelTypeFilter = opt.value}
@@ -103,7 +103,7 @@
                         <div class="p-4 border-b border-white/5">
                             <div class="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3 px-1">MCP Support</div>
                             <div class="grid grid-cols-3 gap-1 bg-black/20 rounded-lg p-1 border border-white/5">
-                                {#each mcpOptions as opt}
+                                {#each mcpOptions as opt (opt.value)}
                                     <button 
                                         class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.mcpFilter === opt.value ? 'bg-white/15 text-white font-medium shadow-sm border border-white/5' : 'text-white/40 hover:text-white hover:bg-white/5 border border-transparent'}"
                                         onclick={() => filters.mcpFilter = opt.value}
@@ -127,7 +127,7 @@
                                 {/if}
                             </div>
                             <div class="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
-                                {#each availableAgents as agent}
+                                {#each availableAgents as agent (agent)}
                                     {@const isSelected = filters.selectedAgents.includes(agent)}
                                     <label class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-white/5 cursor-pointer group transition-colors">
                                         <div class="relative flex items-center justify-center size-4 rounded border transition-all {isSelected ? 'bg-indigo-500 border-indigo-500 shadow-sm shadow-indigo-500/20' : 'border-white/20 bg-white/5 group-hover:border-white/30'}">
@@ -159,7 +159,7 @@
                                 {/if}
                             </div>
                             <div class="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
-                                {#each availableProviders as provider}
+                                {#each availableProviders as provider (provider)}
                                     {@const isSelected = filters.selectedProviders.includes(provider)}
                                     <label class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-white/5 cursor-pointer group transition-colors">
                                         <div class="relative flex items-center justify-center size-4 rounded border transition-all {isSelected ? 'bg-indigo-500 border-indigo-500 shadow-sm shadow-indigo-500/20' : 'border-white/20 bg-white/5 group-hover:border-white/30'}">
@@ -191,7 +191,7 @@
                                 {/if}
                             </div>
                             <div class="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
-                                {#each availableModels as model}
+                                {#each availableModels as model (model)}
                                     {@const isSelected = filters.selectedModels.includes(model)}
                                     <label class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-white/5 cursor-pointer group transition-colors">
                                         <div class="relative flex items-center justify-center size-4 rounded border transition-all {isSelected ? 'bg-indigo-500 border-indigo-500 shadow-sm shadow-indigo-500/20' : 'border-white/20 bg-white/5 group-hover:border-white/30'}">
