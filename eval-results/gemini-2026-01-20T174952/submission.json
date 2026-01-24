@@ -1,0 +1,53 @@
+{
+  "agent": "gemini",
+  "model": "gemini-3-pro-preview",
+  "timestamp": "2026-01-20T174952",
+  "pass_rate": 50,
+  "weighted_pass_rate": 48.062481225593274,
+  "passed": 13,
+  "failed": 13,
+  "total": 26,
+  "weighted_score": 16.000000000000004,
+  "max_possible_score": 33.290000000000006,
+  "clean_passes": 13,
+  "by_language": {
+    "dart": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "go": {
+      "passed": 5,
+      "failed": 1,
+      "total": 6,
+      "pass_rate": 83.33333333333334
+    },
+    "kotlin": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "rust": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "typescript": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "pass_rate": 0
+    },
+    "zig": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "pass_rate": 66.66666666666666
+    }
+  },
+  "weight_version": "2.0",
+  "results_hash": "blake3:a815fd66e60f8b92e5f188453913e32c61a7b2a029dec1400d094746a859706e"
+}
