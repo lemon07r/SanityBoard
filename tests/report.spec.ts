@@ -4,7 +4,7 @@ test("Report Page loads and Task Matrix interacts correctly", async ({
   page,
 }) => {
   // Go to the report page of a known run (e.g., amp)
-  await page.goto("/report/amp-2026-01-13T132446");
+  await page.goto("/report/amp-2026-01-20T175048");
 
   // 1. Verify Header
   await expect(

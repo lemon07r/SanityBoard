@@ -1,9 +1,9 @@
 {
   "Agent Name": "Amp Code CLI",
-  "Agent Version": "2026-01-13 Release",
+  "Agent Version": "2026-01-20 Release",
   "Model Name": "Smart Mode (Mixed)",
   "Provider Name": "Amp (Mixed)",
-  "Run Date": "2026-01-13",
+  "Run Date": "2026-01-20",
   "MCP tools available": "no",
   "verified": "yes",
   "Agent Type": "Proprietary",

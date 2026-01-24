@@ -39,7 +39,7 @@ SvelteKit (static adapter), Svelte 5, TailwindCSS v4, Vite, Playwright, Zod, mds
 - RAF-throttled mouse tracking prevents layout thrashing
 - Animation suspension when tab is hidden
 - Derived values recompute only when dependencies change
-- Scores 99-100/100 on https://pagespeed.web.dev/analysis/https-sanityboard-lr7-dev/4somzuimw7 across the board on both mobile and desktop for Performance, Best Practices, and SEO
+- Scores 99-100/100 on https://pagespeed.web.dev/analysis/https-sanityboard-lr7-dev/4somzuimw7 across the board on both mobile and desktop for Performance, Best Practices, and SEO (100 for accessibility on desktop, 92 on mobile).
 
 ## Usage
 

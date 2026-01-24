@@ -1,15 +1,15 @@
 {
   "agent": "amp",
   "model": "smart",
-  "timestamp": "2026-01-13T132446",
-  "pass_rate": 53.84615384615385,
-  "weighted_pass_rate": 50.49564433763892,
-  "passed": 14,
-  "failed": 12,
+  "timestamp": "2026-01-20T175048",
+  "pass_rate": 61.53846153846154,
+  "weighted_pass_rate": 57.765094623009915,
+  "passed": 16,
+  "failed": 10,
   "total": 26,
-  "weighted_score": 16.810000000000002,
+  "weighted_score": 19.230000000000004,
   "max_possible_score": 33.290000000000006,
-  "clean_passes": 14,
+  "clean_passes": 16,
   "partial_passes": 0,
   "integrity_violations": 0,
   "by_language": {
@@ -20,16 +20,16 @@
       "pass_rate": 0
     },
     "go": {
-      "passed": 4,
-      "failed": 2,
+      "passed": 6,
+      "failed": 0,
       "total": 6,
-      "pass_rate": 66.66666666666666
+      "pass_rate": 100
     },
     "kotlin": {
-      "passed": 2,
-      "failed": 1,
+      "passed": 3,
+      "failed": 0,
       "total": 3,
-      "pass_rate": 66.66666666666666
+      "pass_rate": 100
     },
     "rust": {
       "passed": 4,
@@ -44,16 +44,16 @@
       "pass_rate": 40
     },
     "zig": {
-      "passed": 2,
-      "failed": 1,
+      "passed": 1,
+      "failed": 2,
       "total": 3,
-      "pass_rate": 66.66666666666666
+      "pass_rate": 33.33333333333333
     }
   },
-  "total_duration_seconds": 1129.110669796,
-  "agent_duration_seconds": 897.419487816,
-  "harness_version": "v1.1.1",
+  "total_duration_seconds": 1046.5101776,
+  "agent_duration_seconds": 935.8780309319998,
+  "harness_version": "v1.4.0",
   "weight_version": "2.0",
   "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
-  "results_hash": "blake3:7595fc6f42e6da4cc94678886c1aa44ce8816f72e09bb38242ec74744ec72852"
+  "results_hash": "blake3:a461f4d8f1886c4565ac6fdc231902a993de0dfcff4c44bed5a8842fcc86d40c"
 }
