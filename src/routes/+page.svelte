@@ -20,8 +20,9 @@
         data.runs
             .filter(run => {
                 // Category Filter
-                if (filters.filterType === 'verified' && run.metadata.verified !== 'yes') return false;
-                if (filters.filterType === 'community' && run.metadata.verified === 'yes') return false;
+                const isVerified = run.metadata.verified?.toLowerCase() === 'yes';
+                if (filters.filterType === 'verified' && !isVerified) return false;
+                if (filters.filterType === 'community' && isVerified) return false;
 
                 // Search Filter
                 if (filters.searchQuery) {
