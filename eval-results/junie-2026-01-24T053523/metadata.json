@@ -1,0 +1,11 @@
+{
+  "Agent Name": "Junie CLI",
+  "Agent Version": "624.1",
+  "Model Name": "GPT-5.2 Codex",
+  "Provider Name": "OpenAI",
+  "Run Date": "2026-01-24",
+  "MCP tools available": "no",
+  "verified": "yes",
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary"
+}

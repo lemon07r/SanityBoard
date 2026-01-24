@@ -1,0 +1,60 @@
+{
+  "agent": "opencode",
+  "model": "kimi-for-coding/kimi-k2-thinking",
+  "timestamp": "2026-01-24T044011",
+  "pass_rate": 38.46153846153847,
+  "weighted_pass_rate": 35.105048604578236,
+  "passed": 10,
+  "failed": 16,
+  "total": 26,
+  "weighted_score": 11.195000000000002,
+  "max_possible_score": 31.890000000000008,
+  "clean_passes": 9,
+  "partial_passes": 1,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "rust": {
+      "passed": 2,
+      "failed": 4,
+      "total": 6,
+      "pass_rate": 33.33333333333333
+    },
+    "typescript": {
+      "passed": 1,
+      "failed": 4,
+      "total": 5,
+      "pass_rate": 20
+    },
+    "zig": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    }
+  },
+  "total_duration_seconds": 3697.7340043400013,
+  "agent_duration_seconds": 3464.504175702,
+  "harness_version": "v1.5.1",
+  "weight_version": "2.0",
+  "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
+  "results_hash": "blake3:208f4da771b06f35fce2a5ff5ba9d8724845ec92e0d7c2da4b910eeaf4a97667",
+  "disable_mcp": true
+}

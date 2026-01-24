@@ -1,15 +1,15 @@
 {
-  "agent": "goose",
-  "model": "MiniMax-M2.1",
-  "timestamp": "2026-01-24T004059",
-  "pass_rate": 11.538461538461538,
-  "weighted_pass_rate": 11.450141553947782,
-  "passed": 3,
-  "failed": 23,
+  "agent": "opencode",
+  "model": "minimax-anthropic/MiniMax-M2.1",
+  "timestamp": "2026-01-24T040229",
+  "pass_rate": 30.76923076923077,
+  "weighted_pass_rate": 27.807153965785382,
+  "passed": 8,
+  "failed": 18,
   "total": 26,
-  "weighted_score": 3.6400000000000006,
-  "max_possible_score": 31.790000000000006,
-  "clean_passes": 3,
+  "weighted_score": 8.940000000000001,
+  "max_possible_score": 32.150000000000006,
+  "clean_passes": 8,
   "partial_passes": 0,
   "integrity_violations": 0,
   "by_language": {
@@ -20,10 +20,10 @@
       "pass_rate": 0
     },
     "go": {
-      "passed": 1,
-      "failed": 5,
+      "passed": 5,
+      "failed": 1,
       "total": 6,
-      "pass_rate": 16.666666666666664
+      "pass_rate": 83.33333333333334
     },
     "kotlin": {
       "passed": 0,
@@ -38,10 +38,10 @@
       "pass_rate": 16.666666666666664
     },
     "typescript": {
-      "passed": 1,
-      "failed": 4,
+      "passed": 2,
+      "failed": 3,
       "total": 5,
-      "pass_rate": 20
+      "pass_rate": 40
     },
     "zig": {
       "passed": 0,
@@ -50,10 +50,11 @@
       "pass_rate": 0
     }
   },
-  "total_duration_seconds": 2508.041140047,
-  "agent_duration_seconds": 2312.218524266,
-  "harness_version": "v1.4.0-6-gf6423ea-dirty",
+  "total_duration_seconds": 1610.7025647180003,
+  "agent_duration_seconds": 1363.456313926,
+  "harness_version": "v1.5.1",
   "weight_version": "2.0",
   "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
-  "results_hash": "blake3:d8d50985aa47ea913fdae0a0425ee990e4d79652e9cfe752bd93647731e7a682"
+  "results_hash": "blake3:7cc21ae847092226036bc830b3fc3d6e9eaead54990d616f6430357bd9f38b23",
+  "disable_mcp": true
 }

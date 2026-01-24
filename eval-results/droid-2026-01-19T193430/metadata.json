@@ -2,7 +2,7 @@
   "Agent Name": "Droid",
   "Agent Version": "v0.53.1",
   "Model Name": "Gemini 3 Pro Preview (High)",
-  "Provider Name": "Google (Factory Subscription)",
+  "Provider Name": "Google",
   "Run Date": "2026-01-19",
   "MCP tools available": "no",
   "verified": "yes",

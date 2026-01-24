@@ -1,13 +1,13 @@
 {
-  "agent": "goose",
-  "model": "MiniMax-M2.1",
-  "timestamp": "2026-01-24T004059",
+  "agent": "opencode",
+  "model": "minimax-openai/MiniMax-M2.1",
+  "timestamp": "2026-01-24T040233",
   "pass_rate": 11.538461538461538,
-  "weighted_pass_rate": 11.450141553947782,
+  "weighted_pass_rate": 10.066058508965083,
   "passed": 3,
   "failed": 23,
   "total": 26,
-  "weighted_score": 3.6400000000000006,
+  "weighted_score": 3.2,
   "max_possible_score": 31.790000000000006,
   "clean_passes": 3,
   "partial_passes": 0,
@@ -20,10 +20,10 @@
       "pass_rate": 0
     },
     "go": {
-      "passed": 1,
-      "failed": 5,
+      "passed": 2,
+      "failed": 4,
       "total": 6,
-      "pass_rate": 16.666666666666664
+      "pass_rate": 33.33333333333333
     },
     "kotlin": {
       "passed": 0,
@@ -38,10 +38,10 @@
       "pass_rate": 16.666666666666664
     },
     "typescript": {
-      "passed": 1,
-      "failed": 4,
+      "passed": 0,
+      "failed": 5,
       "total": 5,
-      "pass_rate": 20
+      "pass_rate": 0
     },
     "zig": {
       "passed": 0,
@@ -50,10 +50,11 @@
       "pass_rate": 0
     }
   },
-  "total_duration_seconds": 2508.041140047,
-  "agent_duration_seconds": 2312.218524266,
-  "harness_version": "v1.4.0-6-gf6423ea-dirty",
+  "total_duration_seconds": 2647.7955300090002,
+  "agent_duration_seconds": 2418.001676888,
+  "harness_version": "v1.5.1",
   "weight_version": "2.0",
   "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
-  "results_hash": "blake3:d8d50985aa47ea913fdae0a0425ee990e4d79652e9cfe752bd93647731e7a682"
+  "results_hash": "blake3:7d4e3c74340f4511ff8039f8aa9d46622543832e5521925545dd8441b1272f46",
+  "disable_mcp": true
 }

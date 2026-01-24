@@ -230,7 +230,7 @@
     <!-- Footer -->
     <footer class="border-t border-white/5 bg-black/40 py-12 text-center">
         <div class="text-white/40 text-sm flex items-center justify-center gap-4">
-            <span>&copy; 2026 SanityHarness.</span>
+            <span>&copy; 2026 LR7 (lemon07r).</span>
             <a href="https://github.com/lemon07r/SanityHarness" class="hover:text-white flex items-center gap-2 transition-colors">
                 <Github size={16} />
                 GitHub

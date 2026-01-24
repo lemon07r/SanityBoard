@@ -1,9 +1,9 @@
 {
-  "Agent Name": "Crush CLI",
-  "Agent Version": "v0.32.1",
+  "Agent Name": "OpenCode",
+  "Agent Version": "v1.1.34",
   "Model Name": "MiniMax M2.1",
-  "Provider Name": "MiniMax AI (Anthropic API)",
-  "Run Date": "2026-01-14",
+  "Provider Name": "MiniMax AI (OpenAI API)",
+  "Run Date": "2026-01-24",
   "MCP tools available": "no",
   "verified": "yes",
   "Agent Type": "Open Source",
