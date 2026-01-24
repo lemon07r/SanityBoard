@@ -1,5 +1,5 @@
 <script>
-    import { Github, Upload, Star } from 'lucide-svelte';
+    import { Upload, Star } from 'lucide-svelte';
 </script>
 
 <div class="relative pt-32 pb-20 px-4 md:px-6 max-w-7xl mx-auto text-center z-20">
@@ -23,7 +23,7 @@
         
         <a href="https://github.com/lemon07r/SanityHarness" target="_blank" rel="noreferrer" class="px-6 py-3 border border-white/20 text-white rounded-lg hover:bg-white/5 hover:border-white/40 transition-all flex items-center gap-2 group">
             <Star size={18} class="group-hover:text-yellow-400 transition-colors" />
-            Star on GitHub
+            GitHub
         </a>
     </div>
 </div>

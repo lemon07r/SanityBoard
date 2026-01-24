@@ -1,7 +1,6 @@
 <script>
     import AuroraBackground from '$lib/components/core/AuroraBackground.svelte';
     import Navbar from '$lib/components/core/Navbar.svelte';
-    import Footer from '$lib/components/core/Footer.svelte';
 	import '../app.css';
     import { Toaster } from 'svelte-sonner';
     import { seoConfig } from '$lib/seo/config';
@@ -35,8 +34,5 @@
 <Navbar />
 
 <div class="relative z-10 min-h-screen flex flex-col pt-20">
-    <div class="flex-1">
-        {@render children()}
-    </div>
-    <Footer />
+    {@render children()}
 </div>

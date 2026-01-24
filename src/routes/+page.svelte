@@ -228,13 +228,23 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-white/5 bg-black/40 py-12 text-center">
-        <div class="text-white/40 text-sm flex items-center justify-center gap-4">
-            <span>&copy; 2026 LR7 (lemon07r).</span>
-            <a href="https://github.com/lemon07r/SanityHarness" class="hover:text-white flex items-center gap-2 transition-colors">
-                <Github size={16} />
-                GitHub
-            </a>
+    <footer class="border-t border-white/5 bg-black/40 py-8">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-white/40 text-sm">
+            <span>&copy; 2026 LR7.</span>
+            
+            <div class="flex items-center gap-6">
+                <a href="https://github.com/lemon07r/SanityHarness" class="hover:text-white flex items-center gap-2 transition-colors">
+                    <Github size={16} />
+                    GitHub
+                </a>
+                
+                <div class="flex items-center gap-2">
+                    <span>Built by</span>
+                    <a href="https://github.com/lemon07r" target="_blank" rel="noreferrer" class="text-white/60 hover:text-white transition-colors">
+                        lemon07r
+                    </a>
+                </div>
+            </div>
         </div>
     </footer>
 </div>
