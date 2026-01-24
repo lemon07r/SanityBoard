@@ -16,60 +16,79 @@
     let availableAgents = $derived([...new Set(data.runs.map(r => r.metadata['Agent Name']))].sort());
 
     // Derived filtered list
+    let filteredRuns = $derived(
+        data.runs.filter(run => {
+            // Category Filter
+            const isVerified = run.metadata.verified?.toLowerCase() === 'yes';
+            if (filters.filterType === 'verified' && !isVerified) return false;
+            if (filters.filterType === 'community' && isVerified) return false;
+
+            // Search Filter
+            if (filters.searchQuery) {
+                const q = filters.searchQuery.toLowerCase();
+                const match = 
+                    run.metadata['Agent Name'].toLowerCase().includes(q) ||
+                    run.metadata['Provider Name'].toLowerCase().includes(q) ||
+                    run.metadata['Model Name'].toLowerCase().includes(q);
+                if (!match) return false;
+            }
+
+            // Provider Filter
+            if (filters.selectedProviders.length > 0) {
+                if (!filters.selectedProviders.includes(run.metadata['Provider Name'])) return false;
+            }
+
+            // Model Filter
+            if (filters.selectedModels.length > 0) {
+                if (!filters.selectedModels.includes(run.metadata['Model Name'])) return false;
+            }
+            
+            // Agent Filter
+            if (filters.selectedAgents.length > 0) {
+                if (!filters.selectedAgents.includes(run.metadata['Agent Name'])) return false;
+            }
+
+            // MCP Filter
+            if (filters.mcpFilter !== 'all') {
+                const hasMcp = run.metadata['MCP tools available']?.toLowerCase().includes('yes');
+                if (filters.mcpFilter === 'yes' && !hasMcp) return false;
+                if (filters.mcpFilter === 'no' && hasMcp) return false;
+            }
+
+            // Agent Type Filter
+            if (filters.agentTypeFilter !== 'all') {
+                    const type = run.metadata['Agent Type'] === 'Open Source' ? 'open' : 'proprietary';
+                    if (filters.agentTypeFilter !== type) return false;
+            }
+
+            // Model Type Filter
+            if (filters.modelTypeFilter !== 'all') {
+                    const type = run.metadata['Model Type'] === 'Open Source' ? 'open' : 'proprietary';
+                    if (filters.modelTypeFilter !== type) return false;
+            }
+
+            return true;
+        })
+    );
+
+    // Calculate rank based on weighted score (descending)
+    let rankMap = $derived(
+        new Map(
+            [...filteredRuns]
+                .sort((a, b) => {
+                    const diff = (b.stats?.weighted_score || 0) - (a.stats?.weighted_score || 0);
+                    if (diff === 0) {
+                        return new Date(b.metadata['Run Date']).getTime() - new Date(a.metadata['Run Date']).getTime();
+                    }
+                    return diff;
+                })
+                .map((run, index) => [run.id, index + 1])
+        )
+    );
+
+    // Apply sorting for display
     let visibleRuns = $derived(
-        data.runs
-            .filter(run => {
-                // Category Filter
-                const isVerified = run.metadata.verified?.toLowerCase() === 'yes';
-                if (filters.filterType === 'verified' && !isVerified) return false;
-                if (filters.filterType === 'community' && isVerified) return false;
-
-                // Search Filter
-                if (filters.searchQuery) {
-                    const q = filters.searchQuery.toLowerCase();
-                    const match = 
-                        run.metadata['Agent Name'].toLowerCase().includes(q) ||
-                        run.metadata['Provider Name'].toLowerCase().includes(q) ||
-                        run.metadata['Model Name'].toLowerCase().includes(q);
-                    if (!match) return false;
-                }
-
-                // Provider Filter
-                if (filters.selectedProviders.length > 0) {
-                    if (!filters.selectedProviders.includes(run.metadata['Provider Name'])) return false;
-                }
-
-                // Model Filter
-                if (filters.selectedModels.length > 0) {
-                    if (!filters.selectedModels.includes(run.metadata['Model Name'])) return false;
-                }
-                
-                // Agent Filter
-                if (filters.selectedAgents.length > 0) {
-                    if (!filters.selectedAgents.includes(run.metadata['Agent Name'])) return false;
-                }
-
-                // MCP Filter
-                if (filters.mcpFilter !== 'all') {
-                    const hasMcp = run.metadata['MCP tools available']?.toLowerCase().includes('yes');
-                    if (filters.mcpFilter === 'yes' && !hasMcp) return false;
-                    if (filters.mcpFilter === 'no' && hasMcp) return false;
-                }
-
-                // Agent Type Filter
-                if (filters.agentTypeFilter !== 'all') {
-                     const type = run.metadata['Agent Type'] === 'Open Source' ? 'open' : 'proprietary';
-                     if (filters.agentTypeFilter !== type) return false;
-                }
-
-                // Model Type Filter
-                if (filters.modelTypeFilter !== 'all') {
-                     const type = run.metadata['Model Type'] === 'Open Source' ? 'open' : 'proprietary';
-                     if (filters.modelTypeFilter !== type) return false;
-                }
-
-                return true;
-            })
+        [...filteredRuns]
             .sort((a, b) => {
                 let diff = 0;
                 switch (filters.sortBy) {
@@ -212,9 +231,9 @@
             </div>
 
             <!-- Rows -->
-            {#each visibleRuns as run, index (run.id)}
+            {#each visibleRuns as run (run.id)}
                 <div in:fade>
-                    <LeaderboardRow {run} rank={index + 1} />
+                    <LeaderboardRow {run} rank={rankMap.get(run.id) ?? 0} />
                 </div>
             {/each}
 
