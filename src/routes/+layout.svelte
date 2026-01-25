@@ -4,8 +4,11 @@
 	import '../app.css';
     import { Toaster } from 'svelte-sonner';
     import { seoConfig } from '$lib/seo/config';
+    import { theme } from '$lib/stores/theme.svelte';
 
     let { children } = $props();
+
+    // Initialize theme on mount (theme store handles this in constructor)
 
     // Base WebSite schema for the entire site
     const websiteSchema = {
@@ -29,7 +32,7 @@
     {@html `<${'script'} type="application/ld+json">${JSON.stringify(websiteSchema)}</${'script'}>`}
 </svelte:head>
 
-<Toaster theme="dark" position="top-center" />
+<Toaster theme={theme.current} position="top-center" />
 <AuroraBackground />
 <Navbar />
 

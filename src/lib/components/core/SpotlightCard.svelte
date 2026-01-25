@@ -23,7 +23,7 @@
 <div 
   bind:this={container}
   onmousemove={handleMouseMove}
-  class="relative group rounded-2xl border border-white/5 bg-white/[0.02] overflow-hidden {className}"
+  class="relative group rounded-2xl border border-border/40 dark:border-white/5 bg-card dark:bg-white/[0.02] overflow-hidden {className}"
 >
   <!-- Content -->
   <div class="relative z-10 h-full">
@@ -40,7 +40,7 @@
   
   <!-- Border Beam Mask -->
   <div 
-    class="pointer-events-none absolute inset-0 z-30 border border-white/10 rounded-2xl"
+    class="pointer-events-none absolute inset-0 z-30 border border-border/40 dark:border-white/10 rounded-2xl"
     style="
       -webkit-mask-image: radial-gradient(200px circle at var(--mouse-x) var(--mouse-y), black, transparent);
       mask-image: radial-gradient(200px circle at var(--mouse-x) var(--mouse-y), black, transparent);

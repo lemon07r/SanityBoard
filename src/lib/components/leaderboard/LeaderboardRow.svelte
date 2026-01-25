@@ -45,7 +45,7 @@
 <div class="relative group/row">
   <!-- Main Row (Clickable) -->
   <button 
-    class="w-full grid grid-cols-12 gap-2 md:gap-4 p-4 items-center text-left hover:bg-white/[0.02] transition-colors relative z-20 outline-none focus-visible:bg-white/[0.04]"
+    class="w-full grid grid-cols-12 gap-2 md:gap-4 p-4 items-center text-left hover:bg-foreground/[0.03] dark:hover:bg-white/[0.02] transition-colors relative z-20 outline-none focus-visible:bg-foreground/[0.05] dark:focus-visible:bg-white/[0.04]"
     onclick={toggle}
   >
     <!-- Rank -->
@@ -55,60 +55,60 @@
 
     <!-- Agent -->
     <div class="col-span-7 md:col-span-3">
-        <div class="font-semibold text-white tracking-tight text-sm md:text-base flex items-center gap-1.5">
+        <div class="font-semibold text-foreground dark:text-white tracking-tight text-sm md:text-base flex items-center gap-1.5">
             {meta['Agent Name']}
             {#if meta['Agent Type'] === 'Proprietary'}
-                <div title="Proprietary Agent"><Lock size={12} class="text-white/20" /></div>
+                <div title="Proprietary Agent"><Lock size={12} class="text-muted-foreground/50 dark:text-white/20" /></div>
             {:else}
-                <div title="Open Source Agent"><Unlock size={12} class="text-cyan-400/30" /></div>
+                <div title="Open Source Agent"><Unlock size={12} class="text-cyan-600/50 dark:text-cyan-400/30" /></div>
             {/if}
         </div>
-        <div class="text-[10px] md:text-xs text-white/40 font-mono mt-0.5">{meta['Agent Version']}</div>
+        <div class="text-[10px] md:text-xs text-muted-foreground dark:text-white/40 font-mono mt-0.5">{meta['Agent Version']}</div>
     </div>
 
     <!-- Model -->
-    <div class="col-span-2 hidden md:flex items-center gap-2 text-sm text-white/70 overflow-hidden">
+    <div class="col-span-2 hidden md:flex items-center gap-2 text-sm text-muted-foreground dark:text-white/70 overflow-hidden">
         <span class="truncate" title={meta['Model Name']}>{meta['Model Name']}</span>
         {#if meta['Model Type'] === 'Proprietary'}
-            <div title="Proprietary Model"><Lock size={12} class="text-white/20 shrink-0" /></div>
+            <div title="Proprietary Model"><Lock size={12} class="text-muted-foreground/50 dark:text-white/20 shrink-0" /></div>
         {:else}
-            <div title="Open Source Model"><Unlock size={12} class="text-cyan-400/30 shrink-0" /></div>
+            <div title="Open Source Model"><Unlock size={12} class="text-cyan-600/50 dark:text-cyan-400/30 shrink-0" /></div>
         {/if}
     </div>
 
     <!-- Provider -->
-    <div class="col-span-2 hidden md:block text-sm text-white/50 truncate" title={meta['Provider Name']}>
+    <div class="col-span-2 hidden md:block text-sm text-muted-foreground/70 dark:text-white/50 truncate" title={meta['Provider Name']}>
         {meta['Provider Name']}
     </div>
 
     <!-- Score -->
     <div class="col-span-3 md:col-span-2">
         <div class="flex items-center gap-2 justify-end md:justify-start">
-            <div class="hidden md:block h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                <div class="h-full bg-white transition-all duration-1000" style="width: {(stats?.weighted_score || 0) / 32 * 100}%"></div>
+            <div class="hidden md:block h-2 w-full bg-border/40 dark:bg-white/10 rounded-full overflow-hidden">
+                <div class="h-full bg-foreground dark:bg-white transition-all duration-1000" style="width: {(stats?.weighted_score || 0) / 32 * 100}%"></div>
             </div>
-            <span class="font-mono text-sm font-bold w-12 text-right">{score}</span>
+            <span class="font-mono text-sm font-bold w-12 text-right text-foreground dark:text-white">{score}</span>
         </div>
     </div>
 
     <!-- Pass Rate -->
-    <div class="col-span-1 hidden md:block text-center font-mono text-sm text-emerald-400">
+    <div class="col-span-1 hidden md:block text-center font-mono text-sm text-emerald-600 dark:text-emerald-400">
         {passRate}%
     </div>
 
     <!-- MCP -->
     <div class="col-span-1 hidden md:flex justify-center">
         {#if meta['MCP tools available'] === 'yes'}
-            <Check size={16} class="text-cyan-400" />
+            <Check size={16} class="text-cyan-600 dark:text-cyan-400" />
         {:else}
-            <div class="w-1.5 h-1.5 rounded-full bg-white/10"></div>
+            <div class="w-1.5 h-1.5 rounded-full bg-muted-foreground/30 dark:bg-white/10"></div>
         {/if}
     </div>
   </button>
 
   <!-- Expanded Details -->
   <div 
-    class="row-expansion border-b border-white/5 bg-black/20"
+    class="row-expansion border-b border-border/40 dark:border-white/5 bg-muted/20 dark:bg-black/20"
     class:row-expansion--open={isOpen}
   >
       <div class="row-expansion__content">
@@ -116,8 +116,8 @@
               
               <!-- Col 1: Meta -->
               <div class="space-y-4">
-                  <div class="text-xs uppercase tracking-widest text-white/30 font-semibold">Execution</div>
-                  <div class="flex items-center gap-4 text-sm text-white/60">
+                  <div class="text-xs uppercase tracking-widest text-muted-foreground/50 dark:text-white/30 font-semibold">Execution</div>
+                  <div class="flex items-center gap-4 text-sm text-muted-foreground dark:text-white/60">
                       <div class="flex items-center gap-2">
                           <Box size={14} />
                           <span>{meta['Run Date']}</span>
@@ -131,8 +131,8 @@
 
               <!-- Col 2: Spectrum -->
               <div class="space-y-4 w-full">
-                  <div class="text-xs uppercase tracking-widest text-white/30 font-semibold">Language Spectrum</div>
-                  <div class="w-full h-3 flex rounded-full overflow-hidden ring-1 ring-white/10">
+                  <div class="text-xs uppercase tracking-widest text-muted-foreground/50 dark:text-white/30 font-semibold">Language Spectrum</div>
+                  <div class="w-full h-3 flex rounded-full overflow-hidden ring-1 ring-border dark:ring-white/10">
                       {#each Object.entries(languages) as [lang, langStats] (lang)}
                           {@const stats = langStats as import('$lib/server/data').LanguageStats}
                           <div 
@@ -142,7 +142,7 @@
                           ></div>
                       {/each}
                   </div>
-                  <div class="flex flex-wrap gap-2 text-[10px] text-white/40 uppercase font-mono">
+                  <div class="flex flex-wrap gap-2 text-[10px] text-muted-foreground/70 dark:text-white/40 uppercase font-mono">
                       {#each Object.entries(languages) as [lang, langStats] (lang)}
                           {@const stats = langStats as import('$lib/server/data').LanguageStats}
                           <div class="flex items-center gap-1">
@@ -157,7 +157,7 @@
               <div class="flex items-center justify-end">
                   <a 
                       href="/report/{runId}" 
-                      class="group flex items-center gap-2 px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                      class="group flex items-center gap-2 px-6 py-3 bg-foreground dark:bg-white text-background dark:text-black font-semibold rounded-lg hover:bg-foreground/90 dark:hover:bg-white/90 transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                       Open Flight Recorder
                       <ExternalLink size={16} class="group-hover:translate-x-0.5 transition-transform" />
