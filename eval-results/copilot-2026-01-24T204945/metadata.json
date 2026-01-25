@@ -1,0 +1,11 @@
+{
+  "Agent Name": "GitHub Copilot CLI",
+  "Agent Version": "0.0.394",
+  "Model Name": "Gemini 3 Pro Preview",
+  "Provider Name": "Google",
+  "Run Date": "2026-01-24",
+  "MCP tools available": "no",
+  "verified": "yes",
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary"
+}
