@@ -25,7 +25,7 @@
     };
 </script>
 
-<div class="h-48 flex items-end justify-between gap-2 px-6 py-6 bg-card/50 dark:bg-white/[0.02] border border-border/40 dark:border-white/5 rounded-2xl mb-8">
+<div class="h-48 flex items-end justify-between gap-2 px-6 py-6 bg-card dark:bg-white/[0.02] border border-border/40 dark:border-white/5 rounded-2xl mb-8">
     {#each chartData as item (item.lang)}
         <div class="flex-1 flex flex-col items-center gap-3 group relative h-full justify-end">
             <!-- Tooltip -->

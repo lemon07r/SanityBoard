@@ -184,6 +184,15 @@ body {
   background-color: hsl(var(--muted) / 0.5);
 }
 
+/* Light mode only: white table backgrounds */
+:root:not(.dark) .prose thead {
+  background-color: hsl(var(--card));
+}
+
+:root:not(.dark) .prose tbody tr td {
+  background-color: hsl(var(--card));
+}
+
 /* Dark Mode overrides for prose tables - exact match to original main branch */
 .dark .prose table {
   border: 1px solid rgb(255 255 255 / 0.1);

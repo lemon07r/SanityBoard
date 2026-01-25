@@ -194,7 +194,7 @@
                                             <div class="relative grid grid-cols-2 bg-muted/50 dark:bg-black/40 border border-border/40 dark:border-white/10 rounded-lg p-1 h-10 isolate w-48 mt-[11px]">
                                                 <!-- Sliding Background Pill -->
                                                 <div 
-                                                    class="absolute top-1 bottom-1 rounded shadow-lg transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] w-[calc(50%-4px)] {formData.mcp === 'yes' ? 'bg-foreground dark:bg-indigo-500' : 'bg-destructive/10 dark:bg-rose-500/20'}"
+                                                    class="absolute top-1 bottom-1 rounded shadow-lg transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] w-[calc(50%-4px)] {formData.mcp === 'yes' ? 'bg-foreground dark:bg-indigo-500' : 'bg-foreground/10 dark:bg-rose-500/20'}"
                                                     style="transform: translateX({formData.mcp === 'yes' ? '4px' : 'calc(100% + 4px)'})"
                                                 ></div>
 
@@ -206,7 +206,7 @@
                                                 </label>
                                                 <label class="relative z-10 cursor-pointer flex items-center justify-center group">
                                                     <input type="radio" bind:group={formData.mcp} value="no" class="sr-only" />
-                                                    <span class="text-xs font-bold uppercase tracking-wider transition-colors duration-200 {formData.mcp === 'no' ? 'text-destructive dark:text-rose-200' : 'text-muted-foreground dark:text-white/40 group-hover:text-foreground dark:group-hover:text-white/70'}">
+                                                    <span class="text-xs font-bold uppercase tracking-wider transition-colors duration-200 {formData.mcp === 'no' ? 'text-foreground dark:text-rose-200' : 'text-muted-foreground dark:text-white/40 group-hover:text-foreground dark:group-hover:text-white/70'}">
                                                         No
                                                     </span>
                                                 </label>
