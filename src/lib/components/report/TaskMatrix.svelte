@@ -112,34 +112,34 @@
 
     function getDifficultyColor(diff: string) {
         const d = diff.toLowerCase();
-        if (d.includes('basic')) return 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20';
-        if (d.includes('intermediate')) return 'text-cyan-400 bg-cyan-400/10 border-cyan-400/20';
-        if (d.includes('expert') || d.includes('hard')) return 'text-rose-400 bg-rose-400/10 border-rose-400/20';
-        return 'text-white/60 bg-white/5 border-white/10';
+        if (d.includes('basic')) return 'text-emerald-600 dark:text-emerald-400 bg-emerald-400/10 border-emerald-400/20';
+        if (d.includes('intermediate')) return 'text-cyan-600 dark:text-cyan-400 bg-cyan-400/10 border-cyan-400/20';
+        if (d.includes('expert') || d.includes('hard')) return 'text-rose-600 dark:text-rose-400 bg-rose-400/10 border-rose-400/20';
+        return 'text-muted-foreground dark:text-white/60 bg-foreground/5 dark:bg-white/5 border-border dark:border-white/10';
     }
 
     function getTierColor(tier: string) {
         // Example tier coloring
         const t = tier.toLowerCase();
-        if (t === '1' || t.includes('basic')) return 'text-blue-400';
-        if (t === '2' || t.includes('complex')) return 'text-purple-400';
-        if (t === '3' || t.includes('advanced')) return 'text-orange-400';
-        return 'text-white/50';
+        if (t === '1' || t.includes('basic')) return 'text-blue-600 dark:text-blue-400';
+        if (t === '2' || t.includes('complex')) return 'text-purple-600 dark:text-purple-400';
+        if (t === '3' || t.includes('advanced')) return 'text-orange-600 dark:text-orange-400';
+        return 'text-muted-foreground dark:text-white/50';
     }
 </script>
 
 <div class="w-full space-y-6">
     <!-- Controls Bar -->
-    <div class="flex flex-col md:flex-row gap-4 p-4 bg-zinc-900/50 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl">
+    <div class="flex flex-col md:flex-row gap-4 p-4 bg-muted/50 dark:bg-zinc-900/50 backdrop-blur-md border border-border dark:border-white/10 rounded-xl shadow-2xl">
         
         <!-- Search -->
         <div class="relative flex-1 group">
-            <Search class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-white transition-colors" size={18} />
+            <Search class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground dark:text-white/40 group-focus-within:text-foreground dark:group-focus-within:text-white transition-colors" size={18} />
             <input 
                 type="text" 
                 bind:value={searchQuery}
                 placeholder="Search tasks or languages..." 
-                class="w-full bg-black/40 border border-white/10 rounded-lg py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 focus:bg-black/60 transition-all"
+                class="w-full bg-background dark:bg-black/40 border border-border dark:border-white/10 rounded-lg py-2.5 pl-10 pr-4 text-sm text-foreground dark:text-white placeholder:text-muted-foreground/50 dark:placeholder:text-white/30 focus:outline-none focus:border-foreground/30 dark:focus:border-white/30 focus:bg-background dark:focus:bg-black/60 transition-all"
             />
         </div>
 
@@ -149,52 +149,52 @@
             <div class="relative">
                 <select 
                     bind:value={statusFilter}
-                    class="appearance-none bg-black/40 border border-white/10 rounded-lg py-2.5 pl-4 pr-10 text-sm text-white focus:outline-none focus:border-white/30 hover:bg-white/5 transition-all cursor-pointer min-w-[140px]"
+                    class="appearance-none bg-background dark:bg-black/40 border border-border dark:border-white/10 rounded-lg py-2.5 pl-4 pr-10 text-sm text-foreground dark:text-white focus:outline-none focus:border-foreground/30 dark:focus:border-white/30 hover:bg-foreground/5 dark:hover:bg-white/5 transition-all cursor-pointer min-w-[140px]"
                 >
                     <option value="all">All Status</option>
                     <option value="pass">Passed</option>
                     <option value="fail">Failed</option>
                 </select>
-                <Filter class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" size={14} />
+                <Filter class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground dark:text-white/40 pointer-events-none" size={14} />
             </div>
 
             <!-- Difficulty Filter -->
             <div class="relative">
                 <select 
                     bind:value={difficultyFilter}
-                    class="appearance-none bg-black/40 border border-white/10 rounded-lg py-2.5 pl-4 pr-10 text-sm text-white focus:outline-none focus:border-white/30 hover:bg-white/5 transition-all cursor-pointer min-w-[160px]"
+                    class="appearance-none bg-background dark:bg-black/40 border border-border dark:border-white/10 rounded-lg py-2.5 pl-4 pr-10 text-sm text-foreground dark:text-white focus:outline-none focus:border-foreground/30 dark:focus:border-white/30 hover:bg-foreground/5 dark:hover:bg-white/5 transition-all cursor-pointer min-w-[160px]"
                 >
                     <option value="all">All Difficulties</option>
                     {#each availableDifficulties as diff (diff)}
                         <option value={diff}>{diff}</option>
                     {/each}
                 </select>
-                <Layers class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" size={14} />
+                <Layers class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground dark:text-white/40 pointer-events-none" size={14} />
             </div>
 
             <!-- Language Filter -->
             <div class="relative">
                 <select 
                     bind:value={languageFilter}
-                    class="appearance-none bg-black/40 border border-white/10 rounded-lg py-2.5 pl-4 pr-10 text-sm text-white focus:outline-none focus:border-white/30 hover:bg-white/5 transition-all cursor-pointer min-w-[160px]"
+                    class="appearance-none bg-background dark:bg-black/40 border border-border dark:border-white/10 rounded-lg py-2.5 pl-4 pr-10 text-sm text-foreground dark:text-white focus:outline-none focus:border-foreground/30 dark:focus:border-white/30 hover:bg-foreground/5 dark:hover:bg-white/5 transition-all cursor-pointer min-w-[160px]"
                 >
                     <option value="all">All Languages</option>
                     {#each availableLanguages as lang (lang)}
                         <option value={lang}>{lang}</option>
                     {/each}
                 </select>
-                <Code2 class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" size={14} />
+                <Code2 class="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground dark:text-white/40 pointer-events-none" size={14} />
             </div>
         </div>
     </div>
 
     <!-- Data Matrix -->
-    <div class="border border-white/10 rounded-xl overflow-hidden bg-black/20 backdrop-blur-sm shadow-xl">
+    <div class="border border-border dark:border-white/10 rounded-xl overflow-hidden bg-background/50 dark:bg-black/20 backdrop-blur-sm shadow-xl">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-white/5 border-b border-white/10 text-xs uppercase tracking-widest text-white/40">
-                        <th class="p-4 font-semibold cursor-pointer hover:text-white transition-colors group" onclick={() => handleSort('status')}>
+                    <tr class="bg-foreground/5 dark:bg-white/5 border-b border-border dark:border-white/10 text-xs uppercase tracking-widest text-muted-foreground/50 dark:text-white/40">
+                        <th class="p-4 font-semibold cursor-pointer hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('status')}>
                             <div class="flex items-center gap-2">
                                 Status
                                 {#if sortField === 'status'}
@@ -204,7 +204,7 @@
                                 {/if}
                             </div>
                         </th>
-                        <th class="p-4 font-semibold cursor-pointer hover:text-white transition-colors group" onclick={() => handleSort('task')}>
+                        <th class="p-4 font-semibold cursor-pointer hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('task')}>
                             <div class="flex items-center gap-2">
                                 Task Name
                                 {#if sortField === 'task'}
@@ -214,7 +214,7 @@
                                 {/if}
                             </div>
                         </th>
-                        <th class="p-4 font-semibold cursor-pointer hover:text-white transition-colors group" onclick={() => handleSort('language')}>
+                        <th class="p-4 font-semibold cursor-pointer hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('language')}>
                             <div class="flex items-center gap-2">
                                 <Code2 size={14} />
                                 Language
@@ -225,7 +225,7 @@
                                 {/if}
                             </div>
                         </th>
-                        <th class="p-4 font-semibold cursor-pointer hover:text-white transition-colors group" onclick={() => handleSort('tier')}>
+                        <th class="p-4 font-semibold cursor-pointer hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('tier')}>
                             <div class="flex items-center gap-2">
                                 <Trophy size={14} />
                                 Tier
@@ -236,7 +236,7 @@
                                 {/if}
                             </div>
                         </th>
-                        <th class="p-4 font-semibold cursor-pointer hover:text-white transition-colors group" onclick={() => handleSort('difficulty')}>
+                        <th class="p-4 font-semibold cursor-pointer hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('difficulty')}>
                             <div class="flex items-center gap-2">
                                 <Layers size={14} />
                                 Difficulty
@@ -247,7 +247,7 @@
                                 {/if}
                             </div>
                         </th>
-                        <th class="p-4 font-semibold cursor-pointer hover:text-white transition-colors group" onclick={() => handleSort('duration_seconds')}>
+                        <th class="p-4 font-semibold cursor-pointer hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('duration_seconds')}>
                             <div class="flex items-center gap-2">
                                 <Clock size={14} />
                                 Duration
@@ -260,18 +260,18 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-white/5">
+                <tbody class="divide-y divide-border/40 dark:divide-white/5">
                     {#each filteredResults as result (result.task + result.language)}
-                        <tr class="hover:bg-white/[0.02] transition-colors group">
+                        <tr class="hover:bg-foreground/[0.02] dark:hover:bg-white/[0.02] transition-colors group">
                             <!-- Status -->
                             <td class="p-4">
                                 {#if result.status === 'pass' || result.status === 'passed'}
-                                    <div class="flex items-center gap-2 text-emerald-400 font-medium">
+                                    <div class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-medium">
                                         <CheckCircle2 size={18} class="fill-emerald-400/10" />
                                         <span class="hidden sm:inline text-xs uppercase tracking-wider">Pass</span>
                                     </div>
                                 {:else}
-                                    <div class="flex items-center gap-2 text-rose-500 font-medium">
+                                    <div class="flex items-center gap-2 text-rose-600 dark:text-rose-500 font-medium">
                                         <XCircle size={18} class="fill-rose-500/10" />
                                         <span class="hidden sm:inline text-xs uppercase tracking-wider">Fail</span>
                                     </div>
@@ -280,12 +280,12 @@
 
                             <!-- Task Name -->
                             <td class="p-4">
-                                <div class="font-medium text-white/90 group-hover:text-white transition-colors">{result.task}</div>
+                                <div class="font-medium text-foreground/90 dark:text-white/90 group-hover:text-foreground dark:group-hover:text-white transition-colors">{result.task}</div>
                             </td>
 
                             <!-- Language -->
                             <td class="p-4">
-                                <span class="px-2 py-1 rounded text-xs font-mono bg-white/5 text-white/70 border border-white/5 uppercase">
+                                <span class="px-2 py-1 rounded text-xs font-mono bg-foreground/5 dark:bg-white/5 text-muted-foreground dark:text-white/70 border border-border/40 dark:border-white/5 uppercase">
                                     {result.language}
                                 </span>
                             </td>
@@ -306,7 +306,7 @@
 
                             <!-- Duration -->
                             <td class="p-4">
-                                <span class="font-mono text-sm text-white/50">
+                                <span class="font-mono text-sm text-muted-foreground dark:text-white/50">
                                     {formatDuration(result.duration_seconds)}
                                 </span>
                             </td>
@@ -315,7 +315,7 @@
 
                     {#if filteredResults.length === 0}
                         <tr>
-                            <td colspan="6" class="p-12 text-center text-white/30 font-mono">
+                            <td colspan="6" class="p-12 text-center text-muted-foreground dark:text-white/30 font-mono">
                                 No tasks match your filters.
                             </td>
                         </tr>
@@ -325,7 +325,7 @@
         </div>
         
         <!-- Footer Stats -->
-        <div class="px-4 py-3 bg-white/[0.02] border-t border-white/5 text-xs text-white/40 flex justify-between items-center">
+        <div class="px-4 py-3 bg-foreground/[0.02] dark:bg-white/[0.02] border-t border-border/40 dark:border-white/5 text-xs text-muted-foreground dark:text-white/40 flex justify-between items-center">
             <div>
                 Showing {filteredResults.length} of {displayResults.length} tasks
             </div>
