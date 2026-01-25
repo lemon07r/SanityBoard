@@ -163,11 +163,11 @@
         
         <SpotlightGrid>
             <!-- Header Row -->
-            <div class="grid grid-cols-12 gap-2 md:gap-4 px-4 py-3 text-xs font-bold uppercase tracking-widest text-white/30 border-b border-white/5 items-center">
+            <div class="grid grid-cols-12 gap-2 md:gap-4 px-4 py-3 text-xs font-bold uppercase tracking-widest text-muted-foreground/50 dark:text-white/30 border-b border-border/40 dark:border-white/5 items-center">
                 <div class="col-span-2 md:col-span-1 text-center">Rank</div>
                 
                 <!-- Agent -->
-                <button class="col-span-7 md:col-span-3 text-left flex items-center gap-1 hover:text-white transition-colors group" onclick={() => handleSort('agent')}>
+                <button class="col-span-7 md:col-span-3 text-left flex items-center gap-1 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('agent')}>
                     Agent
                     {#if filters.sortBy === 'agent'}
                         {#if filters.sortDirection === 'asc'}
@@ -179,7 +179,7 @@
                 </button>
 
                 <!-- Model -->
-                <button class="col-span-2 hidden md:flex items-center gap-1 hover:text-white transition-colors group" onclick={() => handleSort('model')}>
+                <button class="col-span-2 hidden md:flex items-center gap-1 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('model')}>
                     Model
                     {#if filters.sortBy === 'model'}
                         {#if filters.sortDirection === 'asc'}
@@ -191,7 +191,7 @@
                 </button>
 
                 <!-- Provider -->
-                <button class="col-span-2 hidden md:flex items-center gap-1 hover:text-white transition-colors group" onclick={() => handleSort('provider')}>
+                <button class="col-span-2 hidden md:flex items-center gap-1 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('provider')}>
                     Provider
                     {#if filters.sortBy === 'provider'}
                         {#if filters.sortDirection === 'asc'}
@@ -203,7 +203,7 @@
                 </button>
 
                 <!-- Score -->
-                <button class="col-span-3 md:col-span-2 text-right md:text-left flex items-center justify-end md:justify-start gap-1 hover:text-white transition-colors group" onclick={() => handleSort('score')}>
+                <button class="col-span-3 md:col-span-2 text-right md:text-left flex items-center justify-end md:justify-start gap-1 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('score')}>
                     Score
                     {#if filters.sortBy === 'score'}
                         {#if filters.sortDirection === 'asc'}
@@ -215,7 +215,7 @@
                 </button>
 
                 <!-- Pass Rate -->
-                <button class="col-span-1 hidden md:flex items-center justify-center gap-1 hover:text-white transition-colors group" onclick={() => handleSort('pass_rate')}>
+                <button class="col-span-1 hidden md:flex items-center justify-center gap-1 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('pass_rate')}>
                     Pass %
                     {#if filters.sortBy === 'pass_rate'}
                         {#if filters.sortDirection === 'asc'}
@@ -238,7 +238,7 @@
             {/each}
 
             {#if visibleRuns.length === 0}
-                <div class="p-12 text-center text-white/30 font-mono">
+                <div class="p-12 text-center text-muted-foreground dark:text-white/30 font-mono">
                     No agents found matching criteria.
                 </div>
             {/if}
@@ -247,19 +247,19 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-white/5 bg-black/40 py-8">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 relative flex flex-col md:flex-row items-center md:justify-end gap-4 text-white/40 text-sm">
+    <footer class="border-t border-border/40 dark:border-white/5 bg-card/80 dark:bg-black/40 py-8">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 relative flex flex-col md:flex-row items-center md:justify-end gap-4 text-muted-foreground dark:text-white/40 text-sm">
             <span class="md:absolute md:left-1/2 md:-translate-x-1/2">&copy; 2026 LR7</span>
             
             <div class="flex items-center gap-6">
-                <a href="https://github.com/lemon07r/SanityHarness" class="hover:text-white flex items-center gap-2 transition-colors">
+                <a href="https://github.com/lemon07r/SanityHarness" class="hover:text-foreground dark:hover:text-white flex items-center gap-2 transition-colors">
                     <Github size={16} />
                     GitHub
                 </a>
                 
                 <div class="flex items-center gap-2">
                     <span>Built by</span>
-                    <a href="https://github.com/lemon07r" target="_blank" rel="noreferrer" class="text-white/60 hover:text-white transition-colors">
+                    <a href="https://github.com/lemon07r" target="_blank" rel="noreferrer" class="text-muted-foreground dark:text-white/60 hover:text-foreground dark:hover:text-white transition-colors">
                         lemon07r
                     </a>
                 </div>

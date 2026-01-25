@@ -1,34 +1,105 @@
 @import "tailwindcss";
 
+/* Configure dark mode to use class-based selector */
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Light Mode (Paper & Ink) */
+  --background: 0 0% 100%; /* Bright White */
+  --foreground: 240 10% 3.9%; /* Deep ink black */
+
+  --card: 0 0% 100%; /* Pure White for table rows */
+  --card-foreground: 240 10% 3.9%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+
+  --muted: 240 5% 90%; /* Darker gray for Navbar/Footer */
+  --muted-foreground: 240 3.8% 30%; /* Darker for readable grey text */
+
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 240 5.9% 82%; /* Darkened for visible borders */
+  --input: 240 5.9% 82%;
+  --ring: 240 5.9% 10%;
+
+  --radius: 0.5rem;
+
+  --spotlight-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark {
+  /* Dark Mode (Obsidian & Photon) */
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+
+  --spotlight-color: rgba(255, 255, 255, 0.06);
+}
+
 @theme {
   --font-sans: "Inter", sans-serif;
 
-  --color-border: hsl(240 3.7% 15.9%);
-  --color-input: hsl(240 3.7% 15.9%);
-  --color-ring: hsl(240 4.9% 83.9%);
-  --color-background: hsl(240 10% 3.9%);
-  --color-foreground: hsl(0 0% 98%);
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
 
-  --color-primary: hsl(0 0% 98%);
-  --color-primary-foreground: hsl(240 5.9% 10%);
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
 
-  --color-secondary: hsl(240 3.7% 15.9%);
-  --color-secondary-foreground: hsl(0 0% 98%);
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
 
-  --color-destructive: hsl(0 62.8% 30.6%);
-  --color-destructive-foreground: hsl(0 0% 98%);
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
 
-  --color-muted: hsl(240 3.7% 15.9%);
-  --color-muted-foreground: hsl(240 5% 64.9%);
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
 
-  --color-accent: hsl(240 3.7% 15.9%);
-  --color-accent-foreground: hsl(0 0% 98%);
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
 
-  --color-popover: hsl(240 10% 3.9%);
-  --color-popover-foreground: hsl(0 0% 98%);
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
 
-  --color-card: hsl(240 10% 3.9%);
-  --color-card-foreground: hsl(0 0% 98%);
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
 
   --radius: 0.5rem;
   --radius-lg: var(--radius);
@@ -46,7 +117,7 @@
 }
 
 body {
-  @apply bg-background text-foreground antialiased font-sans;
+  @apply bg-background text-foreground antialiased font-sans transition-colors duration-300;
 }
 
 /* Row expansion animation */
@@ -73,36 +144,35 @@ body {
   }
 }
 
-/* Markdown Report Table Styles */
+/* Markdown Report Table Styles - Light Mode */
 .prose table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  border: 1px solid rgb(255 255 255 / 0.1);
-  border-radius: 0.5rem; /* fallback for theme value */
+  border: 1px solid hsl(var(--border));
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
 .prose thead {
-  background-color: rgb(255 255 255 / 0.05);
+  background-color: hsl(var(--muted));
 }
 
 .prose th {
   text-align: left;
   padding: 0.75rem 1rem;
   font-weight: 600;
-  color: rgb(255 255 255 / 0.9);
-  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+  color: hsl(var(--foreground));
+  border-bottom: 1px solid hsl(var(--border));
   white-space: nowrap;
 }
 
 .prose td {
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid rgb(255 255 255 / 0.05);
-  color: rgb(255 255 255 / 0.7);
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  color: hsl(var(--muted-foreground));
   vertical-align: top;
 }
 
@@ -111,5 +181,28 @@ body {
 }
 
 .prose tr:hover td {
+  background-color: hsl(var(--muted) / 0.5);
+}
+
+/* Dark Mode overrides for prose tables - exact match to original main branch */
+.dark .prose table {
+  border: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.dark .prose thead {
+  background-color: rgb(255 255 255 / 0.05);
+}
+
+.dark .prose th {
+  color: rgb(255 255 255 / 0.9);
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.dark .prose td {
+  border-bottom: 1px solid rgb(255 255 255 / 0.05);
+  color: rgb(255 255 255 / 0.7);
+}
+
+.dark .prose tr:hover td {
   background-color: rgb(255 255 255 / 0.02);
 }
