@@ -1,4 +1,5 @@
 # SanityBoard
+![sanity-banner-light](https://github.com/user-attachments/assets/bf4a4c4f-04dd-4a4d-bd43-e6308d79e02a)
 
 A leaderboard frontend for [SanityHarness](https://github.com/lemon07r/SanityHarness) AI coding agent evaluations. Static site deployed to Cloudflare Pages.
 
