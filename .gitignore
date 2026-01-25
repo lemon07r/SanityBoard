@@ -48,9 +48,16 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# Agent instructions (local only)
+# Agent instructions and state (local only)
 AGENTS.md
 PROPOSAL.md
+.junie/
+.claude/
+.codex/
+.opencode/
+.goose/
+.crush/
+.aider*
 
 # Lock files (keep bun.lock tracked for reproducible builds)
 package-lock.json

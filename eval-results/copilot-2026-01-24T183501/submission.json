@@ -1,0 +1,59 @@
+{
+  "agent": "copilot",
+  "model": "unknown",
+  "timestamp": "2026-01-24T183501",
+  "pass_rate": 53.84615384615385,
+  "weighted_pass_rate": 49.984980474617004,
+  "passed": 14,
+  "failed": 12,
+  "total": 26,
+  "weighted_score": 16.640000000000004,
+  "max_possible_score": 33.290000000000006,
+  "clean_passes": 14,
+  "partial_passes": 0,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "rust": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "typescript": {
+      "passed": 2,
+      "failed": 3,
+      "total": 5,
+      "pass_rate": 40
+    },
+    "zig": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "pass_rate": 66.66666666666666
+    }
+  },
+  "total_duration_seconds": 1198.756188103,
+  "agent_duration_seconds": 976.0906948350001,
+  "harness_version": "v1.5.1",
+  "weight_version": "2.0",
+  "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
+  "results_hash": "blake3:695976bd71d1195ab65acde5d1b61d5f7e5bf5d2e5e54599e7282118f6e51e3e"
+}

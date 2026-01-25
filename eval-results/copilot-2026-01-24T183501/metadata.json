@@ -1,0 +1,11 @@
+{
+  "Agent Name": "GitHub Copilot CLI",
+  "Agent Version": "0.0.394",
+  "Model Name": "Claude Opus 4.5",
+  "Provider Name": "Anthropic",
+  "Run Date": "2026-01-24",
+  "MCP tools available": "no",
+  "verified": "yes",
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary"
+}
