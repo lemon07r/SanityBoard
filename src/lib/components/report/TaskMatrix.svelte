@@ -130,7 +130,7 @@
 
 <div class="w-full space-y-6">
     <!-- Controls Bar -->
-    <div class="flex flex-col md:flex-row gap-4 p-4 bg-card/80 dark:bg-zinc-900/50 backdrop-blur-md border border-border/40 dark:border-white/10 rounded-xl shadow-2xl">
+    <div class="flex flex-col md:flex-row gap-4 p-4 bg-card border border-border/40 dark:bg-zinc-900/50 dark:backdrop-blur-md dark:border-white/10 rounded-xl shadow-sm dark:shadow-2xl">
         
         <!-- Search -->
         <div class="relative flex-1 group">
@@ -189,7 +189,7 @@
     </div>
 
     <!-- Data Matrix -->
-    <div class="border border-border/40 dark:border-white/10 rounded-xl overflow-hidden bg-card/50 dark:bg-black/20 backdrop-blur-sm shadow-xl">
+    <div class="border border-border/40 dark:border-white/10 rounded-xl overflow-hidden bg-card dark:bg-black/20 dark:backdrop-blur-sm shadow-sm dark:shadow-xl">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
@@ -325,7 +325,7 @@
         </div>
         
         <!-- Footer Stats -->
-        <div class="px-4 py-3 bg-muted/30 dark:bg-white/[0.02] border-t border-border/40 dark:border-white/5 text-xs text-muted-foreground dark:text-white/40 flex justify-between items-center">
+        <div class="px-4 py-3 bg-muted/50 dark:bg-white/[0.02] border-t border-border/40 dark:border-white/5 text-xs text-muted-foreground dark:text-white/40 flex justify-between items-center">
             <div>
                 Showing {filteredResults.length} of {displayResults.length} tasks
             </div>

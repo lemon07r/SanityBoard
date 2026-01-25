@@ -137,14 +137,17 @@
         <!-- Left Column: Report -->
         <div class="lg:col-span-3 space-y-8">
             <!-- Pass/Fail Banner -->
-            <div class="relative overflow-hidden rounded-2xl border border-border dark:border-white/10 bg-gradient-to-br {isPass ? 'from-emerald-100 dark:from-emerald-950/30 to-background dark:to-black' : 'from-red-100 dark:from-red-950/30 to-background dark:to-black'} p-8">
+            <div class="relative overflow-hidden rounded-2xl border border-border shadow-sm dark:border-white/10 dark:shadow-none bg-card dark:bg-gradient-to-br {isPass ? 'dark:from-emerald-950/30 dark:to-black' : 'dark:from-red-950/30 dark:to-black'} p-8">
+                <!-- Light mode corner gradient -->
+                <div class="absolute -bottom-24 -right-8 w-full h-40 rounded-full pointer-events-none dark:hidden {isPass ? 'bg-gradient-to-l from-emerald-300/60 via-emerald-200/30 to-transparent' : 'bg-gradient-to-l from-red-300/60 via-red-200/30 to-transparent'} blur-3xl"></div>
+                <div class="absolute -bottom-8 -right-16 w-32 h-48 rounded-full pointer-events-none dark:hidden {isPass ? 'bg-emerald-300/40' : 'bg-red-300/40'} blur-3xl"></div>
                 <div class="relative z-10 flex items-center gap-6">
-                    <div class="p-4 rounded-full {isPass ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 'bg-red-500/20 text-red-600 dark:text-red-400'}">
+                    <div class="p-4 rounded-full {isPass ? 'bg-emerald-500/20 text-emerald-700 dark:text-emerald-400' : 'bg-red-500/20 text-red-700 dark:text-red-400'}">
                         {#if isPass} <Check size={32} /> {:else} <X size={32} /> {/if}
                     </div>
                     <div>
                         <div class="text-3xl font-bold text-foreground dark:text-white mb-1">{isPass ? 'PASSED' : 'FAILED'}</div>
-                        <div class="text-muted-foreground dark:text-white/50">Pass Rate: <span class="{isPass ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'} font-mono">{passRate}%</span></div>
+                        <div class="text-muted-foreground dark:text-white/50">Pass Rate: <span class="text-foreground {isPass ? 'dark:text-emerald-400' : 'dark:text-red-400'} font-mono">{passRate}%</span></div>
                     </div>
                 </div>
             </div>
@@ -173,7 +176,7 @@
         <div class="lg:col-span-1">
             <div class="sticky top-24 space-y-6">
                 <!-- Mini Stats Card -->
-                <div class="rounded-xl bg-foreground/[0.02] dark:bg-white/[0.02] border border-border/40 dark:border-white/5 p-6 space-y-6">
+                <div class="rounded-xl bg-card dark:bg-white/[0.02] border border-border/40 dark:border-white/5 p-6 space-y-6">
                     <h3 class="text-xs font-bold uppercase tracking-widest text-muted-foreground/50 dark:text-white/30">Run Statistics</h3>
                     
                     <div class="space-y-4">
@@ -201,7 +204,7 @@
                                         <span class="font-mono text-muted-foreground/70 dark:text-white/40">{s.pass_rate.toFixed(0)}%</span>
                                     </div>
                                     <div class="h-1.5 bg-foreground/5 dark:bg-white/5 rounded-full overflow-hidden">
-                                        <div class="h-full bg-indigo-500/50" style="width: {s.pass_rate}%"></div>
+                                        <div class="h-full bg-foreground dark:bg-indigo-500/50" style="width: {s.pass_rate}%"></div>
                                     </div>
                                 </div>
                             {/each}

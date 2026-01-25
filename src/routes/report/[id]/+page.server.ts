@@ -5,6 +5,14 @@ import { compile } from "mdsvex";
 
 export const prerender = true;
 
+function convertEmojisToUnicode(content: string): string {
+  return content
+    .replace(/\u2705/g, "\u2714") // white heavy check mark -> heavy check mark
+    .replace(/\u274C/g, "\u2718") // cross mark -> heavy ballot X
+    .replace(/\u26A0\uFE0F/g, "\u26A0") // warning sign with variation selector -> warning sign
+    .replace(/\u{1F6A7}/gu, "\u26A0"); // construction sign -> warning sign
+}
+
 export function entries() {
   return getAllRuns().map((run) => ({ id: run.id }));
 }
@@ -23,7 +31,7 @@ export const load = async ({ params }: { params: { id: string } }) => {
   let compiledReport = null;
 
   if (fs.existsSync(reportPath)) {
-    reportContent = fs.readFileSync(reportPath, "utf-8");
+    reportContent = convertEmojisToUnicode(fs.readFileSync(reportPath, "utf-8"));
     // Compile markdown to HTML/Svelte code server-side
     // Note: mdsvex.compile returns { code, data, map }
     // But we need to render this code on the client.

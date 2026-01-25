@@ -9,7 +9,7 @@
     ];
 </script>
 
-<div class="flex items-center gap-2 p-1 bg-foreground/5 dark:bg-white/5 rounded-lg border border-border/40 dark:border-white/5 mb-8 w-fit">
+<div class="flex items-center gap-2 p-1 bg-card dark:bg-white/5 rounded-lg border border-border/40 dark:border-white/5 mb-8 w-fit">
     {#each tabs as tab (tab.id)}
         {@const Icon = tab.icon}
         <button
