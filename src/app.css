@@ -184,6 +184,42 @@ body {
   background-color: hsl(var(--muted) / 0.5);
 }
 
+/* Prose section heading styles */
+.prose h1 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: hsl(var(--foreground));
+  margin-bottom: 0.5rem;
+}
+
+.dark .prose h1 {
+  color: rgb(255 255 255);
+}
+
+.prose h2 {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid hsl(var(--foreground) / 0.5);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: hsl(var(--muted-foreground));
+}
+
+.prose h1 + h2 {
+  margin-top: 1rem;
+  padding-top: 0;
+  border-top: none;
+}
+
+.dark .prose h2 {
+  border-top-color: rgb(255 255 255 / 0.1);
+  color: rgb(255 255 255 / 0.5);
+}
+
 /* Light mode only: white table backgrounds */
 :root:not(.dark) .prose thead {
   background-color: hsl(var(--card));
