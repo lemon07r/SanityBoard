@@ -21,7 +21,7 @@
             </span>
         </a>
         
-        <a href="https://github.com/lemon07r/SanityHarness" class="px-6 py-3 border border-border dark:border-white/20 text-foreground dark:text-white rounded-lg hover:bg-foreground/5 dark:hover:bg-white/5 transition-all flex items-center gap-2">
+        <a href="https://github.com/lemon07r/SanityHarness" class="px-6 py-3 bg-card dark:bg-transparent border border-border dark:border-white/20 text-foreground dark:text-white rounded-lg hover:bg-muted dark:hover:bg-white/5 transition-all flex items-center gap-2">
             <Github size={18} />
             GitHub
         </a>
