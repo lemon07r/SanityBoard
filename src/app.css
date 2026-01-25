@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Configure dark mode to use class-based selector */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* Light Mode (Paper & Ink) */
   --background: 0 0% 100%; /* Bright White */

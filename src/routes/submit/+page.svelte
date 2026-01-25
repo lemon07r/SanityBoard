@@ -76,11 +76,11 @@
 
     <!-- Option A: Leaderboard Submission -->
     <SpotlightCard>
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-foreground/40 dark:from-indigo-500 to-foreground/10 dark:to-purple-500 opacity-50 group-hover:opacity-100 transition-opacity"></div>
         
         <div class="p-8">
             <div class="flex items-start gap-6">
-                <div class="p-4 rounded-xl bg-foreground/5 dark:bg-white/5 text-indigo-500 dark:text-indigo-400 hidden md:block">
+                <div class="p-4 rounded-xl bg-foreground/5 dark:bg-white/5 text-foreground dark:text-indigo-400 hidden md:block">
                     <FileArchive size={32} />
                 </div>
                 
@@ -96,12 +96,12 @@
                             <span class="w-6 h-6 rounded-full bg-foreground/10 dark:bg-white/10 flex items-center justify-center text-xs text-foreground dark:text-white">1</span>
                             Run Harness
                         </h3>
-                        <div class="bg-muted/40 dark:bg-black/30 rounded-lg p-4 border border-border/40 dark:border-white/5 font-mono text-sm text-muted-foreground dark:text-white/70 space-y-2">
+                        <div class="bg-muted/50 dark:bg-black/30 rounded-lg p-4 border border-border/40 dark:border-white/5 font-mono text-sm text-muted-foreground dark:text-white/70 space-y-2">
                             <div class="flex justify-between items-center group/cmd">
                                 <span class="break-all">./sanity eval --agent &lt;name&gt; --model &lt;id&gt; --tier all --keep-workspaces</span>
                                 <button class="p-2 hover:bg-foreground/10 dark:hover:bg-white/10 rounded transition-colors text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white relative shrink-0" onclick={copyCommand}>
                                     {#if copied}
-                                        <CheckCircle size={16} class="text-emerald-500 dark:text-emerald-400" />
+                                        <CheckCircle size={16} class="text-emerald-400" />
                                     {:else}
                                         <Copy size={16} />
                                     {/if}
@@ -141,10 +141,10 @@
                         
                         {#if success}
                             <div class="p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-center space-y-2" in:slide>
-                                <CheckCircle size={32} class="text-emerald-500 dark:text-emerald-400 mx-auto mb-2" />
+                                <CheckCircle size={32} class="text-emerald-400 mx-auto mb-2" />
                                 <h3 class="text-lg font-bold text-foreground dark:text-white">Submission Received!</h3>
                                 <p class="text-muted-foreground dark:text-white/60">We will review your results and update the leaderboard shortly.</p>
-                                <button class="text-sm text-emerald-600 dark:text-emerald-400 hover:text-emerald-500 dark:hover:text-emerald-300 underline mt-2" onclick={() => success = false}>Submit another</button>
+                                <button class="text-sm text-emerald-400 hover:text-emerald-300 underline mt-2" onclick={() => success = false}>Submit another</button>
                             </div>
                         {:else}
                             <form class="space-y-6" onsubmit={handleSubmit}>
@@ -153,28 +153,28 @@
                                         <label for="agent-name" class="text-xs font-bold uppercase text-muted-foreground/50 dark:text-white/40">Agent Name</label>
                                         <div class="relative">
                                             <Box size={16} class="absolute left-3 top-3 text-muted-foreground/50 dark:text-white/30" />
-                                            <input id="agent-name" required bind:value={formData.agentName} type="text" placeholder="e.g. OpenCode" class="w-full bg-muted/40 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
+                                            <input id="agent-name" required bind:value={formData.agentName} type="text" placeholder="e.g. OpenCode" class="w-full bg-muted/50 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
                                         </div>
                                     </div>
                                     <div class="space-y-2">
                                         <label for="agent-version" class="text-xs font-bold uppercase text-muted-foreground/50 dark:text-white/40">Agent Version</label>
                                         <div class="relative">
                                             <Terminal size={16} class="absolute left-3 top-3 text-muted-foreground/50 dark:text-white/30" />
-                                            <input id="agent-version" required bind:value={formData.agentVersion} type="text" placeholder="e.g. v1.1.25" class="w-full bg-muted/40 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
+                                            <input id="agent-version" required bind:value={formData.agentVersion} type="text" placeholder="e.g. v1.1.25" class="w-full bg-muted/50 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
                                         </div>
                                     </div>
                                     <div class="space-y-2">
                                         <label for="model" class="text-xs font-bold uppercase text-muted-foreground/50 dark:text-white/40">Model</label>
                                         <div class="relative">
                                             <Cpu size={16} class="absolute left-3 top-3 text-muted-foreground/50 dark:text-white/30" />
-                                            <input id="model" required bind:value={formData.model} type="text" placeholder="e.g. gpt-5.2" class="w-full bg-muted/40 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
+                                            <input id="model" required bind:value={formData.model} type="text" placeholder="e.g. gpt-5.2" class="w-full bg-muted/50 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
                                         </div>
                                     </div>
                                     <div class="space-y-2">
                                         <label for="provider" class="text-xs font-bold uppercase text-muted-foreground/50 dark:text-white/40">Provider</label>
                                         <div class="relative">
                                             <Server size={16} class="absolute left-3 top-3 text-muted-foreground/50 dark:text-white/30" />
-                                            <input id="provider" required bind:value={formData.provider} type="text" placeholder="e.g. OpenAI" class="w-full bg-muted/40 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
+                                            <input id="provider" required bind:value={formData.provider} type="text" placeholder="e.g. OpenAI" class="w-full bg-muted/50 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
                                         </div>
                                     </div>
                                 </div>
@@ -185,28 +185,28 @@
                                             <label for="results-link" class="text-xs font-bold uppercase text-muted-foreground/50 dark:text-white/40">Results Download Link</label>
                                             <div class="relative">
                                                 <LinkIcon size={16} class="absolute left-3 top-3 text-muted-foreground/50 dark:text-white/30" />
-                                                <input id="results-link" required bind:value={formData.resultsLink} type="url" placeholder="https://buzzheavier.com/f/..." class="w-full bg-muted/40 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
+                                                <input id="results-link" required bind:value={formData.resultsLink} type="url" placeholder="https://buzzheavier.com/f/..." class="w-full bg-muted/50 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg pl-10 pr-4 py-2.5 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
                                             </div>
                                         </div>
 
                                         <div class="flex flex-col">
                                             <span class="text-xs font-bold uppercase text-muted-foreground/50 dark:text-white/40 block text-center md:text-left">MCP Tools?</span>
-                                            <div class="relative grid grid-cols-2 bg-muted/60 dark:bg-black/40 border border-border/40 dark:border-white/10 rounded-lg p-1 h-10 isolate w-48 mt-[11px]">
+                                            <div class="relative grid grid-cols-2 bg-muted/50 dark:bg-black/40 border border-border/40 dark:border-white/10 rounded-lg p-1 h-10 isolate w-48 mt-[11px]">
                                                 <!-- Sliding Background Pill -->
                                                 <div 
-                                                    class="absolute top-1 bottom-1 rounded shadow-lg transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] w-[calc(50%-4px)] {formData.mcp === 'yes' ? 'bg-indigo-500' : 'bg-rose-500/20'}"
+                                                    class="absolute top-1 bottom-1 rounded shadow-lg transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] w-[calc(50%-4px)] {formData.mcp === 'yes' ? 'bg-foreground dark:bg-indigo-500' : 'bg-destructive/10 dark:bg-rose-500/20'}"
                                                     style="transform: translateX({formData.mcp === 'yes' ? '4px' : 'calc(100% + 4px)'})"
                                                 ></div>
 
                                                 <label class="relative z-10 cursor-pointer flex items-center justify-center group">
                                                     <input type="radio" bind:group={formData.mcp} value="yes" class="sr-only" />
-                                                    <span class="text-xs font-bold uppercase tracking-wider transition-colors duration-200 {formData.mcp === 'yes' ? 'text-white' : 'text-muted-foreground dark:text-white/40 group-hover:text-foreground/70 dark:group-hover:text-white/70'}">
+                                                    <span class="text-xs font-bold uppercase tracking-wider transition-colors duration-200 {formData.mcp === 'yes' ? 'text-background dark:text-white' : 'text-muted-foreground dark:text-white/40 group-hover:text-foreground dark:group-hover:text-white/70'}">
                                                         Yes
                                                     </span>
                                                 </label>
                                                 <label class="relative z-10 cursor-pointer flex items-center justify-center group">
                                                     <input type="radio" bind:group={formData.mcp} value="no" class="sr-only" />
-                                                    <span class="text-xs font-bold uppercase tracking-wider transition-colors duration-200 {formData.mcp === 'no' ? 'text-rose-600 dark:text-rose-200' : 'text-muted-foreground dark:text-white/40 group-hover:text-foreground/70 dark:group-hover:text-white/70'}">
+                                                    <span class="text-xs font-bold uppercase tracking-wider transition-colors duration-200 {formData.mcp === 'no' ? 'text-destructive dark:text-rose-200' : 'text-muted-foreground dark:text-white/40 group-hover:text-foreground dark:group-hover:text-white/70'}">
                                                         No
                                                     </span>
                                                 </label>
@@ -217,11 +217,11 @@
 
                                 <div class="space-y-2">
                                     <label for="comments" class="text-xs font-bold uppercase text-muted-foreground/50 dark:text-white/40">Comments / Details <span class="text-muted-foreground/30 dark:text-white/20 ml-1">(Optional)</span></label>
-                                    <textarea id="comments" bind:value={formData.comments} rows="3" placeholder="Any additional context about this run..." class="w-full bg-muted/40 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg px-4 py-3 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors resize-none"></textarea>
+                                    <textarea id="comments" bind:value={formData.comments} rows="3" placeholder="Any additional context about this run..." class="w-full bg-muted/50 dark:bg-black/20 border border-border/40 dark:border-white/10 rounded-lg px-4 py-3 text-foreground dark:text-white focus:outline-none focus:border-indigo-500/50 transition-colors resize-none"></textarea>
                                 </div>
 
                                 {#if error}
-                                    <div class="text-red-500 dark:text-red-400 text-sm text-center">{error}</div>
+                                    <div class="text-red-400 text-sm text-center">{error}</div>
                                 {/if}
 
                                 <div class="pt-4">

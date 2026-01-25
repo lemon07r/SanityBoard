@@ -44,15 +44,15 @@
                     Running comprehensive evals is expensive. We appreciate API credits (GPT-5, Opus, etc) or donations to sustain the harness.
                 </p>
                 <div class="pt-4 border-t border-border/40 dark:border-white/5 grid grid-cols-1 gap-3 mt-auto">
-                     <a href="https://github.com/sponsors/lemon07r" target="_blank" class="px-4 py-2 bg-pink-500/10 text-pink-600 dark:text-pink-300 border border-pink-500/20 rounded-lg text-sm font-medium hover:bg-pink-500/20 transition-colors flex items-center justify-center gap-2">
+                     <a href="https://github.com/sponsors/lemon07r" target="_blank" class="px-4 py-2 bg-foreground/5 dark:bg-pink-500/10 text-foreground dark:text-pink-300 border border-border/40 dark:border-pink-500/20 rounded-lg text-sm font-medium hover:bg-foreground/10 dark:hover:bg-pink-500/20 transition-colors flex items-center justify-center gap-2">
                         <Heart size={16} />
                         GitHub Sponsors
                     </a>
-                     <a href="https://ko-fi.com/lemon07r" target="_blank" class="px-4 py-2 bg-blue-500/10 text-blue-600 dark:text-blue-300 border border-blue-500/20 rounded-lg text-sm font-medium hover:bg-blue-500/20 transition-colors flex items-center justify-center gap-2">
+                     <a href="https://ko-fi.com/lemon07r" target="_blank" class="px-4 py-2 bg-foreground/5 dark:bg-blue-500/10 text-foreground dark:text-blue-300 border border-border/40 dark:border-blue-500/20 rounded-lg text-sm font-medium hover:bg-foreground/10 dark:hover:bg-blue-500/20 transition-colors flex items-center justify-center gap-2">
                         <Heart size={16} />
                         Ko-fi
                     </a>
-                     <a href="https://paypal.me/lemon07r" target="_blank" class="px-4 py-2 bg-indigo-500/10 text-indigo-600 dark:text-indigo-300 border border-indigo-500/20 rounded-lg text-sm font-medium hover:bg-indigo-500/20 transition-colors flex items-center justify-center gap-2">
+                     <a href="https://paypal.me/lemon07r" target="_blank" class="px-4 py-2 bg-foreground/5 dark:bg-indigo-500/10 text-foreground dark:text-indigo-300 border border-border/40 dark:border-indigo-500/20 rounded-lg text-sm font-medium hover:bg-foreground/10 dark:hover:bg-indigo-500/20 transition-colors flex items-center justify-center gap-2">
                         <Heart size={16} />
                         PayPal
                     </a>
@@ -75,11 +75,11 @@
                 </div>
                 
                 <div class="pt-4 border-t border-border/40 dark:border-white/5">
-                     <div class="p-4 bg-indigo-500/5 border border-indigo-500/10 rounded-xl text-xs text-indigo-800/80 dark:text-indigo-200/80 leading-relaxed text-left">
-                        <strong class="text-indigo-700 dark:text-indigo-200 block mb-1">Have spare API keys?</strong> 
+                     <div class="p-4 bg-foreground/5 dark:bg-indigo-500/5 border border-border/40 dark:border-indigo-500/10 rounded-xl text-xs text-muted-foreground dark:text-indigo-200/80 leading-relaxed text-left">
+                        <strong class="text-foreground dark:text-indigo-200 block mb-1">Have spare API keys?</strong> 
                         Temporary or unused keys for top-tier models (Opus 4.5, GPT-5.2) are extremely helpful for testing more agents, models and running more evals.
                         <br/><br/>
-                        Please DM <span class="font-mono text-foreground/80 dark:text-white/80 bg-foreground/5 dark:bg-white/5 px-1 rounded">mim7</span> on Discord or contact me by email.
+                        Please DM <span class="font-mono text-foreground dark:text-white/80 bg-foreground/10 dark:bg-white/5 px-1 rounded">mim7</span> on Discord or contact me by email.
                     </div>
                 </div>
             </div>

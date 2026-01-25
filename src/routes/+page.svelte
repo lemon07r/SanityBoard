@@ -247,7 +247,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-border/40 dark:border-white/5 bg-background/95 dark:bg-black/40 py-8">
+    <footer class="border-t border-border/40 dark:border-white/5 bg-card/80 dark:bg-black/40 py-8">
         <div class="max-w-7xl mx-auto px-4 md:px-6 relative flex flex-col md:flex-row items-center md:justify-end gap-4 text-muted-foreground dark:text-white/40 text-sm">
             <span class="md:absolute md:left-1/2 md:-translate-x-1/2">&copy; 2026 LR7</span>
             

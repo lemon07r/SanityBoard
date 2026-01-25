@@ -237,7 +237,7 @@
                             </div>
                             {#each sortOptions as option (option.value)}
                                 <button
-                                    class="w-full text-left px-3 py-2 text-sm rounded-lg flex items-center justify-between group transition-colors {filters.sortBy === option.value ? 'bg-foreground/10 dark:bg-white/10 text-foreground dark:text-white font-medium' : 'text-muted-foreground dark:text-white/60 hover:bg-foreground/5 dark:hover:bg-white/5 hover:text-foreground dark:hover:text-white'}"
+                                    class="w-full text-left px-3 py-2 text-sm rounded-lg flex items-center justify-between group transition-colors {filters.sortBy === option.value ? 'bg-foreground/5 dark:bg-white/10 text-foreground dark:text-white font-medium' : 'text-muted-foreground dark:text-white/60 hover:bg-foreground/5 dark:hover:bg-white/5 hover:text-foreground dark:hover:text-white'}"
                                     onclick={() => {
                                         filters.sortBy = option.value;
                                         isSortOpen = false;
@@ -245,7 +245,7 @@
                                 >
                                     <span>{option.label}</span>
                                     {#if filters.sortBy === option.value}
-                                        <Check size={14} class="text-emerald-600 dark:text-emerald-400" />
+                                        <Check size={14} class="text-emerald-500 dark:text-emerald-400" />
                                     {/if}
                                 </button>
                             {/each}
@@ -255,7 +255,7 @@
             </div>
 
             <!-- Vertical Divider -->
-            <div class="h-6 w-px bg-border dark:bg-white/10 hidden md:block mx-2"></div>
+            <div class="h-6 w-px bg-border/40 dark:bg-white/10 hidden md:block mx-2"></div>
 
             <!-- Search Input (Moved to Right) -->
             <div class="relative group flex-1 max-w-sm hidden md:block">
@@ -264,7 +264,7 @@
                     type="text" 
                     placeholder="Search agents, providers..." 
                     bind:value={filters.searchQuery}
-                    class="w-full bg-foreground/5 dark:bg-white/5 border border-border/40 dark:border-white/5 rounded-lg pl-9 pr-8 py-1.5 text-sm text-foreground dark:text-white placeholder-muted-foreground/50 dark:placeholder-white/30 focus:outline-none focus:bg-foreground/10 dark:focus:bg-white/10 focus:border-border dark:focus:border-white/20 transition-all focus:ring-1 focus:ring-border dark:focus:ring-white/20"
+                    class="w-full bg-foreground/5 dark:bg-white/5 border border-transparent dark:border-white/5 rounded-lg pl-9 pr-8 py-1.5 text-sm text-foreground dark:text-white placeholder-muted-foreground/70 dark:placeholder-white/30 focus:outline-none focus:bg-foreground/10 dark:focus:bg-white/10 focus:border-border/40 dark:focus:border-white/20 transition-all focus:ring-1 focus:ring-border/40 dark:focus:ring-white/20"
                 />
                 {#if filters.searchQuery}
                     <button class="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white p-1 rounded-full hover:bg-foreground/10 dark:hover:bg-white/10 transition-colors" onclick={() => filters.searchQuery = ''}>
@@ -281,10 +281,10 @@
         </div>
 
         <!-- Right: Segmented Control (Category) -->
-        <div class="flex items-center p-1 bg-foreground/5 dark:bg-white/5 rounded-lg border border-border/40 dark:border-white/5 shrink-0">
+        <div class="flex items-center p-1 bg-muted/40 dark:bg-white/5 rounded-lg border border-border/40 dark:border-white/5 shrink-0">
             {#each filterOptions as option (option.value)}
                 <button 
-                    class="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-all {filters.filterType === option.value ? 'bg-foreground/10 dark:bg-white/10 text-foreground dark:text-white shadow-sm border border-border/20 dark:border-white/5' : 'text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5 border border-transparent'}"
+                    class="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md transition-all {filters.filterType === option.value ? 'bg-card dark:bg-white/10 text-foreground dark:text-white shadow-sm border border-border/20 dark:border-white/5' : 'text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5 border border-transparent'}"
                     onclick={() => filters.setFilter(option.value)}
                 >
                     <option.icon size={14} />
@@ -301,20 +301,20 @@
         width: 4px;
     }
     .custom-scrollbar::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.02);
+        background: transparent;
     }
     :global(.dark) .custom-scrollbar::-webkit-scrollbar-track {
         background: rgba(255, 255, 255, 0.02);
     }
     .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.1);
+        background: hsl(var(--muted-foreground) / 0.2);
         border-radius: 4px;
     }
     :global(.dark) .custom-scrollbar::-webkit-scrollbar-thumb {
         background: rgba(255, 255, 255, 0.1);
     }
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: rgba(0, 0, 0, 0.2);
+        background: hsl(var(--muted-foreground) / 0.4);
     }
     :global(.dark) .custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.2);
