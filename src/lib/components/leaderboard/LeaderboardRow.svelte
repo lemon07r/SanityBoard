@@ -45,38 +45,42 @@
 <div class="relative group/row">
   <!-- Main Row (Clickable) -->
   <button 
-    class="w-full grid grid-cols-12 gap-2 md:gap-4 p-4 items-center text-left hover:bg-foreground/[0.03] dark:hover:bg-white/[0.02] transition-colors relative z-20 outline-none focus-visible:bg-foreground/[0.05] dark:focus-visible:bg-white/[0.04]"
+    class="w-full grid grid-cols-12 gap-1.5 md:gap-4 px-3 md:px-4 py-4 items-center text-left hover:bg-foreground/[0.03] dark:hover:bg-white/[0.02] transition-colors relative z-20 outline-none focus-visible:bg-foreground/[0.05] dark:focus-visible:bg-white/[0.04]"
     onclick={toggle}
   >
     <!-- Rank -->
-    <div class="col-span-2 md:col-span-1 flex justify-center">
+    <div class="col-span-1 flex justify-center">
         <RankBadge {rank} />
     </div>
 
     <!-- Agent -->
-    <div class="col-span-7 md:col-span-3">
+    <div class="col-span-5 md:col-span-3 pl-1 md:pl-0">
         <div class="font-semibold text-foreground dark:text-white tracking-tight text-sm md:text-base flex items-center gap-1.5">
             {meta['Agent Name']}
             {#if meta['Agent Type'] === 'Proprietary'}
-                <div title="Proprietary Agent"><Lock size={12} class="text-muted-foreground/50 dark:text-white/20" /></div>
+                <div title="Proprietary Agent" class="hidden md:block"><Lock size={12} class="text-muted-foreground/50 dark:text-white/20" /></div>
             {:else}
-                <div title="Open Source Agent"><Unlock size={12} class="text-cyan-600/50 dark:text-cyan-400/30" /></div>
+                <div title="Open Source Agent" class="hidden md:block"><Unlock size={12} class="text-cyan-600/50 dark:text-cyan-400/30" /></div>
             {/if}
         </div>
         <div class="text-[10px] md:text-xs text-muted-foreground dark:text-white/40 font-mono mt-0.5">{meta['Agent Version']}</div>
     </div>
 
     <!-- Model -->
-    <div class="col-span-2 hidden md:flex items-center gap-2 text-sm text-muted-foreground dark:text-white/70 overflow-hidden">
-        <span class="truncate" title={meta['Model Name']}>{meta['Model Name']}</span>
-        {#if meta['Variant']}
-            <span class="text-xs text-muted-foreground/60 dark:text-white/40 truncate" title={meta['Variant']}>{meta['Variant']}</span>
-        {/if}
-        {#if meta['Model Type'] === 'Proprietary'}
-            <div title="Proprietary Model"><Lock size={12} class="text-muted-foreground/50 dark:text-white/20 shrink-0" /></div>
-        {:else}
-            <div title="Open Weight Model"><Unlock size={12} class="text-cyan-600/50 dark:text-cyan-400/30 shrink-0" /></div>
-        {/if}
+    <div class="col-span-4 md:col-span-2 flex items-center md:gap-2 overflow-hidden">
+        <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-1 text-xs md:text-sm text-muted-foreground dark:text-white/70">
+                <span class="truncate" title={meta['Model Name']}>{meta['Model Name']}</span>
+                {#if meta['Model Type'] === 'Proprietary'}
+                    <div title="Proprietary Model" class="hidden md:block"><Lock size={12} class="text-muted-foreground/50 dark:text-white/20 shrink-0" /></div>
+                {:else}
+                    <div title="Open Weight Model" class="hidden md:block"><Unlock size={12} class="text-cyan-600/50 dark:text-cyan-400/30 shrink-0" /></div>
+                {/if}
+            </div>
+            {#if meta['Variant']}
+                <div class="text-[10px] md:text-xs text-muted-foreground/60 dark:text-white/40 truncate" title={meta['Variant']}>{meta['Variant']}</div>
+            {/if}
+        </div>
     </div>
 
     <!-- Provider -->
@@ -88,7 +92,7 @@
     </div>
 
     <!-- Score -->
-    <div class="col-span-3 md:col-span-2">
+    <div class="col-span-2 md:col-span-2">
         <div class="flex items-center gap-2 justify-end md:justify-start">
             <div class="hidden md:block h-2 w-full bg-border/40 dark:bg-white/10 rounded-full overflow-hidden">
                 <div class="h-full bg-foreground dark:bg-white transition-all duration-1000" style="width: {(stats?.weighted_score || 0) / 32 * 100}%"></div>
