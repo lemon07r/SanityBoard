@@ -1,0 +1,61 @@
+{
+  "agent": "opencode",
+  "model": "github-copilot/gpt-5.2",
+  "reasoning": "xhigh",
+  "timestamp": "2026-01-25T185847",
+  "pass_rate": 19.230769230769234,
+  "weighted_pass_rate": 13.840492640432558,
+  "passed": 5,
+  "failed": 21,
+  "total": 26,
+  "weighted_score": 4.6075,
+  "max_possible_score": 33.290000000000006,
+  "clean_passes": 1,
+  "partial_passes": 4,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "go": {
+      "passed": 1,
+      "failed": 5,
+      "total": 6,
+      "pass_rate": 16.666666666666664
+    },
+    "kotlin": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "rust": {
+      "passed": 3,
+      "failed": 3,
+      "total": 6,
+      "pass_rate": 50
+    },
+    "typescript": {
+      "passed": 0,
+      "failed": 5,
+      "total": 5,
+      "pass_rate": 0
+    },
+    "zig": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    }
+  },
+  "total_duration_seconds": 5056.6670054040005,
+  "agent_duration_seconds": 4913.368249255999,
+  "harness_version": "v1.5.1-1-g3b5528f",
+  "weight_version": "2.0",
+  "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
+  "results_hash": "blake3:d515dcaaa37750850bbc49e49a8aeed443a0da3304c040c5e1a31fde8d173770",
+  "disable_mcp": true
+}

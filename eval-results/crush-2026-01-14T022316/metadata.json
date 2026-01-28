@@ -2,10 +2,12 @@
   "Agent Name": "Crush CLI",
   "Agent Version": "v0.32.1",
   "Model Name": "MiniMax M2.1",
-  "Provider Name": "MiniMax AI (OpenAI API)",
+  "Variant": "",
+  "Model Provider": "MiniMax AI",
+  "Access Provider": "OpenAI API",
   "Run Date": "2026-01-14",
-  "MCP tools available": "no",
-  "verified": "yes",
+  "MCP tools available": false,
+  "verified": true,
   "Agent Type": "Open Source",
-  "Model Type": "Open Source"
+  "Model Type": "Open Weight"
 }

@@ -1,0 +1,13 @@
+{
+  "Agent Name": "Droid",
+  "Agent Version": "v0.56.2",
+  "Model Name": "MiniMax M2.1",
+  "Variant": "",
+  "Model Provider": "MiniMax AI",
+  "Access Provider": "OpenAI API",
+  "Run Date": "2026-01-27",
+  "MCP tools available": false,
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Open Weight"
+}

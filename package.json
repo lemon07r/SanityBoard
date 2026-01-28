@@ -11,7 +11,8 @@
     "check:watch": "svelte-kit sync && tsc --noEmit --watch",
     "lint": "prettier --plugin-search-dir . --check . && eslint .",
     "format": "prettier --plugin-search-dir . --write .",
-    "validate": "bun run scripts/validate-metadata.ts"
+    "validate": "bun run scripts/validate-metadata.ts",
+    "clean-new-evals": "bun run scripts/clean-new-evals.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.57.0",

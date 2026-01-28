@@ -1,0 +1,59 @@
+{
+  "agent": "ccs",
+  "model": "agy",
+  "timestamp": "2026-01-26T005751",
+  "pass_rate": 57.692307692307686,
+  "weighted_pass_rate": 56.28723737848854,
+  "passed": 15,
+  "failed": 11,
+  "total": 26,
+  "weighted_score": 17.95,
+  "max_possible_score": 31.890000000000008,
+  "clean_passes": 15,
+  "partial_passes": 0,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "go": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "kotlin": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "pass_rate": 66.66666666666666
+    },
+    "rust": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "typescript": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "pass_rate": 60
+    },
+    "zig": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "pass_rate": 66.66666666666666
+    }
+  },
+  "total_duration_seconds": 1393.6666861160004,
+  "agent_duration_seconds": 1136.8866316630001,
+  "harness_version": "v1.5.3-dirty",
+  "weight_version": "2.0",
+  "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
+  "results_hash": "blake3:436ddef60eebd1ab9edd37115b93489c02528dc046a1a70a82ecb78887d96b48"
+}

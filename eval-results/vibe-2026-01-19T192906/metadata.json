@@ -2,10 +2,12 @@
   "Agent Name": "Mistral Vibe",
   "Agent Version": "v1.3.5",
   "Model Name": "Devstral 2",
-  "Provider Name": "Mistral AI",
+  "Variant": "",
+  "Model Provider": "Mistral AI",
+  "Access Provider": "",
   "Run Date": "2026-01-19",
-  "MCP tools available": "no",
-  "verified": "yes",
+  "MCP tools available": false,
+  "verified": true,
   "Agent Type": "Open Source",
-  "Model Type": "Open Source"
+  "Model Type": "Open Weight"
 }

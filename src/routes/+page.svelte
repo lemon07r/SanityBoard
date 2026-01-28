@@ -11,7 +11,7 @@
     let { data } = $props();
 
     // Derived unique options for filters
-    let availableProviders = $derived([...new Set(data.runs.map(r => r.metadata['Provider Name']))].sort());
+    let availableProviders = $derived([...new Set(data.runs.map(r => r.metadata['Model Provider']))].sort());
     let availableModels = $derived([...new Set(data.runs.map(r => r.metadata['Model Name']))].sort());
     let availableAgents = $derived([...new Set(data.runs.map(r => r.metadata['Agent Name']))].sort());
 
@@ -19,7 +19,7 @@
     let filteredRuns = $derived(
         data.runs.filter(run => {
             // Category Filter
-            const isVerified = run.metadata.verified?.toLowerCase() === 'yes';
+            const isVerified = run.metadata.verified === true;
             if (filters.filterType === 'verified' && !isVerified) return false;
             if (filters.filterType === 'community' && isVerified) return false;
 
@@ -28,14 +28,14 @@
                 const q = filters.searchQuery.toLowerCase();
                 const match = 
                     run.metadata['Agent Name'].toLowerCase().includes(q) ||
-                    run.metadata['Provider Name'].toLowerCase().includes(q) ||
+                    run.metadata['Model Provider'].toLowerCase().includes(q) ||
                     run.metadata['Model Name'].toLowerCase().includes(q);
                 if (!match) return false;
             }
 
             // Provider Filter
             if (filters.selectedProviders.length > 0) {
-                if (!filters.selectedProviders.includes(run.metadata['Provider Name'])) return false;
+                if (!filters.selectedProviders.includes(run.metadata['Model Provider'])) return false;
             }
 
             // Model Filter
@@ -50,7 +50,7 @@
 
             // MCP Filter
             if (filters.mcpFilter !== 'all') {
-                const hasMcp = run.metadata['MCP tools available']?.toLowerCase().includes('yes');
+                const hasMcp = run.metadata['MCP tools available'] === true;
                 if (filters.mcpFilter === 'yes' && !hasMcp) return false;
                 if (filters.mcpFilter === 'no' && hasMcp) return false;
             }
@@ -63,7 +63,7 @@
 
             // Model Type Filter
             if (filters.modelTypeFilter !== 'all') {
-                    const type = run.metadata['Model Type'] === 'Open Source' ? 'open' : 'proprietary';
+                    const type = (run.metadata['Model Type'] === 'Open Source' || run.metadata['Model Type'] === 'Open Weight') ? 'open' : 'proprietary';
                     if (filters.modelTypeFilter !== type) return false;
             }
 
@@ -102,7 +102,7 @@
                         diff = a.metadata['Agent Name'].localeCompare(b.metadata['Agent Name']);
                         break;
                     case 'provider':
-                        diff = a.metadata['Provider Name'].localeCompare(b.metadata['Provider Name']);
+                        diff = a.metadata['Model Provider'].localeCompare(b.metadata['Model Provider']);
                         break;
                     case 'model':
                         diff = a.metadata['Model Name'].localeCompare(b.metadata['Model Name']);
@@ -148,7 +148,7 @@
                 '@type': 'ListItem',
                 position: index + 1,
                 name: `${run.metadata['Agent Name']} v${run.metadata['Agent Version']}`,
-                description: `${run.metadata['Model Name']} via ${run.metadata['Provider Name']} - Score: ${run.stats?.weighted_score?.toFixed(2) ?? 'N/A'}`
+                description: `${run.metadata['Model Name']} via ${run.metadata['Model Provider']} - Score: ${run.stats?.weighted_score?.toFixed(2) ?? 'N/A'}`
             }))
         }
     }}

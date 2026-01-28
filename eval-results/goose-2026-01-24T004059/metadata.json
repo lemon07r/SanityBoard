@@ -2,10 +2,12 @@
   "Agent Name": "Goose",
   "Agent Version": "v1.21.0",
   "Model Name": "MiniMax M2.1",
-  "Provider Name": "MiniMax AI (Anthropic API)",
+  "Variant": "",
+  "Model Provider": "MiniMax AI",
+  "Access Provider": "Anthropic API",
   "Run Date": "2026-01-24",
-  "MCP tools available": "no",
-  "verified": "yes",
+  "MCP tools available": false,
+  "verified": true,
   "Agent Type": "Open Source",
-  "Model Type": "Open Source"
+  "Model Type": "Open Weight"
 }

@@ -1,0 +1,60 @@
+{
+  "agent": "opencode",
+  "model": "google/antigravity-claude-opus-4-5-thinking",
+  "reasoning": "max",
+  "timestamp": "2026-01-25T190928",
+  "pass_rate": 65.38461538461539,
+  "weighted_pass_rate": 60.40853109041755,
+  "passed": 17,
+  "failed": 9,
+  "total": 26,
+  "weighted_score": 20.110000000000007,
+  "max_possible_score": 33.290000000000006,
+  "clean_passes": 16,
+  "partial_passes": 1,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "pass_rate": 100
+    },
+    "rust": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "typescript": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "pass_rate": 60
+    },
+    "zig": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    }
+  },
+  "total_duration_seconds": 3047.8194076260006,
+  "agent_duration_seconds": 2940.687133721999,
+  "harness_version": "v1.5.1-1-g3b5528f",
+  "weight_version": "2.0",
+  "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
+  "results_hash": "blake3:59c7049fa7ae067c2e853ee0059256734279dfa9efd28f46f03747478926dfc2"
+}

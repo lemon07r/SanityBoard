@@ -2,10 +2,12 @@
   "Agent Name": "Gemini CLI",
   "Agent Version": "v0.24.0-preview.2",
   "Model Name": "Gemini 3 Flash Preview",
-  "Provider Name": "Google",
+  "Variant": "",
+  "Model Provider": "Google",
+  "Access Provider": "",
   "Run Date": "2026-01-14",
-  "MCP tools available": "no",
-  "verified": "yes",
+  "MCP tools available": false,
+  "verified": true,
   "Agent Type": "Open Source",
   "Model Type": "Proprietary"
 }
