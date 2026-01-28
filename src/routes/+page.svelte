@@ -159,15 +159,15 @@
     
     <ControlBar {availableProviders} {availableModels} {availableAgents} />
 
-    <main class="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-12">
+    <main class="flex-1 max-w-7xl mx-auto w-full px-2 md:px-6 py-12">
         
         <SpotlightGrid>
             <!-- Header Row -->
-            <div class="grid grid-cols-12 gap-2 md:gap-4 px-4 py-3 text-xs font-bold uppercase tracking-widest text-muted-foreground/50 dark:text-white/30 border-b border-border/40 dark:border-white/5 items-center">
-                <div class="col-span-2 md:col-span-1 text-center">Rank</div>
+            <div class="grid grid-cols-12 gap-1.5 md:gap-4 px-3 md:px-4 py-3 text-xs font-bold uppercase tracking-widest text-muted-foreground/50 dark:text-white/30 border-b border-border/40 dark:border-white/5 items-center">
+                <div class="col-span-1 text-center"><span class="hidden md:inline">Rank</span></div>
                 
                 <!-- Agent -->
-                <button class="col-span-7 md:col-span-3 text-left flex items-center gap-1 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('agent')}>
+                <button class="col-span-5 md:col-span-3 text-left flex items-center gap-1 pl-1 md:pl-0 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('agent')}>
                     Agent
                     {#if filters.sortBy === 'agent'}
                         {#if filters.sortDirection === 'asc'}
@@ -179,7 +179,7 @@
                 </button>
 
                 <!-- Model -->
-                <button class="col-span-2 hidden md:flex items-center gap-1 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('model')}>
+                <button class="col-span-4 md:col-span-2 flex items-center gap-1 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('model')}>
                     Model
                     {#if filters.sortBy === 'model'}
                         {#if filters.sortDirection === 'asc'}
@@ -203,7 +203,7 @@
                 </button>
 
                 <!-- Score -->
-                <button class="col-span-3 md:col-span-2 text-right md:text-left flex items-center justify-end md:justify-start gap-1 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('score')}>
+                <button class="col-span-2 text-right md:text-left flex items-center justify-end md:justify-start gap-1 hover:text-foreground dark:hover:text-white transition-colors group" onclick={() => handleSort('score')}>
                     Score
                     {#if filters.sortBy === 'score'}
                         {#if filters.sortDirection === 'asc'}
