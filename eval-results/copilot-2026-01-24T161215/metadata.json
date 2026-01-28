@@ -1,11 +1,13 @@
 {
   "Agent Name": "GitHub Copilot CLI",
   "Agent Version": "0.0.394",
-  "Model Name": "GPT-5.2 (High)",
-  "Provider Name": "OpenAI",
+  "Model Name": "GPT-5.2",
+  "Variant": "High",
+  "Model Provider": "OpenAI",
+  "Access Provider": "",
   "Run Date": "2026-01-24",
-  "MCP tools available": "no",
-  "verified": "yes",
+  "MCP tools available": false,
+  "verified": true,
   "Agent Type": "Proprietary",
   "Model Type": "Proprietary"
 }

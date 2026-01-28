@@ -9,11 +9,15 @@ export const MetadataSchema = z.object({
   "Agent Version": z.string(),
   "Agent Type": z.enum(["Open Source", "Proprietary"]).optional(),
   "Model Name": z.string(),
-  "Model Type": z.enum(["Open Source", "Proprietary"]).optional(),
-  "Provider Name": z.string(),
+  Variant: z.string().optional(),
+  "Model Type": z
+    .enum(["Open Source", "Open Weight", "Proprietary"])
+    .optional(),
+  "Model Provider": z.string(),
+  "Access Provider": z.string().optional(),
   "Run Date": z.string(),
-  "MCP tools available": z.string().optional(),
-  verified: z.string().optional(),
+  "MCP tools available": z.boolean().optional(),
+  verified: z.boolean().optional(),
 });
 
 export const TaskResultSchema = z.object({
@@ -92,6 +96,8 @@ export function getRunIds(): string[] {
   if (!fs.existsSync(DATA_DIR)) return [];
 
   return fs.readdirSync(DATA_DIR).filter((file) => {
+    // Skip hidden directories (like .junie)
+    if (file.startsWith(".")) return false;
     return fs.statSync(path.join(DATA_DIR, file)).isDirectory();
   });
 }

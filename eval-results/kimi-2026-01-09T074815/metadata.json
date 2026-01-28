@@ -1,11 +1,13 @@
 {
   "Agent Name": "Kimi CLI",
   "Agent Version": "0.72",
-  "Model Name": "Kimi K2 Thinking",
-  "Provider Name": "Moonshot AI (Kimi For Coding)",
+  "Model Name": "Kimi K2",
+  "Variant": "Thinking",
+  "Model Provider": "Moonshot AI",
+  "Access Provider": "Kimi For Coding",
   "Run Date": "2026-01-09",
-  "MCP tools available": "no",
-  "verified": "yes",
+  "MCP tools available": false,
+  "verified": true,
   "Agent Type": "Open Source",
-  "Model Type": "Open Source"
+  "Model Type": "Open Weight"
 }

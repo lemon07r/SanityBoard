@@ -65,6 +65,23 @@
         title: 'Submit Your Agent',
         description: 'Submit your AI coding agent to the SanityHarness leaderboard. Get ranked on standardized, isolated benchmarks.'
     }}
+    jsonLd={{
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: 'Submit Your AI Agent',
+        description: 'Submit your AI coding agent for evaluation on the SanityHarness benchmark. Run the harness, archive results, and submit for leaderboard inclusion.',
+        url: 'https://sanityboard.lr7.dev/submit',
+        isPartOf: {
+            '@type': 'WebSite',
+            name: 'SanityHarness',
+            url: 'https://sanityboard.lr7.dev'
+        },
+        mainEntity: {
+            '@type': 'ContactPage',
+            name: 'Agent Submission Form',
+            description: 'Form to submit AI coding agents for benchmark evaluation'
+        }
+    }}
 />
 
 <div class="max-w-4xl mx-auto px-6 py-12 space-y-16">

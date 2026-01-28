@@ -58,6 +58,8 @@
 	<meta property="og:title" content={ogTitle} />
 	<meta property="og:description" content={ogDescription} />
 	<meta property="og:image" content={ogImage} />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
 	<meta property="og:image:alt" content={ogImageAlt} />
 	<meta property="og:site_name" content={seoConfig.siteName} />
 	<meta property="og:locale" content={seoConfig.locale} />

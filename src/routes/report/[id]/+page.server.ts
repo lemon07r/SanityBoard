@@ -31,7 +31,9 @@ export const load = async ({ params }: { params: { id: string } }) => {
   let compiledReport = null;
 
   if (fs.existsSync(reportPath)) {
-    reportContent = convertEmojisToUnicode(fs.readFileSync(reportPath, "utf-8"));
+    reportContent = convertEmojisToUnicode(
+      fs.readFileSync(reportPath, "utf-8"),
+    );
     // Compile markdown to HTML/Svelte code server-side
     // Note: mdsvex.compile returns { code, data, map }
     // But we need to render this code on the client.

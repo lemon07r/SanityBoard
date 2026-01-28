@@ -1,11 +1,13 @@
 {
   "Agent Name": "Droid",
   "Agent Version": "v0.55.1",
-  "Model Name": "GPT-5.2 (xhigh)",
-  "Provider Name": "OpenAI",
+  "Model Name": "GPT-5.2",
+  "Variant": "xhigh",
+  "Model Provider": "OpenAI",
+  "Access Provider": "",
   "Run Date": "2026-01-24",
-  "MCP tools available": "no",
-  "verified": "yes",
+  "MCP tools available": false,
+  "verified": true,
   "Agent Type": "Proprietary",
   "Model Type": "Proprietary"
 }

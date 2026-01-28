@@ -69,16 +69,22 @@
     <!-- Model -->
     <div class="col-span-2 hidden md:flex items-center gap-2 text-sm text-muted-foreground dark:text-white/70 overflow-hidden">
         <span class="truncate" title={meta['Model Name']}>{meta['Model Name']}</span>
+        {#if meta['Variant']}
+            <span class="text-xs text-muted-foreground/60 dark:text-white/40 truncate" title={meta['Variant']}>{meta['Variant']}</span>
+        {/if}
         {#if meta['Model Type'] === 'Proprietary'}
             <div title="Proprietary Model"><Lock size={12} class="text-muted-foreground/50 dark:text-white/20 shrink-0" /></div>
         {:else}
-            <div title="Open Source Model"><Unlock size={12} class="text-cyan-600/50 dark:text-cyan-400/30 shrink-0" /></div>
+            <div title="Open Weight Model"><Unlock size={12} class="text-cyan-600/50 dark:text-cyan-400/30 shrink-0" /></div>
         {/if}
     </div>
 
     <!-- Provider -->
-    <div class="col-span-2 hidden md:block text-sm text-muted-foreground/70 dark:text-white/50 truncate" title={meta['Provider Name']}>
-        {meta['Provider Name']}
+    <div class="col-span-2 hidden md:block text-sm overflow-hidden">
+        <span class="text-muted-foreground/70 dark:text-white/50 truncate block" title={meta['Model Provider']}>{meta['Model Provider']}</span>
+        {#if meta['Access Provider']}
+            <span class="text-xs text-muted-foreground/50 dark:text-white/30 truncate block" title={meta['Access Provider']}>{meta['Access Provider']}</span>
+        {/if}
     </div>
 
     <!-- Score -->
@@ -98,7 +104,7 @@
 
     <!-- MCP -->
     <div class="col-span-1 hidden md:flex justify-center">
-        {#if meta['MCP tools available'] === 'yes'}
+        {#if meta['MCP tools available'] === true}
             <Check size={16} class="text-cyan-600 dark:text-cyan-400" />
         {:else}
             <div class="w-1.5 h-1.5 rounded-full bg-muted-foreground/30 dark:bg-white/10"></div>

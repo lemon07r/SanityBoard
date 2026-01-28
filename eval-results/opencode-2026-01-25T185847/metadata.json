@@ -1,0 +1,13 @@
+{
+  "Agent Name": "OpenCode",
+  "Agent Version": "v1.1.36",
+  "Model Name": "GPT-5.2",
+  "Variant": "xhigh",
+  "Model Provider": "OpenAI",
+  "Access Provider": "GitHub Copilot",
+  "Run Date": "2026-01-25",
+  "MCP tools available": false,
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Proprietary"
+}

@@ -1,0 +1,13 @@
+{
+  "Agent Name": "Droid",
+  "Agent Version": "v0.56.2",
+  "Model Name": "Kimi K2.5",
+  "Variant": "",
+  "Model Provider": "Fireworks AI",
+  "Access Provider": "Factory Core",
+  "Run Date": "2026-01-27",
+  "MCP tools available": false,
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Open Weight"
+}

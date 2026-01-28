@@ -2,10 +2,12 @@
   "Agent Name": "Claude Code",
   "Agent Version": "v2.1.12",
   "Model Name": "MiniMax M2.1",
-  "Provider Name": "MiniMax AI",
+  "Variant": "",
+  "Model Provider": "MiniMax AI",
+  "Access Provider": "",
   "Run Date": "2026-01-18",
-  "MCP tools available": "no",
-  "verified": "yes",
+  "MCP tools available": false,
+  "verified": true,
   "Agent Type": "Proprietary",
-  "Model Type": "Open Source"
+  "Model Type": "Open Weight"
 }

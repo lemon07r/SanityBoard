@@ -57,7 +57,7 @@
     // SEO derived values
     let seoTitle = $derived(`${meta['Agent Name']} v${meta['Agent Version']} - Flight Recorder`);
     let seoDescription = $derived(
-        `Evaluation report for ${meta['Agent Name']} using ${meta['Model Name']} via ${meta['Provider Name']}. Scored ${stats?.weighted_score?.toFixed(2) ?? 'N/A'} with ${passRate}% pass rate.`
+        `Evaluation report for ${meta['Agent Name']} using ${meta['Model Name']} via ${meta['Model Provider']}. Scored ${stats?.weighted_score?.toFixed(2) ?? 'N/A'} with ${passRate}% pass rate.`
     );
 </script>
 
@@ -70,7 +70,7 @@
         type: 'article',
         article: {
             publishedTime: meta['Run Date'],
-            tags: [meta['Agent Name'], meta['Model Name'], meta['Provider Name']]
+            tags: [meta['Agent Name'], meta['Model Name'], meta['Model Provider']]
         }
     }}
     jsonLd={{
