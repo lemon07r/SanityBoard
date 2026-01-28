@@ -159,7 +159,7 @@
     
     <ControlBar {availableProviders} {availableModels} {availableAgents} />
 
-    <main class="flex-1 max-w-7xl mx-auto w-full px-2 md:px-6 py-12">
+    <main class="flex-1 max-w-7xl mx-auto w-full pl-2 pr-1.5 md:px-6 py-12">
         
         <SpotlightGrid>
             <!-- Header Row -->
