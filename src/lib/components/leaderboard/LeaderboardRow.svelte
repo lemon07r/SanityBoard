@@ -56,7 +56,17 @@
     <!-- Agent -->
     <div class="col-span-5 md:col-span-3 pl-1 md:pl-0">
         <div class="font-semibold text-foreground dark:text-white tracking-tight text-sm md:text-base flex items-center gap-1.5">
-            {meta['Agent Name']}
+            {#if meta['Agent URL']}
+                <a 
+                    href={meta['Agent URL']} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    onclick={(e) => e.stopPropagation()}
+                    class="hover:text-indigo-600 dark:hover:text-pink-400 transition-colors"
+                >{meta['Agent Name']}</a>
+            {:else}
+                {meta['Agent Name']}
+            {/if}
             {#if meta['Agent Type'] === 'Proprietary'}
                 <div title="Proprietary Agent" class="hidden md:block"><Lock size={12} class="text-muted-foreground/50 dark:text-white/20" /></div>
             {:else}

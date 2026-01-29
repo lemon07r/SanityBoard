@@ -9,5 +9,6 @@
   "MCP tools available": false,
   "verified": true,
   "Agent Type": "Open Source",
-  "Model Type": "Open Weight"
+  "Model Type": "Open Weight",
+  "Agent URL": "https://github.com/mistralai/mistral-vibe"
 }

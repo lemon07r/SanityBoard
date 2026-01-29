@@ -8,6 +8,7 @@ export const MetadataSchema = z.object({
   "Agent Name": z.string(),
   "Agent Version": z.string(),
   "Agent Type": z.enum(["Open Source", "Proprietary"]).optional(),
+  "Agent URL": z.string().url().optional(),
   "Model Name": z.string(),
   Variant: z.string().optional(),
   "Model Type": z

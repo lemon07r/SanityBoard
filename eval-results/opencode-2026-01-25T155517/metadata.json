@@ -9,5 +9,6 @@
   "MCP tools available": false,
   "verified": true,
   "Agent Type": "Open Source",
-  "Model Type": "Proprietary"
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/anomalyco/opencode"
 }
