@@ -9,5 +9,6 @@
   "MCP tools available": false,
   "verified": true,
   "Agent Type": "Proprietary",
-  "Model Type": "Proprietary"
+  "Model Type": "Proprietary",
+  "Agent URL": "https://factory.ai"
 }
