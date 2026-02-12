@@ -1,0 +1,14 @@
+{
+  "Agent Name": "Claude Code",
+  "Agent Version": "v2.1.39",
+  "Model Name": "MiniMax M2.5",
+  "Variant": "",
+  "Model Provider": "MiniMax AI",
+  "Access Provider": "Anthropic API",
+  "Run Date": "2026-02-11",
+  "MCP tools available": false,
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Open Weight",
+  "Agent URL": "https://github.com/anthropics/claude-code"
+}

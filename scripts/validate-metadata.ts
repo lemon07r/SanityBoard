@@ -13,7 +13,7 @@ const DATA_DIR = path.join(process.cwd(), "eval-results");
 const FILTERABLE_FIELDS = [
   "Agent Name",
   "Model Name",
-  "Provider Name",
+  "Model Provider",
 ] as const;
 
 type FilterableField = (typeof FILTERABLE_FIELDS)[number];
@@ -38,7 +38,14 @@ function loadAllMetadata(): MetadataEntry[] {
   }
 
   const runIds = fs.readdirSync(DATA_DIR).filter((file) => {
-    return fs.statSync(path.join(DATA_DIR, file)).isDirectory();
+    if (file.startsWith(".")) return false;
+
+    const fullPath = path.join(DATA_DIR, file);
+    try {
+      return fs.statSync(fullPath).isDirectory();
+    } catch {
+      return false;
+    }
   });
 
   for (const runId of runIds) {
@@ -54,7 +61,10 @@ function loadAllMetadata(): MetadataEntry[] {
       const metadata = JSON.parse(content);
 
       for (const field of FILTERABLE_FIELDS) {
-        if (metadata[field]) {
+        if (
+          typeof metadata[field] === "string" &&
+          metadata[field].trim() !== ""
+        ) {
           entries.push({
             runId,
             field,
