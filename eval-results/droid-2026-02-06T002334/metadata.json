@@ -1,0 +1,14 @@
+{
+  "Agent Name": "Droid",
+  "Agent Version": "v0.56.2",
+  "Model Name": "Claude Opus 4.6",
+  "Variant": "Max",
+  "Model Provider": "Anthropic",
+  "Access Provider": "",
+  "Run Date": "2026-02-06",
+  "MCP tools available": false,
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://factory.ai"
+}

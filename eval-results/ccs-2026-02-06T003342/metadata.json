@@ -1,0 +1,14 @@
+{
+  "Agent Name": "Claude Code",
+  "Agent Version": "v2.1.20",
+  "Model Name": "Claude Opus 4.5",
+  "Variant": "",
+  "Model Provider": "Anthropic",
+  "Access Provider": "AG Proxy",
+  "Run Date": "2026-02-06",
+  "MCP tools available": false,
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/anthropics/claude-code"
+}
