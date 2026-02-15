@@ -4,9 +4,10 @@
     import SpotlightGrid from '$lib/components/core/SpotlightGrid.svelte';
     import LeaderboardRow from '$lib/components/leaderboard/LeaderboardRow.svelte';
     import Seo from '$lib/components/core/Seo.svelte';
+    import { SPONSORS } from '$lib/data/sponsors';
     import { filters, type SortOption } from '$lib/stores/filter.svelte';
     import { fade } from 'svelte/transition';
-    import { Github, ArrowUp, ArrowDown } from 'lucide-svelte';
+    import { Github, MessageCircle, Heart, ArrowUp, ArrowDown, Bot, FlaskConical, Box, Code } from 'lucide-svelte';
 
     let { data } = $props();
 
@@ -156,7 +157,29 @@
 
 <div class="flex flex-col min-h-screen">
     <Hero />
-    
+
+    <!-- Stats Strip -->
+    <div class="max-w-7xl mx-auto w-full px-4 md:px-6 -mt-8 mb-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {#each [
+                { label: 'Evaluations', value: data.stats.totalEvals, icon: FlaskConical },
+                { label: 'Agents', value: data.stats.totalAgents, icon: Bot },
+                { label: 'Models', value: data.stats.totalModels, icon: Box },
+                { label: 'Languages', value: data.stats.totalLanguages, icon: Code }
+            ] as stat (stat.label)}
+                <div class="flex items-center gap-3 px-4 py-3 rounded-xl border border-border/40 dark:border-white/5 bg-card/80 dark:bg-white/[0.02]">
+                    <div class="p-2 rounded-lg bg-foreground/5 dark:bg-white/5">
+                        <stat.icon size={16} class="text-muted-foreground dark:text-white/40" />
+                    </div>
+                    <div>
+                        <div class="text-lg font-bold text-foreground dark:text-white font-mono">{stat.value}</div>
+                        <div class="text-[10px] uppercase tracking-widest text-muted-foreground/60 dark:text-white/30 font-semibold">{stat.label}</div>
+                    </div>
+                </div>
+            {/each}
+        </div>
+    </div>
+
     <ControlBar {availableProviders} {availableModels} {availableAgents} />
 
     <main class="flex-1 max-w-7xl mx-auto w-full pl-2 pr-1.5 md:px-6 py-12">
@@ -246,24 +269,96 @@
 
     </main>
 
+    <!-- Supporters Section -->
+    {#if SPONSORS.length > 0}
+        <section class="max-w-7xl mx-auto w-full px-4 md:px-6 py-12">
+            <div class="text-center mb-8">
+                <div class="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50 dark:text-white/30 font-bold mb-2">Supported by</div>
+                <div class="w-12 h-px bg-border/60 dark:bg-white/10 mx-auto"></div>
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-6 md:gap-8">
+                {#each SPONSORS as sponsor (sponsor.github)}
+                    <a
+                        href={sponsor.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="group flex flex-col items-center gap-2 transition-all hover:scale-105"
+                    >
+                        <img
+                            src={sponsor.avatarUrl}
+                            alt={sponsor.name}
+                            width="48"
+                            height="48"
+                            loading="lazy"
+                            class="rounded-full ring-2 ring-border/40 dark:ring-white/10 group-hover:ring-foreground/20 dark:group-hover:ring-pink-500/30 transition-all"
+                        />
+                        <span class="text-xs text-muted-foreground dark:text-white/50 group-hover:text-foreground dark:group-hover:text-white transition-colors font-medium">{sponsor.name}</span>
+                    </a>
+                {/each}
+                <a
+                    href="/about"
+                    class="flex flex-col items-center gap-2 transition-all hover:scale-105 group"
+                >
+                    <div class="w-12 h-12 rounded-full border-2 border-dashed border-border/40 dark:border-white/10 flex items-center justify-center group-hover:border-foreground/30 dark:group-hover:border-pink-500/30 transition-colors">
+                        <Heart size={16} class="text-muted-foreground/40 dark:text-white/20 group-hover:text-foreground/60 dark:group-hover:text-pink-400/60 transition-colors" />
+                    </div>
+                    <span class="text-xs text-muted-foreground/60 dark:text-white/30 group-hover:text-foreground dark:group-hover:text-white transition-colors font-medium">Become a sponsor</span>
+                </a>
+            </div>
+        </section>
+    {/if}
+
     <!-- Footer -->
     <footer class="border-t border-border/40 dark:border-white/5 bg-card/80 dark:bg-black/40 py-8">
-        <div class="max-w-7xl mx-auto px-4 md:px-6 relative flex flex-col md:flex-row items-center md:justify-end gap-4 text-muted-foreground dark:text-white/40 text-sm">
-            <span class="md:absolute md:left-1/2 md:-translate-x-1/2">&copy; 2026 LR7</span>
-            
-            <div class="flex items-center gap-6">
-                <a href="https://github.com/lemon07r/SanityHarness" class="hover:text-foreground dark:hover:text-white flex items-center gap-2 transition-colors">
-                    <Github size={16} />
-                    GitHub
-                </a>
-                
-                <div class="flex items-center gap-2">
-                    <span>Built by</span>
-                    <a href="https://github.com/lemon07r" target="_blank" rel="noreferrer" class="text-muted-foreground dark:text-white/60 hover:text-foreground dark:hover:text-white transition-colors">
-                        lemon07r
+        <div class="max-w-7xl mx-auto px-4 md:px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <!-- Left: Copyright & Built by -->
+                <div class="flex flex-col items-center md:items-start gap-1 text-sm text-muted-foreground dark:text-white/40">
+                    <span>&copy; 2026 LR7</span>
+                    <div class="flex items-center gap-1.5">
+                        <span>Built by</span>
+                        <a href="https://github.com/lemon07r" target="_blank" rel="noreferrer" class="text-muted-foreground dark:text-white/60 hover:text-foreground dark:hover:text-white transition-colors">lemon07r</a>
+                    </div>
+                </div>
+
+                <!-- Center: Nav Links -->
+                <nav class="flex items-center gap-6 text-sm text-muted-foreground dark:text-white/40">
+                    <a href="/" class="hover:text-foreground dark:hover:text-white transition-colors">Leaderboard</a>
+                    <a href="/about" class="hover:text-foreground dark:hover:text-white transition-colors">About</a>
+                    <a href="/submit" class="hover:text-foreground dark:hover:text-white transition-colors">Submit</a>
+                </nav>
+
+                <!-- Right: Social Links -->
+                <div class="flex items-center gap-4">
+                    <a href="https://github.com/lemon07r/SanityHarness" target="_blank" rel="noopener noreferrer" class="text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white transition-colors">
+                        <Github size={18} />
+                    </a>
+                    <a href="https://discord.gg/rXNQXCTWDt" target="_blank" rel="noopener noreferrer" class="text-muted-foreground dark:text-white/40 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors">
+                        <MessageCircle size={18} />
                     </a>
                 </div>
             </div>
+
+            <!-- Inline sponsor avatars in footer -->
+            {#if SPONSORS.length > 0}
+                <div class="flex items-center justify-center gap-3 mt-6 pt-6 border-t border-border/20 dark:border-white/5">
+                    <span class="text-[10px] uppercase tracking-widest text-muted-foreground/40 dark:text-white/20 font-semibold">Sponsors</span>
+                    <div class="flex items-center -space-x-1">
+                        {#each SPONSORS as sponsor (sponsor.github)}
+                            <a href={sponsor.github} target="_blank" rel="noopener noreferrer" title={sponsor.name}>
+                                <img
+                                    src={sponsor.avatarUrl}
+                                    alt={sponsor.name}
+                                    width="24"
+                                    height="24"
+                                    loading="lazy"
+                                    class="rounded-full ring-1 ring-card dark:ring-black/40 hover:ring-foreground/20 dark:hover:ring-pink-500/30 transition-all hover:scale-110"
+                                />
+                            </a>
+                        {/each}
+                    </div>
+                </div>
+            {/if}
         </div>
     </footer>
 </div>

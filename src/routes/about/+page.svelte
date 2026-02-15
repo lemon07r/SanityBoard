@@ -1,7 +1,8 @@
 <script>
-    import { Mail, MessageCircle, Heart } from 'lucide-svelte';
+    import { Mail, MessageCircle, Heart, Github, ExternalLink } from 'lucide-svelte';
     import SpotlightCard from '$lib/components/core/SpotlightCard.svelte';
     import Seo from '$lib/components/core/Seo.svelte';
+    import { SPONSORS } from '$lib/data/sponsors';
 </script>
 
 <Seo 
@@ -43,6 +44,41 @@
                 <p class="text-muted-foreground dark:text-white/50 text-sm">
                     Running comprehensive evals is expensive. We appreciate API credits (GPT-5, Opus, etc) or donations to sustain the harness.
                 </p>
+
+                <!-- Current Sponsors -->
+                {#if SPONSORS.length > 0}
+                    <div class="pt-4 border-t border-border/40 dark:border-white/5">
+                        <div class="text-[10px] uppercase tracking-widest text-muted-foreground/50 dark:text-white/30 font-bold mb-3">Current Sponsors</div>
+                        <div class="space-y-3">
+                            {#each SPONSORS as sponsor (sponsor.github)}
+                                <div class="flex items-center gap-3 p-3 rounded-lg bg-foreground/[0.02] dark:bg-white/[0.02] border border-border/20 dark:border-white/5">
+                                    <img
+                                        src={sponsor.avatarUrl}
+                                        alt={sponsor.name}
+                                        width="36"
+                                        height="36"
+                                        loading="lazy"
+                                        class="rounded-full ring-1 ring-border/40 dark:ring-white/10"
+                                    />
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-sm font-medium text-foreground dark:text-white truncate">{sponsor.name}</div>
+                                    </div>
+                                    <div class="flex items-center gap-2 shrink-0">
+                                        <a href={sponsor.github} target="_blank" rel="noopener noreferrer" class="text-muted-foreground/60 dark:text-white/30 hover:text-foreground dark:hover:text-white transition-colors" title="GitHub">
+                                            <Github size={14} />
+                                        </a>
+                                        {#if sponsor.x}
+                                            <a href={sponsor.x} target="_blank" rel="noopener noreferrer" class="text-muted-foreground/60 dark:text-white/30 hover:text-foreground dark:hover:text-white transition-colors" title="X">
+                                                <ExternalLink size={14} />
+                                            </a>
+                                        {/if}
+                                    </div>
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+                {/if}
+
                 <div class="pt-4 border-t border-border/40 dark:border-white/5 grid grid-cols-1 gap-3 mt-auto">
                      <a href="https://github.com/sponsors/lemon07r" target="_blank" class="px-4 py-2 bg-foreground/5 dark:bg-pink-500/10 text-foreground dark:text-pink-300 border border-border/40 dark:border-pink-500/20 rounded-lg text-sm font-medium hover:bg-foreground/10 dark:hover:bg-pink-500/20 transition-colors flex items-center justify-center gap-2">
                         <Heart size={16} />
