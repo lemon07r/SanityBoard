@@ -58,6 +58,7 @@ PROPOSAL.md
 .goose/
 .crush/
 .aider*
+.firecrawl/
 
 # Lock files (keep bun.lock tracked for reproducible builds)
 package-lock.json
