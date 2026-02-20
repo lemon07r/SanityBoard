@@ -1,11 +1,13 @@
 <script lang="ts">
   import type { RunData } from '$lib/server/data';
   import RankBadge from './RankBadge.svelte';
-  import { Check, Box, ExternalLink, Zap, Lock, Unlock } from 'lucide-svelte';
+  import { Check, Box, ExternalLink, Zap, Lock, Unlock, ShieldCheck } from 'lucide-svelte';
+  import { filters } from '$lib/stores/filter.svelte';
 
   let { run, rank }: { run: RunData; rank: number } = $props();
 
   let isOpen = $state(false);
+  let isVerified = $derived(run.metadata.verified === true);
 
   function toggle() {
     isOpen = !isOpen;
@@ -73,7 +75,18 @@
                 <div title="Open Source Agent" class="hidden md:block"><Unlock size={12} class="text-cyan-600/50 dark:text-cyan-400/30" /></div>
             {/if}
         </div>
-        <div class="text-[10px] md:text-xs text-muted-foreground dark:text-white/40 font-mono mt-0.5">{meta['Agent Version']}</div>
+        <div class="text-[10px] md:text-xs text-muted-foreground dark:text-white/40 font-mono mt-0.5 flex items-center gap-1.5">
+            <span>{meta['Agent Version']}</span>
+            {#if filters.filterType === 'all'}
+                {#if isVerified}
+                    <span class="inline-flex items-center gap-0.5 text-emerald-600/70 dark:text-emerald-400/30" title="Verified submission">
+                        <ShieldCheck size={10} />
+                    </span>
+                {:else}
+                    <span class="ml-0.5 text-[9px] md:text-[10px] text-muted-foreground/50 dark:text-white/25 tracking-wider" title="Community submission">- Community</span>
+                {/if}
+            {/if}
+        </div>
     </div>
 
     <!-- Model -->
