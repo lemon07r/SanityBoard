@@ -1,0 +1,60 @@
+{
+  "agent": "claude",
+  "model": "claude-sonnet-4-6",
+  "timestamp": "2026-02-17T141638",
+  "pass_rate": 57.692307692307686,
+  "weighted_pass_rate": 54.46079903875037,
+  "passed": 15,
+  "failed": 11,
+  "total": 26,
+  "weighted_score": 18.130000000000003,
+  "max_possible_score": 33.290000000000006,
+  "clean_passes": 15,
+  "partial_passes": 0,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "go": {
+      "passed": 5,
+      "failed": 1,
+      "total": 6,
+      "pass_rate": 83.33333333333334
+    },
+    "kotlin": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "pass_rate": 100
+    },
+    "rust": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "typescript": {
+      "passed": 2,
+      "failed": 3,
+      "total": 5,
+      "pass_rate": 40
+    },
+    "zig": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    }
+  },
+  "total_duration_seconds": 1113.041269589,
+  "agent_duration_seconds": 1836.363010747,
+  "harness_version": "dev",
+  "weight_version": "2.0",
+  "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
+  "results_hash": "blake3:6b91fa7e03d1a0f7f4c4685c77e35a3eaaeffedd65d5966d1e8d698817eb723b",
+  "sandbox": true
+}

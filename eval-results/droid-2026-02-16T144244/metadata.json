@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Droid",
+  "Agent Version": "v0.57.15",
+  "Model Name": "Qwen3.5 Plus",
+  "Variant": "",
+  "Model Provider": "Alibaba Cloud",
+  "Access Provider": "CLI Proxy",
+  "Run Date": "2026-02-16",
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://factory.ai",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

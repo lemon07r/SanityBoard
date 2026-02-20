@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Junie CLI",
+  "Agent Version": "624.1",
+  "Model Name": "Claude Sonnet 4.6",
+  "Variant": "",
+  "Model Provider": "Anthropic",
+  "Access Provider": "",
+  "Run Date": "2026-02-19",
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://www.jetbrains.com/junie",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

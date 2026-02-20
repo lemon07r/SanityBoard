@@ -1,0 +1,16 @@
+{
+  "Agent Name": "OpenCode",
+  "Agent Version": "v1.2.9",
+  "Model Name": "Claude Sonnet 4.6",
+  "Variant": "",
+  "Model Provider": "Anthropic",
+  "Access Provider": "Azure",
+  "Run Date": "2026-02-19",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/anomalyco/opencode",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

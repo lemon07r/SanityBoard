@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Kilocode",
+  "Agent Version": "v1.0.23",
+  "Model Name": "Claude Sonnet 4.6",
+  "Variant": "",
+  "Model Provider": "Anthropic",
+  "Access Provider": "",
+  "Run Date": "2026-02-19",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/kilocode/kilocode",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

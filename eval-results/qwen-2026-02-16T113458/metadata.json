@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Qwen Code",
+  "Agent Version": "v0.10.5",
+  "Model Name": "Qwen3.5 Plus",
+  "Variant": "",
+  "Model Provider": "Alibaba Cloud",
+  "Access Provider": "Qwen Code (OAuth)",
+  "Run Date": "2026-02-16",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/QwenLM/qwen-code",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

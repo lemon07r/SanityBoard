@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Cline",
+  "Agent Version": "v2.0.5",
+  "Model Name": "Claude Opus 4.6",
+  "Variant": "",
+  "Model Provider": "Anthropic",
+  "Access Provider": "Azure",
+  "Run Date": "2026-02-16",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/cline/cline",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

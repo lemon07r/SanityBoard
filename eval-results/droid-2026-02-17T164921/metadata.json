@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Droid",
+  "Agent Version": "v0.57.15",
+  "Model Name": "Claude Sonnet 4.6",
+  "Variant": "Max",
+  "Model Provider": "Anthropic",
+  "Access Provider": "Anthropic API",
+  "Run Date": "2026-02-17",
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://factory.ai",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

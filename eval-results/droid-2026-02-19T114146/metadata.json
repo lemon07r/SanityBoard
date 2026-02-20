@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Droid",
+  "Agent Version": "v0.58.0",
+  "Model Name": "Gemini 3.1 Pro Preview",
+  "Variant": "High",
+  "Model Provider": "Google",
+  "Access Provider": "Google API",
+  "Run Date": "2026-02-19",
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://factory.ai",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

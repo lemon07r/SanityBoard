@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Kilocode",
+  "Agent Version": "v1.0.23",
+  "Model Name": "Kimi K2.5",
+  "Variant": "",
+  "Model Provider": "Moonshot AI",
+  "Access Provider": "Kimi For Coding",
+  "Run Date": "2026-02-16",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Open Weight",
+  "Agent URL": "https://github.com/kilocode/kilocode",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

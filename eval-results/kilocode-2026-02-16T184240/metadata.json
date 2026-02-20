@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Kilocode",
+  "Agent Version": "v1.0.23",
+  "Model Name": "MiniMax M2.5",
+  "Variant": "",
+  "Model Provider": "MiniMax AI",
+  "Access Provider": "Anthropic API",
+  "Run Date": "2026-02-16",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Open Weight",
+  "Agent URL": "https://github.com/kilocode/kilocode",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

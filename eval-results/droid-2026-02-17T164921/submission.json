@@ -1,0 +1,61 @@
+{
+  "agent": "droid",
+  "model": "claude-sonnet-4-6",
+  "reasoning": "max",
+  "timestamp": "2026-02-17T221546",
+  "pass_rate": 57.692307692307686,
+  "weighted_pass_rate": 53.409432261940516,
+  "passed": 15,
+  "failed": 11,
+  "total": 26,
+  "weighted_score": 17.78,
+  "max_possible_score": 33.290000000000006,
+  "clean_passes": 15,
+  "partial_passes": 0,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "rust": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "typescript": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "pass_rate": 60
+    },
+    "zig": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    }
+  },
+  "total_duration_seconds": 837.217170581,
+  "agent_duration_seconds": 4130.991569459,
+  "harness_version": "dev",
+  "weight_version": "2.0",
+  "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
+  "results_hash": "blake3:8685931eb84a43b28d79f9dbb8cee463e7c02ecf242623cc5fedc2ffcf4e69b3",
+  "sandbox": true
+}

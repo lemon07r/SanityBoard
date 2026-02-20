@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Claude Code",
+  "Agent Version": "v2.1.47",
+  "Model Name": "Claude Sonnet 4.6",
+  "Variant": "",
+  "Model Provider": "Anthropic",
+  "Access Provider": "Claude Code Plan",
+  "Run Date": "2026-02-17",
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/anthropics/claude-code",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

@@ -1,0 +1,16 @@
+{
+  "Agent Name": "GitHub Copilot CLI",
+  "Agent Version": "0.0.411",
+  "Model Name": "GPT-5.3 Codex",
+  "Variant": "xhigh",
+  "Model Provider": "OpenAI",
+  "Access Provider": "",
+  "Run Date": "2026-02-17",
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/github/copilot-cli",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

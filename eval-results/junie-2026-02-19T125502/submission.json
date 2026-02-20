@@ -1,0 +1,60 @@
+{
+  "agent": "junie",
+  "model": "gemini-3.1-pro-preview",
+  "timestamp": "2026-02-19T125502",
+  "pass_rate": 69.23076923076923,
+  "weighted_pass_rate": 64.223490537699,
+  "passed": 18,
+  "failed": 8,
+  "total": 26,
+  "weighted_score": 21.380000000000003,
+  "max_possible_score": 33.290000000000006,
+  "clean_passes": 15,
+  "partial_passes": 3,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "pass_rate": 66.66666666666666
+    },
+    "rust": {
+      "passed": 5,
+      "failed": 1,
+      "total": 6,
+      "pass_rate": 83.33333333333334
+    },
+    "typescript": {
+      "passed": 2,
+      "failed": 3,
+      "total": 5,
+      "pass_rate": 40
+    },
+    "zig": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "pass_rate": 66.66666666666666
+    }
+  },
+  "total_duration_seconds": 223.646556074,
+  "agent_duration_seconds": 3417.0319107820005,
+  "harness_version": "dev",
+  "weight_version": "2.0",
+  "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
+  "results_hash": "blake3:9b546361244e78c972633feb6a5437c9a39b6396602da0c18132deff77ffff54",
+  "sandbox": true
+}
