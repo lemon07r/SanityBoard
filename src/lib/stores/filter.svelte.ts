@@ -22,6 +22,8 @@ export class FilterStore {
   mcpFilter = $state<McpFilter>("all");
   agentTypeFilter = $state<OpenSourceFilter>("all");
   modelTypeFilter = $state<OpenSourceFilter>("all");
+  dateRangeMin = $state<string | null>(null);
+  dateRangeMax = $state<string | null>(null);
 
   setFilter(type: FilterType) {
     this.filterType = type;
@@ -75,6 +77,8 @@ export class FilterStore {
     this.mcpFilter = "all";
     this.agentTypeFilter = "all";
     this.modelTypeFilter = "all";
+    this.dateRangeMin = null;
+    this.dateRangeMax = null;
     this.filterType = "all";
     this.sortBy = "score";
     this.sortDirection = "desc";

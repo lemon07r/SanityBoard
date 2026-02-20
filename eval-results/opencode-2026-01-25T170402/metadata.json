@@ -6,9 +6,11 @@
   "Model Provider": "OpenAI",
   "Access Provider": "GitHub Copilot",
   "Run Date": "2026-01-25",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Open Source",
   "Model Type": "Proprietary",
-  "Agent URL": "https://github.com/anomalyco/opencode"
+  "Agent URL": "https://github.com/anomalyco/opencode",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }

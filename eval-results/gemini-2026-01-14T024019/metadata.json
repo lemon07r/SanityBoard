@@ -6,9 +6,11 @@
   "Model Provider": "Google",
   "Access Provider": "",
   "Run Date": "2026-01-14",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Open Source",
   "Model Type": "Proprietary",
-  "Agent URL": "https://github.com/google-gemini/gemini-cli"
+  "Agent URL": "https://github.com/google-gemini/gemini-cli",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }

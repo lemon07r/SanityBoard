@@ -6,9 +6,11 @@
   "Model Provider": "MiniMax AI",
   "Access Provider": "Anthropic API",
   "Run Date": "2026-02-11",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Open Source",
   "Model Type": "Open Weight",
-  "Agent URL": "https://github.com/anomalyco/opencode"
+  "Agent URL": "https://github.com/anomalyco/opencode",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }

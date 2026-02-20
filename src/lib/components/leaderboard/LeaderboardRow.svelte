@@ -116,10 +116,34 @@
         {passRate}%
     </div>
 
-    <!-- MCP -->
+    <!-- MCP / Skills -->
     <div class="col-span-1 hidden md:flex justify-center">
-        {#if meta['MCP tools available'] === true}
-            <Check size={16} class="text-cyan-600 dark:text-cyan-400" />
+        {#if meta['Skills or MCP available'] === true}
+            {@const skillsList = meta['Skills used'] ?? []}
+            {@const mcpList = meta['MCP tools used'] ?? []}
+            {@const hasDetails = skillsList.length > 0 || mcpList.length > 0}
+            <div class="relative group/tooltip">
+                <Check size={16} class="text-cyan-600 dark:text-cyan-400" />
+                {#if hasDetails}
+                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-150 z-50">
+                        <div class="bg-popover dark:bg-[#09090b] border border-border/40 dark:border-white/10 rounded-lg shadow-xl px-3 py-2 text-xs whitespace-nowrap ring-1 ring-border/10 dark:ring-white/5">
+                            {#if skillsList.length > 0}
+                                <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest mb-1">Skills</div>
+                                {#each skillsList as skill}
+                                    <div class="text-foreground dark:text-white/80">{skill}</div>
+                                {/each}
+                            {/if}
+                            {#if mcpList.length > 0}
+                                <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest mb-1 {skillsList.length > 0 ? 'mt-2' : ''}">MCP Tools</div>
+                                {#each mcpList as tool}
+                                    <div class="text-foreground dark:text-white/80">{tool}</div>
+                                {/each}
+                            {/if}
+                        </div>
+                        <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-border/40 dark:border-t-white/10"></div>
+                    </div>
+                {/if}
+            </div>
         {:else}
             <div class="w-1.5 h-1.5 rounded-full bg-muted-foreground/30 dark:bg-white/10"></div>
         {/if}

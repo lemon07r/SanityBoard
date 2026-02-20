@@ -6,9 +6,11 @@
   "Model Provider": "Anthropic",
   "Access Provider": "",
   "Run Date": "2026-02-06",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Proprietary",
   "Model Type": "Proprietary",
-  "Agent URL": "https://factory.ai"
+  "Agent URL": "https://factory.ai",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }

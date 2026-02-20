@@ -15,6 +15,7 @@
     let availableProviders = $derived([...new Set(data.runs.map(r => r.metadata['Model Provider']))].sort());
     let availableModels = $derived([...new Set(data.runs.map(r => r.metadata['Model Name']))].sort());
     let availableAgents = $derived([...new Set(data.runs.map(r => r.metadata['Agent Name']))].sort());
+    let availableDates = $derived([...new Set(data.runs.map(r => r.metadata['Run Date']))].sort());
 
     // Derived filtered list
     let filteredRuns = $derived(
@@ -51,9 +52,16 @@
 
             // MCP Filter
             if (filters.mcpFilter !== 'all') {
-                const hasMcp = run.metadata['MCP tools available'] === true;
+                const hasMcp = run.metadata['Skills or MCP available'] === true;
                 if (filters.mcpFilter === 'yes' && !hasMcp) return false;
                 if (filters.mcpFilter === 'no' && hasMcp) return false;
+            }
+
+            // Date Range Filter
+            if (filters.dateRangeMin || filters.dateRangeMax) {
+                const runDate = run.metadata['Run Date'];
+                if (filters.dateRangeMin && runDate < filters.dateRangeMin) return false;
+                if (filters.dateRangeMax && runDate > filters.dateRangeMax) return false;
             }
 
             // Agent Type Filter
@@ -180,7 +188,7 @@
         </div>
     </div>
 
-    <ControlBar {availableProviders} {availableModels} {availableAgents} />
+    <ControlBar {availableProviders} {availableModels} {availableAgents} {availableDates} />
 
     <main class="flex-1 max-w-7xl mx-auto w-full pl-2 pr-1.5 md:px-6 py-12">
         
@@ -249,8 +257,8 @@
                     {/if}
                 </button>
                 
-                <!-- MCP (Not sortable) -->
-                <div class="col-span-1 text-center hidden md:block">MCP</div>
+                <!-- MCP / Skills (Not sortable) -->
+                <div class="col-span-1 text-center hidden md:block">MCP / Skills</div>
             </div>
 
             <!-- Rows -->

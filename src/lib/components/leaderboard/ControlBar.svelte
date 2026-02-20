@@ -1,12 +1,91 @@
 <script lang="ts">
     import { filters, type SortOption, type FilterType, type McpFilter } from '$lib/stores/filter.svelte';
-    import { ChevronDown, Check, Users, ShieldCheck, Globe, Search, X, ListFilter, ArrowUpDown, Server, Box, Bot } from 'lucide-svelte';
+    import { ChevronDown, Check, Users, ShieldCheck, Globe, Search, X, ListFilter, ArrowUpDown, Server, Box, Bot, Calendar, Columns3 } from 'lucide-svelte';
     import { scale } from 'svelte/transition';
 
-    let { availableProviders = [], availableModels = [], availableAgents = [] }: { availableProviders: string[], availableModels: string[], availableAgents: string[] } = $props();
+    let { availableProviders = [], availableModels = [], availableAgents = [], availableDates = [] }: { availableProviders: string[], availableModels: string[], availableAgents: string[], availableDates: string[] } = $props();
 
     let isFilterOpen = $state(false);
     let isSortOpen = $state(false);
+    let isExpanded = $state(false);
+
+    // Date range slider state
+    let sortedDates = $derived([...availableDates].sort());
+    let minDate = $derived(sortedDates[0] ?? '');
+    let maxDate = $derived(sortedDates[sortedDates.length - 1] ?? '');
+    let sliderMin = $state(0);
+    let sliderMax = $state(0);
+    let dateSliderInitialized = $state(false);
+
+    $effect(() => {
+        if (sortedDates.length > 0 && !dateSliderInitialized) {
+            sliderMin = 0;
+            sliderMax = sortedDates.length - 1;
+            dateSliderInitialized = true;
+        }
+    });
+
+    function onSliderMinChange(val: number) {
+        sliderMin = Math.min(val, sliderMax);
+        filters.dateRangeMin = sliderMin === 0 ? null : sortedDates[sliderMin];
+    }
+
+    function onSliderMaxChange(val: number) {
+        sliderMax = Math.max(val, sliderMin);
+        filters.dateRangeMax = sliderMax === sortedDates.length - 1 ? null : sortedDates[sliderMax];
+    }
+
+    function resetDateRange() {
+        sliderMin = 0;
+        sliderMax = sortedDates.length - 1;
+        filters.dateRangeMin = null;
+        filters.dateRangeMax = null;
+    }
+
+    let dateRangeActive = $derived(sliderMin > 0 || sliderMax < sortedDates.length - 1);
+
+    // Dual-thumb range helpers
+    let rangeTrackEl = $state<HTMLDivElement | null>(null);
+
+    function getSliderPercent(val: number): number {
+        const max = sortedDates.length - 1;
+        return max > 0 ? (val / max) * 100 : 0;
+    }
+
+    function handleRangePointerDown(e: PointerEvent) {
+        if (!rangeTrackEl) return;
+        const rect = rangeTrackEl.getBoundingClientRect();
+        const maxIdx = sortedDates.length - 1;
+
+        const calcVal = (ev: PointerEvent) => {
+            const pct = Math.max(0, Math.min(100, ((ev.clientX - rect.left) / rect.width) * 100));
+            return Math.round((pct / 100) * maxIdx);
+        };
+
+        const rawVal = calcVal(e);
+        const distMin = Math.abs(rawVal - sliderMin);
+        const distMax = Math.abs(rawVal - sliderMax);
+        const isMin = distMin <= distMax;
+
+        const update = (ev: PointerEvent) => {
+            const val = calcVal(ev);
+            if (isMin) {
+                onSliderMinChange(val);
+            } else {
+                onSliderMaxChange(val);
+            }
+        };
+
+        update(e);
+
+        const onMove = (ev: PointerEvent) => update(ev);
+        const onUp = () => {
+            window.removeEventListener('pointermove', onMove);
+            window.removeEventListener('pointerup', onUp);
+        };
+        window.addEventListener('pointermove', onMove);
+        window.addEventListener('pointerup', onUp);
+    }
 
     const sortOptions: { label: string; value: SortOption }[] = [
         { label: 'Weighted Score', value: 'score' },
@@ -66,149 +145,226 @@
                 {#if isFilterOpen}
                     <div class="fixed inset-0 z-40 cursor-default" onclick={closeDropdowns} aria-hidden="true"></div>
                     <div 
-                        class="absolute top-full left-0 mt-2 w-72 bg-popover dark:bg-[#09090b] backdrop-blur-xl border border-border/40 dark:border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden max-h-[80vh] overflow-y-auto ring-1 ring-border/10 dark:ring-white/5"
+                        class="absolute top-full left-0 mt-2 bg-popover dark:bg-[#09090b] backdrop-blur-xl border border-border/40 dark:border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden max-h-[80vh] overflow-y-auto ring-1 ring-border/10 dark:ring-white/5 transition-all duration-200 {isExpanded ? 'filter-panel-expanded' : 'w-72'}"
                         transition:scale={{duration: 150, start: 0.95}}
                     >
-                         <!-- Agent Type Filter -->
-                         <div class="p-4 border-b border-border/40 dark:border-white/5">
-                            <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest mb-3 px-1">Agent Type</div>
-                            <div class="grid grid-cols-3 gap-1 bg-muted/40 dark:bg-black/20 rounded-lg p-1 border border-border/40 dark:border-white/5">
-                                {#each openSourceOptions as opt (opt.value)}
-                                    <button 
-                                        class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.agentTypeFilter === opt.value ? 'bg-card dark:bg-white/15 text-foreground dark:text-white font-medium shadow-sm border border-border/20 dark:border-white/5' : 'text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5 border border-transparent'}"
-                                        onclick={() => filters.agentTypeFilter = opt.value}
+                        <!-- Toggle Filters: Agent Type, Model Type, MCP/Skills -->
+                        <div class="{isExpanded ? 'filter-toggle-grid' : ''}">
+                            <!-- Agent Type Filter -->
+                            <div class="p-4 border-b border-border/40 dark:border-white/5">
+                                <div class="flex items-center justify-between mb-3 px-1">
+                                    <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Agent Type</div>
+                                    <button
+                                        class="hidden landscape-expand:flex items-center gap-1.5 text-[10px] font-medium transition-colors rounded-md px-2 py-1 {isExpanded ? 'invisible' : ''} text-muted-foreground/50 dark:text-white/30 hover:text-muted-foreground dark:hover:text-white/50"
+                                        onclick={() => isExpanded = !isExpanded}
+                                        tabindex={isExpanded ? -1 : 0}
                                     >
-                                        {opt.label}
+                                        <Columns3 size={12} />
+                                        Expand
                                     </button>
-                                {/each}
+                                </div>
+                                <div class="grid grid-cols-3 gap-1 bg-muted/40 dark:bg-black/20 rounded-lg p-1 border border-border/40 dark:border-white/5">
+                                    {#each openSourceOptions as opt (opt.value)}
+                                        <button 
+                                            class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.agentTypeFilter === opt.value ? 'bg-card dark:bg-white/15 text-foreground dark:text-white font-medium shadow-sm border border-border/20 dark:border-white/5' : 'text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5 border border-transparent'}"
+                                            onclick={() => filters.agentTypeFilter = opt.value}
+                                        >
+                                            {opt.label}
+                                        </button>
+                                    {/each}
+                                </div>
+                            </div>
+
+                            <!-- Model Type Filter -->
+                            <div class="p-4 border-b border-border/40 dark:border-white/5">
+                                <div class="flex items-center justify-between mb-3 px-1">
+                                    <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Model Type</div>
+                                    <span class="hidden landscape-expand:flex items-center gap-1.5 text-[10px] font-medium rounded-md px-2 py-1 invisible"><Columns3 size={12} />Expand</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-1 bg-muted/40 dark:bg-black/20 rounded-lg p-1 border border-border/40 dark:border-white/5">
+                                    {#each openSourceOptions as opt (opt.value)}
+                                        <button 
+                                            class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.modelTypeFilter === opt.value ? 'bg-card dark:bg-white/15 text-foreground dark:text-white font-medium shadow-sm border border-border/20 dark:border-white/5' : 'text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5 border border-transparent'}"
+                                            onclick={() => filters.modelTypeFilter = opt.value}
+                                        >
+                                            {opt.label}
+                                        </button>
+                                    {/each}
+                                </div>
+                            </div>
+
+                            <!-- MCP / Skills Filter -->
+                            <div class="p-4 border-b border-border/40 dark:border-white/5">
+                                <div class="flex items-center justify-between mb-3 px-1">
+                                    <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">MCP / Skills</div>
+                                    <button
+                                        class="hidden landscape-expand:flex items-center gap-1.5 text-[10px] font-medium transition-colors rounded-md px-2 py-1 {isExpanded ? 'text-indigo-500 dark:text-indigo-400 bg-indigo-500/5 dark:bg-indigo-400/5' : 'invisible'}"
+                                        onclick={() => isExpanded = !isExpanded}
+                                        tabindex={isExpanded ? 0 : -1}
+                                    >
+                                        <Columns3 size={12} />
+                                        Collapse
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-3 gap-1 bg-muted/40 dark:bg-black/20 rounded-lg p-1 border border-border/40 dark:border-white/5">
+                                    {#each mcpOptions as opt (opt.value)}
+                                        <button 
+                                            class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.mcpFilter === opt.value ? 'bg-card dark:bg-white/15 text-foreground dark:text-white font-medium shadow-sm border border-border/20 dark:border-white/5' : 'text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5 border border-transparent'}"
+                                            onclick={() => filters.mcpFilter = opt.value}
+                                        >
+                                            {opt.label}
+                                        </button>
+                                    {/each}
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Model Type Filter -->
-                        <div class="p-4 border-b border-border/40 dark:border-white/5">
-                            <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest mb-3 px-1">Model Type</div>
-                            <div class="grid grid-cols-3 gap-1 bg-muted/40 dark:bg-black/20 rounded-lg p-1 border border-border/40 dark:border-white/5">
-                                {#each openSourceOptions as opt (opt.value)}
-                                    <button 
-                                        class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.modelTypeFilter === opt.value ? 'bg-card dark:bg-white/15 text-foreground dark:text-white font-medium shadow-sm border border-border/20 dark:border-white/5' : 'text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5 border border-transparent'}"
-                                        onclick={() => filters.modelTypeFilter = opt.value}
-                                    >
-                                        {opt.label}
-                                    </button>
-                                {/each}
-                            </div>
-                        </div>
-
-                        <!-- MCP Filter -->
-                        <div class="p-4 border-b border-border/40 dark:border-white/5">
-                            <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest mb-3 px-1">MCP Support</div>
-                            <div class="grid grid-cols-3 gap-1 bg-muted/40 dark:bg-black/20 rounded-lg p-1 border border-border/40 dark:border-white/5">
-                                {#each mcpOptions as opt (opt.value)}
-                                    <button 
-                                        class="text-[11px] py-1.5 rounded-md text-center transition-all {filters.mcpFilter === opt.value ? 'bg-card dark:bg-white/15 text-foreground dark:text-white font-medium shadow-sm border border-border/20 dark:border-white/5' : 'text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5 border border-transparent'}"
-                                        onclick={() => filters.mcpFilter = opt.value}
-                                    >
-                                        {opt.label}
-                                    </button>
-                                {/each}
-                            </div>
-                        </div>
-
-                        <!-- Agents -->
-                        {#if availableAgents.length > 0}
+                        <!-- Date Range -->
+                        {#if sortedDates.length > 1}
                         <div class="p-4 border-b border-border/40 dark:border-white/5">
                             <div class="flex items-center justify-between mb-3 px-1">
                                 <div class="flex items-center gap-2">
-                                    <Bot size={12} class="text-muted-foreground dark:text-white/40" />
-                                    <span class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Agents</span>
+                                    <Calendar size={12} class="text-muted-foreground dark:text-white/40" />
+                                    <span class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Date Range</span>
                                 </div>
-                                {#if filters.selectedAgents.length > 0}
-                                    <button class="text-[10px] text-indigo-500 dark:text-indigo-400 hover:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors" onclick={() => filters.selectedAgents = []}>Clear</button>
+                                {#if dateRangeActive}
+                                    <button class="text-[10px] text-indigo-500 dark:text-indigo-400 hover:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors" onclick={resetDateRange}>Reset</button>
                                 {/if}
                             </div>
-                            <div class="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
-                                {#each availableAgents as agent (agent)}
-                                    {@const isSelected = filters.selectedAgents.includes(agent)}
-                                    <label class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-foreground/5 dark:hover:bg-white/5 cursor-pointer group transition-colors">
-                                        <div class="relative flex items-center justify-center size-4 rounded border transition-all {isSelected ? 'bg-indigo-500 border-indigo-500 shadow-sm shadow-indigo-500/20' : 'border-border dark:border-white/20 bg-card dark:bg-white/5 group-hover:border-foreground/30 dark:group-hover:border-white/30'}">
-                                            {#if isSelected}
-                                                <Check size={10} class="text-white" strokeWidth={3} />
-                                            {/if}
-                                            <input type="checkbox" class="hidden" 
-                                                checked={isSelected}
-                                                onchange={() => filters.toggleAgent(agent)}
-                                            />
-                                        </div>
-                                        <span class="text-sm transition-colors {isSelected ? 'text-foreground dark:text-white' : 'text-muted-foreground dark:text-white/70 group-hover:text-foreground dark:group-hover:text-white'}">{agent}</span>
-                                    </label>
-                                {/each}
+                            <div class="px-1 space-y-3">
+                                <div class="flex items-center justify-between text-xs text-muted-foreground dark:text-white/60 font-mono">
+                                    <span>{sortedDates[sliderMin] ?? minDate}</span>
+                                    <span class="text-muted-foreground/30 dark:text-white/20">to</span>
+                                    <span>{sortedDates[sliderMax] ?? maxDate}</span>
+                                </div>
+                                <!-- Single track with two thumbs -->
+                                <div
+                                    class="dual-range-track"
+                                    bind:this={rangeTrackEl}
+                                    onpointerdown={handleRangePointerDown}
+                                    role="slider"
+                                    aria-valuemin={0}
+                                    aria-valuemax={sortedDates.length - 1}
+                                    aria-valuenow={sliderMin}
+                                    aria-label="Date range"
+                                    tabindex={0}
+                                >
+                                    <div class="dual-range-bg"></div>
+                                    <div
+                                        class="dual-range-fill"
+                                        style="left: {getSliderPercent(sliderMin)}%; right: {100 - getSliderPercent(sliderMax)}%;"
+                                    ></div>
+                                    <div
+                                        class="dual-range-thumb"
+                                        style="left: {getSliderPercent(sliderMin)}%;"
+                                    ></div>
+                                    <div
+                                        class="dual-range-thumb"
+                                        style="left: {getSliderPercent(sliderMax)}%;"
+                                    ></div>
+                                </div>
                             </div>
                         </div>
                         {/if}
 
-                        <!-- Providers -->
-                        {#if availableProviders.length > 0}
-                        <div class="p-4 border-b border-border/40 dark:border-white/5">
-                            <div class="flex items-center justify-between mb-3 px-1">
-                                <div class="flex items-center gap-2">
-                                    <Server size={12} class="text-muted-foreground dark:text-white/40" />
-                                    <span class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Providers</span>
+                        <!-- Agents / Providers / Models - in expanded mode these go into a 3-col grid -->
+                        <div class="{isExpanded ? 'filter-list-grid' : ''}">
+                            <!-- Agents -->
+                            {#if availableAgents.length > 0}
+                            <div class="p-4 border-b border-border/40 dark:border-white/5">
+                                <div class="flex items-center justify-between mb-3 px-1">
+                                    <div class="flex items-center gap-2">
+                                        <Bot size={12} class="text-muted-foreground dark:text-white/40" />
+                                        <span class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Agents</span>
+                                    </div>
+                                    {#if filters.selectedAgents.length > 0}
+                                        <button class="text-[10px] text-indigo-500 dark:text-indigo-400 hover:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors" onclick={() => filters.selectedAgents = []}>Clear</button>
+                                    {/if}
                                 </div>
-                                {#if filters.selectedProviders.length > 0}
-                                    <button class="text-[10px] text-indigo-500 dark:text-indigo-400 hover:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors" onclick={() => filters.selectedProviders = []}>Clear</button>
-                                {/if}
+                                <div class="space-y-1 overflow-y-auto custom-scrollbar {isExpanded ? 'max-h-72' : 'max-h-48'}">
+                                    {#each availableAgents as agent (agent)}
+                                        {@const isSelected = filters.selectedAgents.includes(agent)}
+                                        <label class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-foreground/5 dark:hover:bg-white/5 cursor-pointer group transition-colors">
+                                            <div class="relative flex items-center justify-center size-4 rounded border transition-all {isSelected ? 'bg-indigo-500 border-indigo-500 shadow-sm shadow-indigo-500/20' : 'border-border dark:border-white/20 bg-card dark:bg-white/5 group-hover:border-foreground/30 dark:group-hover:border-white/30'}">
+                                                {#if isSelected}
+                                                    <Check size={10} class="text-white" strokeWidth={3} />
+                                                {/if}
+                                                <input type="checkbox" class="hidden" 
+                                                    checked={isSelected}
+                                                    onchange={() => filters.toggleAgent(agent)}
+                                                />
+                                            </div>
+                                            <span class="text-sm transition-colors {isSelected ? 'text-foreground dark:text-white' : 'text-muted-foreground dark:text-white/70 group-hover:text-foreground dark:group-hover:text-white'}">{agent}</span>
+                                        </label>
+                                    {/each}
+                                </div>
                             </div>
-                            <div class="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
-                                {#each availableProviders as provider (provider)}
-                                    {@const isSelected = filters.selectedProviders.includes(provider)}
-                                    <label class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-foreground/5 dark:hover:bg-white/5 cursor-pointer group transition-colors">
-                                        <div class="relative flex items-center justify-center size-4 rounded border transition-all {isSelected ? 'bg-indigo-500 border-indigo-500 shadow-sm shadow-indigo-500/20' : 'border-border dark:border-white/20 bg-card dark:bg-white/5 group-hover:border-foreground/30 dark:group-hover:border-white/30'}">
-                                            {#if isSelected}
-                                                <Check size={10} class="text-white" strokeWidth={3} />
-                                            {/if}
-                                            <input type="checkbox" class="hidden" 
-                                                checked={isSelected}
-                                                onchange={() => filters.toggleProvider(provider)}
-                                            />
-                                        </div>
-                                        <span class="text-sm transition-colors {isSelected ? 'text-foreground dark:text-white' : 'text-muted-foreground dark:text-white/70 group-hover:text-foreground dark:group-hover:text-white'}">{provider}</span>
-                                    </label>
-                                {/each}
-                            </div>
-                        </div>
-                        {/if}
+                            {/if}
 
-                        <!-- Models -->
-                        {#if availableModels.length > 0}
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-3 px-1">
-                                <div class="flex items-center gap-2">
-                                    <Box size={12} class="text-muted-foreground dark:text-white/40" />
-                                    <span class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Models</span>
+                            <!-- Providers -->
+                            {#if availableProviders.length > 0}
+                            <div class="p-4 border-b border-border/40 dark:border-white/5">
+                                <div class="flex items-center justify-between mb-3 px-1">
+                                    <div class="flex items-center gap-2">
+                                        <Server size={12} class="text-muted-foreground dark:text-white/40" />
+                                        <span class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Providers</span>
+                                    </div>
+                                    {#if filters.selectedProviders.length > 0}
+                                        <button class="text-[10px] text-indigo-500 dark:text-indigo-400 hover:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors" onclick={() => filters.selectedProviders = []}>Clear</button>
+                                    {/if}
                                 </div>
-                                {#if filters.selectedModels.length > 0}
-                                    <button class="text-[10px] text-indigo-500 dark:text-indigo-400 hover:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors" onclick={() => filters.selectedModels = []}>Clear</button>
-                                {/if}
+                                <div class="space-y-1 overflow-y-auto custom-scrollbar {isExpanded ? 'max-h-72' : 'max-h-48'}">
+                                    {#each availableProviders as provider (provider)}
+                                        {@const isSelected = filters.selectedProviders.includes(provider)}
+                                        <label class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-foreground/5 dark:hover:bg-white/5 cursor-pointer group transition-colors">
+                                            <div class="relative flex items-center justify-center size-4 rounded border transition-all {isSelected ? 'bg-indigo-500 border-indigo-500 shadow-sm shadow-indigo-500/20' : 'border-border dark:border-white/20 bg-card dark:bg-white/5 group-hover:border-foreground/30 dark:group-hover:border-white/30'}">
+                                                {#if isSelected}
+                                                    <Check size={10} class="text-white" strokeWidth={3} />
+                                                {/if}
+                                                <input type="checkbox" class="hidden" 
+                                                    checked={isSelected}
+                                                    onchange={() => filters.toggleProvider(provider)}
+                                                />
+                                            </div>
+                                            <span class="text-sm transition-colors {isSelected ? 'text-foreground dark:text-white' : 'text-muted-foreground dark:text-white/70 group-hover:text-foreground dark:group-hover:text-white'}">{provider}</span>
+                                        </label>
+                                    {/each}
+                                </div>
                             </div>
-                            <div class="space-y-1 max-h-48 overflow-y-auto custom-scrollbar">
-                                {#each availableModels as model (model)}
-                                    {@const isSelected = filters.selectedModels.includes(model)}
-                                    <label class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-foreground/5 dark:hover:bg-white/5 cursor-pointer group transition-colors">
-                                        <div class="relative flex items-center justify-center size-4 rounded border transition-all {isSelected ? 'bg-indigo-500 border-indigo-500 shadow-sm shadow-indigo-500/20' : 'border-border dark:border-white/20 bg-card dark:bg-white/5 group-hover:border-foreground/30 dark:group-hover:border-white/30'}">
-                                            {#if isSelected}
-                                                <Check size={10} class="text-white" strokeWidth={3} />
-                                            {/if}
-                                            <input type="checkbox" class="hidden" 
-                                                checked={isSelected}
-                                                onchange={() => filters.toggleModel(model)}
-                                            />
-                                        </div>
-                                        <span class="text-sm transition-colors {isSelected ? 'text-foreground dark:text-white' : 'text-muted-foreground dark:text-white/70 group-hover:text-foreground dark:group-hover:text-white'}">{model}</span>
-                                    </label>
-                                {/each}
+                            {/if}
+
+                            <!-- Models -->
+                            {#if availableModels.length > 0}
+                            <div class="p-4">
+                                <div class="flex items-center justify-between mb-3 px-1">
+                                    <div class="flex items-center gap-2">
+                                        <Box size={12} class="text-muted-foreground dark:text-white/40" />
+                                        <span class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Models</span>
+                                    </div>
+                                    {#if filters.selectedModels.length > 0}
+                                        <button class="text-[10px] text-indigo-500 dark:text-indigo-400 hover:text-indigo-400 dark:hover:text-indigo-300 font-medium transition-colors" onclick={() => filters.selectedModels = []}>Clear</button>
+                                    {/if}
+                                </div>
+                                <div class="space-y-1 overflow-y-auto custom-scrollbar {isExpanded ? 'max-h-72' : 'max-h-48'}">
+                                    {#each availableModels as model (model)}
+                                        {@const isSelected = filters.selectedModels.includes(model)}
+                                        <label class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-foreground/5 dark:hover:bg-white/5 cursor-pointer group transition-colors">
+                                            <div class="relative flex items-center justify-center size-4 rounded border transition-all {isSelected ? 'bg-indigo-500 border-indigo-500 shadow-sm shadow-indigo-500/20' : 'border-border dark:border-white/20 bg-card dark:bg-white/5 group-hover:border-foreground/30 dark:group-hover:border-white/30'}">
+                                                {#if isSelected}
+                                                    <Check size={10} class="text-white" strokeWidth={3} />
+                                                {/if}
+                                                <input type="checkbox" class="hidden" 
+                                                    checked={isSelected}
+                                                    onchange={() => filters.toggleModel(model)}
+                                                />
+                                            </div>
+                                            <span class="text-sm transition-colors {isSelected ? 'text-foreground dark:text-white' : 'text-muted-foreground dark:text-white/70 group-hover:text-foreground dark:group-hover:text-white'}">{model}</span>
+                                        </label>
+                                    {/each}
+                                </div>
                             </div>
+                            {/if}
                         </div>
-                        {/if}
                     </div>
                 {/if}
             </div>
@@ -257,7 +413,7 @@
             <!-- Vertical Divider -->
             <div class="h-6 w-px bg-border/40 dark:bg-white/10 hidden md:block mx-2"></div>
 
-            <!-- Search Input (Moved to Right) -->
+            <!-- Search Input -->
             <div class="relative group flex-1 max-w-sm hidden md:block">
                 <Search size={14} class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground dark:text-white/40 group-focus-within:text-foreground dark:group-focus-within:text-white transition-colors" />
                 <input 
@@ -318,5 +474,111 @@
     }
     :global(.dark) .custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Dual-range slider */
+    .dual-range-track {
+        position: relative;
+        height: 24px;
+        cursor: pointer;
+        touch-action: none;
+        user-select: none;
+    }
+    .dual-range-bg {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 4px;
+        transform: translateY(-50%);
+        border-radius: 2px;
+        background: hsl(var(--border) / 0.4);
+    }
+    :global(.dark) .dual-range-bg {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    .dual-range-fill {
+        position: absolute;
+        top: 50%;
+        height: 4px;
+        transform: translateY(-50%);
+        border-radius: 2px;
+        background: hsl(var(--foreground) / 0.3);
+    }
+    :global(.dark) .dual-range-fill {
+        background: rgba(129, 140, 248, 0.35);
+    }
+    .dual-range-thumb {
+        position: absolute;
+        top: 50%;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        background: hsl(var(--foreground));
+        border: 2px solid hsl(var(--background));
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        pointer-events: none;
+        transition: transform 0.1s ease;
+    }
+    :global(.dark) .dual-range-thumb {
+        background: rgb(129 140 248);
+        border-color: #09090b;
+        box-shadow: 0 0 6px rgba(129, 140, 248, 0.3);
+    }
+    .dual-range-track:hover .dual-range-thumb {
+        transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    /* Expanded filter panel */
+    .filter-panel-expanded {
+        width: 54rem;
+    }
+
+    /* In expanded mode, toggle filters in 3 columns */
+    .filter-toggle-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border-bottom: 1px solid hsl(var(--border) / 0.4);
+    }
+    :global(.dark) .filter-toggle-grid {
+        border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+    .filter-toggle-grid > :global(div) {
+        border-bottom: none !important;
+        border-right: 1px solid hsl(var(--border) / 0.4);
+    }
+    :global(.dark) .filter-toggle-grid > :global(div) {
+        border-right-color: rgba(255, 255, 255, 0.05);
+    }
+    .filter-toggle-grid > :global(div:nth-child(3n)),
+    .filter-toggle-grid > :global(div:last-child) {
+        border-right: none;
+    }
+
+    /* In expanded mode, agents/providers/models in 3 columns */
+    .filter-list-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+    }
+    .filter-list-grid > :global(div) {
+        border-bottom: none !important;
+        border-right: 1px solid hsl(var(--border) / 0.4);
+    }
+    :global(.dark) .filter-list-grid > :global(div) {
+        border-right-color: rgba(255, 255, 255, 0.05);
+    }
+    .filter-list-grid > :global(div:nth-child(3n)),
+    .filter-list-grid > :global(div:last-child) {
+        border-right: none;
+    }
+
+    /* Landscape expand: only show on wide landscape screens */
+    @media (min-aspect-ratio: 4/3) and (min-width: 1024px) {
+        :global(.landscape-expand\:flex) {
+            display: flex !important;
+        }
     }
 </style>

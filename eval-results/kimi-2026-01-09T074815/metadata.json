@@ -6,9 +6,11 @@
   "Model Provider": "Moonshot AI",
   "Access Provider": "Kimi For Coding",
   "Run Date": "2026-01-09",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Open Source",
   "Model Type": "Open Weight",
-  "Agent URL": "https://github.com/MoonshotAI/kimi-cli"
+  "Agent URL": "https://github.com/MoonshotAI/kimi-cli",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }

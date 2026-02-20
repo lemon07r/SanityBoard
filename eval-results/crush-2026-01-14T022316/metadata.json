@@ -6,9 +6,11 @@
   "Model Provider": "MiniMax AI",
   "Access Provider": "OpenAI API",
   "Run Date": "2026-01-14",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Open Source",
   "Model Type": "Open Weight",
-  "Agent URL": "https://github.com/charmbracelet/crush"
+  "Agent URL": "https://github.com/charmbracelet/crush",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }

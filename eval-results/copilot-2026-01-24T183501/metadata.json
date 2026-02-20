@@ -6,9 +6,11 @@
   "Model Provider": "Anthropic",
   "Access Provider": "",
   "Run Date": "2026-01-24",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Proprietary",
   "Model Type": "Proprietary",
-  "Agent URL": "https://github.com/github/copilot-cli"
+  "Agent URL": "https://github.com/github/copilot-cli",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }

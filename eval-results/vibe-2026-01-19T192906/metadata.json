@@ -6,9 +6,11 @@
   "Model Provider": "Mistral AI",
   "Access Provider": "",
   "Run Date": "2026-01-19",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Open Source",
   "Model Type": "Open Weight",
-  "Agent URL": "https://github.com/mistralai/mistral-vibe"
+  "Agent URL": "https://github.com/mistralai/mistral-vibe",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }

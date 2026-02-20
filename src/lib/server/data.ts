@@ -17,7 +17,9 @@ export const MetadataSchema = z.object({
   "Model Provider": z.string(),
   "Access Provider": z.string().optional(),
   "Run Date": z.string(),
-  "MCP tools available": z.boolean().optional(),
+  "Skills or MCP available": z.boolean().optional(),
+  "Skills used": z.array(z.string()).optional(),
+  "MCP tools used": z.array(z.string()).optional(),
   verified: z.boolean().optional(),
 });
 

@@ -6,9 +6,11 @@
   "Model Provider": "OpenAI",
   "Access Provider": "",
   "Run Date": "2026-02-06",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Open Source",
   "Model Type": "Proprietary",
-  "Agent URL": "https://github.com/openai/codex"
+  "Agent URL": "https://github.com/openai/codex",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }

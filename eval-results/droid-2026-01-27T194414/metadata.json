@@ -6,9 +6,11 @@
   "Model Provider": "Fireworks AI",
   "Access Provider": "Factory Core",
   "Run Date": "2026-01-27",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Proprietary",
   "Model Type": "Open Weight",
-  "Agent URL": "https://factory.ai"
+  "Agent URL": "https://factory.ai",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }

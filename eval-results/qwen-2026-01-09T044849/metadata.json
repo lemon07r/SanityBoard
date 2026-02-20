@@ -6,9 +6,11 @@
   "Model Provider": "Alibaba Cloud",
   "Access Provider": "Qwen Code (OAuth)",
   "Run Date": "2026-01-09",
-  "MCP tools available": false,
   "verified": true,
   "Agent Type": "Open Source",
   "Model Type": "Proprietary",
-  "Agent URL": "https://github.com/QwenLM/qwen-code"
+  "Agent URL": "https://github.com/QwenLM/qwen-code",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
 }
