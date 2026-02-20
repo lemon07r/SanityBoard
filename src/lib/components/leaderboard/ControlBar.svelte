@@ -152,17 +152,23 @@
                         <div class="{isExpanded ? 'filter-toggle-grid' : ''}">
                             <!-- Agent Type Filter -->
                             <div class="p-4 border-b border-border/40 dark:border-white/5">
+                                {#if isExpanded}
                                 <div class="flex items-center justify-between mb-3 px-1">
                                     <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Agent Type</div>
+                                    <span class="invisible text-[10px] px-2 py-1"><Columns3 size={12} /></span>
+                                </div>
+                                {:else}
+                                <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest mb-3 px-1 flex items-center justify-between">
+                                    <span>Agent Type</span>
                                     <button
-                                        class="hidden landscape-expand:flex items-center gap-1.5 text-[10px] font-medium transition-colors rounded-md px-2 py-1 {isExpanded ? 'invisible' : ''} text-muted-foreground/50 dark:text-white/30 hover:text-muted-foreground dark:hover:text-white/50"
-                                        onclick={() => isExpanded = !isExpanded}
-                                        tabindex={isExpanded ? -1 : 0}
+                                        class="hidden landscape-expand:flex items-center gap-1.5 font-medium transition-colors rounded-md text-muted-foreground/50 dark:text-white/30 hover:text-muted-foreground dark:hover:text-white/50"
+                                        onclick={() => isExpanded = true}
                                     >
                                         <Columns3 size={12} />
                                         Expand
                                     </button>
                                 </div>
+                                {/if}
                                 <div class="grid grid-cols-3 gap-1 bg-muted/40 dark:bg-black/20 rounded-lg p-1 border border-border/40 dark:border-white/5">
                                     {#each openSourceOptions as opt (opt.value)}
                                         <button 
@@ -177,10 +183,14 @@
 
                             <!-- Model Type Filter -->
                             <div class="p-4 border-b border-border/40 dark:border-white/5">
+                                {#if isExpanded}
                                 <div class="flex items-center justify-between mb-3 px-1">
                                     <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">Model Type</div>
-                                    <span class="hidden landscape-expand:flex items-center gap-1.5 text-[10px] font-medium rounded-md px-2 py-1 invisible"><Columns3 size={12} />Expand</span>
+                                    <span class="invisible text-[10px] px-2 py-1"><Columns3 size={12} /></span>
                                 </div>
+                                {:else}
+                                <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest mb-3 px-1">Model Type</div>
+                                {/if}
                                 <div class="grid grid-cols-3 gap-1 bg-muted/40 dark:bg-black/20 rounded-lg p-1 border border-border/40 dark:border-white/5">
                                     {#each openSourceOptions as opt (opt.value)}
                                         <button 
@@ -195,17 +205,20 @@
 
                             <!-- MCP / Skills Filter -->
                             <div class="p-4 border-b border-border/40 dark:border-white/5">
+                                {#if isExpanded}
                                 <div class="flex items-center justify-between mb-3 px-1">
                                     <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest">MCP / Skills</div>
                                     <button
-                                        class="hidden landscape-expand:flex items-center gap-1.5 text-[10px] font-medium transition-colors rounded-md px-2 py-1 {isExpanded ? 'text-indigo-500 dark:text-indigo-400 bg-indigo-500/5 dark:bg-indigo-400/5' : 'invisible'}"
-                                        onclick={() => isExpanded = !isExpanded}
-                                        tabindex={isExpanded ? 0 : -1}
+                                        class="hidden landscape-expand:flex items-center gap-1.5 text-[10px] font-medium transition-colors rounded-md px-2 py-1 text-indigo-500 dark:text-indigo-400 bg-indigo-500/5 dark:bg-indigo-400/5"
+                                        onclick={() => isExpanded = false}
                                     >
                                         <Columns3 size={12} />
                                         Collapse
                                     </button>
                                 </div>
+                                {:else}
+                                <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest mb-3 px-1">MCP / Skills</div>
+                                {/if}
                                 <div class="grid grid-cols-3 gap-1 bg-muted/40 dark:bg-black/20 rounded-lg p-1 border border-border/40 dark:border-white/5">
                                     {#each mcpOptions as opt (opt.value)}
                                         <button 

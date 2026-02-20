@@ -258,7 +258,7 @@
                 </button>
                 
                 <!-- MCP / Skills (Not sortable) -->
-                <div class="col-span-1 text-center hidden md:block">MCP / Skills</div>
+                <div class="col-span-1 text-center hidden md:block text-[9px] tracking-wide whitespace-nowrap">MCP / Skills</div>
             </div>
 
             <!-- Rows -->
