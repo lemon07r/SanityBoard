@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Droid",
+  "Agent Version": "v0.57.15",
+  "Model Name": "GLM-5",
+  "Variant": "",
+  "Model Provider": "Fireworks AI",
+  "Access Provider": "Factory Core",
+  "Run Date": "2026-02-16",
+  "verified": false,
+  "Agent Type": "Proprietary",
+  "Model Type": "Open Weight",
+  "Agent URL": "https://factory.ai",
+  "Skills or MCP available": true,
+  "Skills used": ["prnake/skills SanityHarness debug-languages"],
+  "MCP tools used": []
+}

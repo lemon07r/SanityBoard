@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Codex CLI",
+  "Agent Version": "0.100.0",
+  "Model Name": "GPT 5.3 Codex Spark",
+  "Variant": "medium",
+  "Model Provider": "OpenAI",
+  "Access Provider": "",
+  "Run Date": "2026-02-13",
+  "verified": false,
+  "Agent Type": "Open Source",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/openai/codex",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}
