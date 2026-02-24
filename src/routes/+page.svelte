@@ -11,15 +11,19 @@
 
     let { data } = $props();
 
+    // Select active dataset based on version toggle
+    let activeRuns = $derived(filters.leaderboardVersion === 'v18' ? data.v18Runs : data.runs);
+    let activeStats = $derived(filters.leaderboardVersion === 'v18' ? data.v18Stats : data.stats);
+
     // Derived unique options for filters
-    let availableProviders = $derived([...new Set(data.runs.map(r => r.metadata['Model Provider']))].sort());
-    let availableModels = $derived([...new Set(data.runs.map(r => r.metadata['Model Name']))].sort());
-    let availableAgents = $derived([...new Set(data.runs.map(r => r.metadata['Agent Name']))].sort());
-    let availableDates = $derived([...new Set(data.runs.map(r => r.metadata['Run Date']))].sort());
+    let availableProviders = $derived([...new Set(activeRuns.map(r => r.metadata['Model Provider']))].sort());
+    let availableModels = $derived([...new Set(activeRuns.map(r => r.metadata['Model Name']))].sort());
+    let availableAgents = $derived([...new Set(activeRuns.map(r => r.metadata['Agent Name']))].sort());
+    let availableDates = $derived([...new Set(activeRuns.map(r => r.metadata['Run Date']))].sort());
 
     // Derived filtered list
     let filteredRuns = $derived(
-        data.runs.filter(run => {
+        activeRuns.filter(run => {
             // Category Filter
             const isVerified = run.metadata.verified === true;
             if (filters.filterType === 'verified' && !isVerified) return false;
@@ -152,8 +156,8 @@
         mainEntity: {
             '@type': 'ItemList',
             name: 'AI Agent Leaderboard',
-            numberOfItems: data.runs.length,
-            itemListElement: data.runs.slice(0, 10).map((run, index) => ({
+            numberOfItems: activeRuns.length,
+            itemListElement: activeRuns.slice(0, 10).map((run, index) => ({
                 '@type': 'ListItem',
                 position: index + 1,
                 name: `${run.metadata['Agent Name']} v${run.metadata['Agent Version']}`,
@@ -170,10 +174,10 @@
     <div class="max-w-7xl mx-auto w-full px-4 md:px-6 -mt-8 mb-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {#each [
-                { label: 'Evaluations', value: data.stats.totalEvals, icon: FlaskConical },
-                { label: 'Agents', value: data.stats.totalAgents, icon: Bot },
-                { label: 'Models', value: data.stats.totalModels, icon: Box },
-                { label: 'Languages', value: data.stats.totalLanguages, icon: Code }
+                { label: 'Evaluations', value: activeStats.totalEvals, icon: FlaskConical },
+                { label: 'Agents', value: activeStats.totalAgents, icon: Bot },
+                { label: 'Models', value: activeStats.totalModels, icon: Box },
+                { label: 'Languages', value: activeStats.totalLanguages, icon: Code }
             ] as stat (stat.label)}
                 <div class="flex items-center gap-3 px-4 py-3 rounded-xl border border-border/40 dark:border-white/5 bg-card/80 dark:bg-white/[0.02]">
                     <div class="p-2 rounded-lg bg-foreground/5 dark:bg-white/5">

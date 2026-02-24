@@ -9,9 +9,11 @@ export type SortDirection = "asc" | "desc";
 export type FilterType = "all" | "verified" | "community";
 export type McpFilter = "all" | "yes" | "no";
 export type OpenSourceFilter = "all" | "open" | "proprietary";
+export type LeaderboardVersion = "legacy" | "v18";
 
 export class FilterStore {
   // Core State
+  leaderboardVersion = $state<LeaderboardVersion>("legacy");
   filterType = $state<FilterType>("verified");
   sortBy = $state<SortOption>("score");
   sortDirection = $state<SortDirection>("desc");
@@ -67,6 +69,10 @@ export class FilterStore {
     } else {
       this.selectedAgents.push(agent);
     }
+  }
+
+  toggleVersion() {
+    this.leaderboardVersion = this.leaderboardVersion === "legacy" ? "v18" : "legacy";
   }
 
   resetFilters() {

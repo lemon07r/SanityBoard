@@ -449,6 +449,29 @@
 
         </div>
 
+        <!-- Version Toggle -->
+        <div class="version-toggle-group relative flex items-center p-1 bg-muted/40 dark:bg-white/5 rounded-lg border border-border/40 dark:border-white/5 shrink-0">
+            <button
+                class="relative z-10 flex items-center justify-center gap-1.5 text-sm w-[4.5rem] py-1.5 rounded-md transition-colors duration-200 {filters.leaderboardVersion === 'legacy'
+                    ? 'bg-card dark:bg-white/10 text-foreground dark:text-white shadow-sm border border-border/20 dark:border-white/5 font-medium'
+                    : 'text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5 border border-transparent'}"
+                onclick={() => { if (filters.leaderboardVersion !== 'legacy') filters.toggleVersion(); }}
+            >
+                Legacy
+            </button>
+            <button
+                class="version-v18-btn relative z-10 flex items-center justify-center gap-1.5 text-sm w-[4.5rem] py-1.5 rounded-md transition-colors duration-200 overflow-hidden {filters.leaderboardVersion === 'v18'
+                    ? 'bg-card dark:bg-white/10 text-foreground dark:text-white shadow-sm border border-border/20 dark:border-white/5 font-medium'
+                    : 'text-muted-foreground dark:text-white/40 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5 border border-transparent'}"
+                onclick={() => { if (filters.leaderboardVersion !== 'v18') filters.toggleVersion(); }}
+            >
+                <span class="relative z-10">v1.8.x</span>
+                {#if filters.leaderboardVersion === 'legacy'}
+                    <span class="version-shimmer"></span>
+                {/if}
+            </button>
+        </div>
+
         <!-- Right: Segmented Control (Category) -->
         <div class="flex items-center p-1 bg-muted/40 dark:bg-white/5 rounded-lg border border-border/40 dark:border-white/5 shrink-0">
             {#each filterOptions as option (option.value)}
@@ -587,6 +610,40 @@
     .filter-list-grid > :global(div:last-child) {
         border-right: none;
     }
+
+    /* Version toggle shimmer */
+    .version-shimmer {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            100deg,
+            transparent 20%,
+            hsl(var(--foreground) / 0.04) 40%,
+            hsl(var(--foreground) / 0.07) 50%,
+            hsl(var(--foreground) / 0.04) 60%,
+            transparent 80%
+        );
+        background-size: 200% 100%;
+        animation: version-shimmer 6s linear infinite;
+        pointer-events: none;
+    }
+    :global(.dark) .version-shimmer {
+        background: linear-gradient(
+            100deg,
+            transparent 20%,
+            rgba(129, 140, 248, 0.05) 40%,
+            rgba(129, 140, 248, 0.10) 50%,
+            rgba(129, 140, 248, 0.05) 60%,
+            transparent 80%
+        );
+        background-size: 200% 100%;
+    }
+    @keyframes version-shimmer {
+        0% { background-position: 100% center; }
+        40% { background-position: -100% center; }
+        100% { background-position: -100% center; }
+    }
+
 
     /* Landscape expand: only show on wide landscape screens */
     @media (min-aspect-ratio: 4/3) and (min-width: 1024px) {

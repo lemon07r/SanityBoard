@@ -3,6 +3,7 @@ import path from "node:path";
 import { z } from "zod";
 
 const DATA_DIR = path.join(process.cwd(), "eval-results");
+const V18_DATA_DIR = path.join(process.cwd(), "v1.8-results");
 
 export const MetadataSchema = z.object({
   "Agent Name": z.string(),
@@ -95,18 +96,18 @@ export interface RunData {
   results: Results | null;
 }
 
-export function getRunIds(): string[] {
-  if (!fs.existsSync(DATA_DIR)) return [];
+export function getRunIds(dataDir: string = DATA_DIR): string[] {
+  if (!fs.existsSync(dataDir)) return [];
 
-  return fs.readdirSync(DATA_DIR).filter((file) => {
+  return fs.readdirSync(dataDir).filter((file) => {
     // Skip hidden directories (like .junie)
     if (file.startsWith(".")) return false;
-    return fs.statSync(path.join(DATA_DIR, file)).isDirectory();
+    return fs.statSync(path.join(dataDir, file)).isDirectory();
   });
 }
 
-export function getRunData(runId: string): RunData {
-  const runPath = path.join(DATA_DIR, runId);
+export function getRunData(runId: string, dataDir: string = DATA_DIR): RunData {
+  const runPath = path.join(dataDir, runId);
 
   if (!fs.existsSync(runPath)) {
     throw new Error(`Run ID ${runId} not found`);
@@ -132,10 +133,10 @@ export function getRunData(runId: string): RunData {
   };
 }
 
-export function getAllRuns(): RunData[] {
-  const ids = getRunIds();
+export function getAllRuns(dataDir: string = DATA_DIR): RunData[] {
+  const ids = getRunIds(dataDir);
   return ids
-    .map((id) => getRunData(id))
+    .map((id) => getRunData(id, dataDir))
     .sort((a, b) => {
       // Sort by weighted_score desc, then date desc
       const scoreA = a.stats?.weighted_score || 0;
@@ -147,4 +148,8 @@ export function getAllRuns(): RunData[] {
         new Date(a.metadata["Run Date"]).getTime()
       );
     });
+}
+
+export function getAllRunsV18(): RunData[] {
+  return getAllRuns(V18_DATA_DIR);
 }
