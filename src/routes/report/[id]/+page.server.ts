@@ -1,4 +1,4 @@
-import { getRunData, getAllRuns } from "$lib/server/data";
+import { getRunData, getAllRuns, getAllRunsV18 } from "$lib/server/data";
 import fs from "node:fs";
 import path from "node:path";
 import { compile } from "mdsvex";
@@ -14,16 +14,28 @@ function convertEmojisToUnicode(content: string): string {
 }
 
 export function entries() {
-  return getAllRuns().map((run) => ({ id: run.id }));
+  const legacyEntries = getAllRuns().map((run) => ({ id: run.id }));
+  const v18Entries = getAllRunsV18().map((run) => ({ id: run.id }));
+  return [...legacyEntries, ...v18Entries];
+}
+
+function resolveRunDataDir(runId: string): string {
+  const legacyPath = path.join(process.cwd(), "eval-results", runId);
+  if (fs.existsSync(legacyPath)) return "eval-results";
+  const v18Path = path.join(process.cwd(), "v1.8-results", runId);
+  if (fs.existsSync(v18Path)) return "v1.8-results";
+  throw new Error(`Run ID ${runId} not found in any results directory`);
 }
 
 export const load = async ({ params }: { params: { id: string } }) => {
-  const run = getRunData(params.id);
+  const dataDir = resolveRunDataDir(params.id);
+  const fullDataDir = path.join(process.cwd(), dataDir);
+  const run = getRunData(params.id, fullDataDir);
 
   // Read report.md
   const reportPath = path.join(
     process.cwd(),
-    "eval-results",
+    dataDir,
     params.id,
     "report.md",
   );

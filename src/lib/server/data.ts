@@ -38,6 +38,13 @@ export const TaskResultSchema = z.object({
   prompt_chars: z.number().optional(),
   weight: z.number().optional(),
   weighted_score: z.number().optional(),
+  agent_timed_out: z.boolean().optional(),
+  quota_retries: z.number().optional(),
+  quota_exhausted: z.boolean().optional(),
+  infra_failure: z.boolean().optional(),
+  self_test_commands: z.number().optional(),
+  toolchain_install_attempts: z.number().optional(),
+  out_of_workspace_read_attempts: z.number().optional(),
 });
 
 export const LanguageStatsSchema = z
@@ -57,6 +64,23 @@ export const ResultsSchema = z
     by_language: z.record(z.string(), LanguageStatsSchema).optional(),
   })
   .passthrough();
+
+// v1.8 summary.json has results as a top-level array alongside stats fields
+export const V18ResultsSchema = z
+  .object({
+    results: z.array(TaskResultSchema),
+  })
+  .passthrough()
+  .transform((data) => {
+    // Normalize v1.8 flat format into the nested format expected by the UI
+    const { results, ...rest } = data;
+    return {
+      results,
+      by_tier: (rest as Record<string, unknown>).by_tier as Record<string, LanguageStats> | undefined,
+      by_difficulty: (rest as Record<string, unknown>).by_difficulty as Record<string, LanguageStats> | undefined,
+      by_language: (rest as Record<string, unknown>).by_language as Record<string, LanguageStats> | undefined,
+    } as Results;
+  });
 
 export const StatsSchema = z
   .object({
@@ -125,11 +149,14 @@ export function getRunData(runId: string, dataDir: string = DATA_DIR): RunData {
     }
   };
 
+  const isV18 = dataDir === V18_DATA_DIR;
+  const resultsSchema = isV18 ? V18ResultsSchema : ResultsSchema;
+
   return {
     id: runId,
     metadata: readJson("metadata.json", MetadataSchema)!,
     stats: readJson("submission.json", StatsSchema),
-    results: readJson("summary.json", ResultsSchema),
+    results: readJson("summary.json", resultsSchema) as Results | null,
   };
 }
 
