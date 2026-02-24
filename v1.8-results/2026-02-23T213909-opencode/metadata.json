@@ -1,0 +1,16 @@
+{
+  "Agent Name": "OpenCode",
+  "Agent Version": "v1.2.10",
+  "Model Name": "GPT-5.3 Codex",
+  "Variant": "xhigh",
+  "Model Provider": "OpenAI",
+  "Access Provider": "GitHub Copilot",
+  "Run Date": "2026-02-23",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/anomalyco/opencode",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

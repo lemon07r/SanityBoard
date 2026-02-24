@@ -1,0 +1,74 @@
+{
+  "agent": "droid",
+  "model": "custom:MiniMax-M2.5",
+  "timestamp": "2026-02-23T195232",
+  "pass_rate": 34.61538461538461,
+  "weighted_pass_rate": 31.871432862721534,
+  "passed": 9,
+  "failed": 17,
+  "total": 26,
+  "weighted_score": 10.61,
+  "max_possible_score": 33.290000000000006,
+  "integrity_violations": 1,
+  "by_language": {
+    "dart": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "go": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "kotlin": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "rust": {
+      "passed": 3,
+      "failed": 3,
+      "total": 6,
+      "pass_rate": 50
+    },
+    "typescript": {
+      "passed": 2,
+      "failed": 3,
+      "total": 5,
+      "pass_rate": 40
+    },
+    "zig": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    }
+  },
+  "total_duration_seconds": 4082.6621033379997,
+  "agent_duration_seconds": 3907.622098469,
+  "harness_version": "v1.8.0-alpha.6-2-g6f61a69",
+  "weight_version": "2.1",
+  "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
+  "results_hash": "blake3:de2b04f1e5bc8e7d48fc1e5c63468fdbee2b039df734298f7fbb13a673fcf130",
+  "timeout": 600,
+  "parallel": 1,
+  "use_mcp_tools": false,
+  "disable_mcp": false,
+  "sandbox": true,
+  "legacy": false,
+  "quota_affected_tasks": 0,
+  "auth_affected_tasks": 0,
+  "infra_affected_tasks": 0,
+  "total_quota_retries": 0,
+  "total_infra_retries": 0,
+  "total_self_test_commands": 0,
+  "total_toolchain_install_attempts": 0,
+  "total_out_of_workspace_read_attempts": 0,
+  "tasks_with_self_testing": 0,
+  "tasks_with_toolchain_install": 0,
+  "tasks_with_out_of_workspace_reads": 0
+}

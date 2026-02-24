@@ -1,0 +1,72 @@
+{
+  "agent": "opencode",
+  "model": "cliproxy-copilot-gpt/copilot-gpt-5.3-codex",
+  "reasoning": "xhigh",
+  "timestamp": "2026-02-23T213909",
+  "pass_rate": 73.07692307692307,
+  "weighted_pass_rate": 69.78071492940823,
+  "passed": 19,
+  "failed": 7,
+  "total": 26,
+  "weighted_score": 23.230000000000004,
+  "max_possible_score": 33.290000000000006,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "pass_rate": 66.66666666666666
+    },
+    "rust": {
+      "passed": 5,
+      "failed": 1,
+      "total": 6,
+      "pass_rate": 83.33333333333334
+    },
+    "typescript": {
+      "passed": 4,
+      "failed": 1,
+      "total": 5,
+      "pass_rate": 80
+    },
+    "zig": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    }
+  },
+  "total_duration_seconds": 4316.166833464999,
+  "agent_duration_seconds": 4205.1702685479995,
+  "harness_version": "v1.8.0-alpha.6-1-g8b8f55d",
+  "weight_version": "2.1",
+  "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
+  "results_hash": "blake3:e48df07c2b42e479ee1295e221e4bcd305855c75c7751bef4ea8d7a8955fac7d",
+  "timeout": 600,
+  "parallel": 1,
+  "use_mcp_tools": false,
+  "disable_mcp": false,
+  "sandbox": true,
+  "legacy": false,
+  "quota_affected_tasks": 0,
+  "total_quota_retries": 0,
+  "total_self_test_commands": 16,
+  "total_toolchain_install_attempts": 0,
+  "total_out_of_workspace_read_attempts": 0,
+  "tasks_with_self_testing": 13,
+  "tasks_with_toolchain_install": 0,
+  "tasks_with_out_of_workspace_reads": 0
+}

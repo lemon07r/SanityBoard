@@ -2,7 +2,7 @@
  * Cleans evaluation result folders by deleting everything except the files
  * needed by SanityBoard.
  *
- * Keeps (per run folder in `eval-results/`):
+ * Keeps (per run folder in `eval-results/` and `v1.8-results/`):
  * - `metadata.json`
  * - `report.md`
  * - `summary.json`
@@ -16,7 +16,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const EVAL_RESULTS_DIR = path.join(process.cwd(), "eval-results");
+const EVAL_RESULTS_DIRS = [
+  path.join(process.cwd(), "eval-results"),
+  path.join(process.cwd(), "v1.8-results"),
+];
 
 const KEEP_FILES = new Set([
   "metadata.json",
@@ -89,26 +92,6 @@ async function main(): Promise<void> {
   const apply = hasFlag("--apply");
   const dryRun = !apply;
 
-  if (!(await pathExists(EVAL_RESULTS_DIR))) {
-    console.error(`eval-results directory not found: ${EVAL_RESULTS_DIR}`);
-    process.exit(1);
-  }
-
-  if (!(await isDirectory(EVAL_RESULTS_DIR))) {
-    console.error(`eval-results is not a directory: ${EVAL_RESULTS_DIR}`);
-    process.exit(1);
-  }
-
-  const runIds = (await fs.readdir(EVAL_RESULTS_DIR, { withFileTypes: true }))
-    .filter((e) => e.isDirectory() && !e.isSymbolicLink())
-    .map((e) => e.name)
-    .sort((a, b) => a.localeCompare(b));
-
-  if (runIds.length === 0) {
-    console.log("No run folders found in eval-results/.");
-    return;
-  }
-
   console.log(
     dryRun
       ? "Dry run: no files will be deleted. Pass --apply to delete."
@@ -117,15 +100,32 @@ async function main(): Promise<void> {
 
   let totalRemoved = 0;
 
-  for (const runId of runIds) {
-    const runDir = path.join(EVAL_RESULTS_DIR, runId);
-    const removals = await cleanRunDir(runDir, apply);
-    if (removals.length === 0) continue;
+  for (const evalResultsDir of EVAL_RESULTS_DIRS) {
+    if (!(await pathExists(evalResultsDir))) continue;
+    if (!(await isDirectory(evalResultsDir))) continue;
 
-    totalRemoved += removals.length;
-    console.log(`\n${runId}:`);
-    for (const removal of removals) {
-      console.log(`  - ${path.relative(process.cwd(), removal)}`);
+    const dirName = path.relative(process.cwd(), evalResultsDir);
+
+    const runIds = (await fs.readdir(evalResultsDir, { withFileTypes: true }))
+      .filter((e) => e.isDirectory() && !e.isSymbolicLink())
+      .map((e) => e.name)
+      .sort((a, b) => a.localeCompare(b));
+
+    if (runIds.length === 0) {
+      console.log(`No run folders found in ${dirName}/.`);
+      continue;
+    }
+
+    for (const runId of runIds) {
+      const runDir = path.join(evalResultsDir, runId);
+      const removals = await cleanRunDir(runDir, apply);
+      if (removals.length === 0) continue;
+
+      totalRemoved += removals.length;
+      console.log(`\n${dirName}/${runId}:`);
+      for (const removal of removals) {
+        console.log(`  - ${path.relative(process.cwd(), removal)}`);
+      }
     }
   }
 

@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Droid",
+  "Agent Version": "v0.61.0",
+  "Model Name": "MiniMax M2.5",
+  "Variant": "",
+  "Model Provider": "MiniMax",
+  "Access Provider": "Factory Core",
+  "Run Date": "2026-02-23",
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Open Weight",
+  "Agent URL": "https://factory.ai",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

@@ -1,0 +1,72 @@
+{
+  "agent": "opencode",
+  "model": "cliproxy-copilot/copilot-claude-opus-4.6",
+  "reasoning": "high",
+  "timestamp": "2026-02-23T201305",
+  "pass_rate": 65.38461538461539,
+  "weighted_pass_rate": 60.82907780114149,
+  "passed": 17,
+  "failed": 9,
+  "total": 26,
+  "weighted_score": 20.250000000000004,
+  "max_possible_score": 33.290000000000006,
+  "integrity_violations": 2,
+  "by_language": {
+    "dart": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "rust": {
+      "passed": 5,
+      "failed": 1,
+      "total": 6,
+      "pass_rate": 83.33333333333334
+    },
+    "typescript": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "pass_rate": 60
+    },
+    "zig": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    }
+  },
+  "total_duration_seconds": 1943.587211423,
+  "agent_duration_seconds": 1851.7338802080003,
+  "harness_version": "v1.8.0-alpha.6-1-g8b8f55d",
+  "weight_version": "2.1",
+  "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
+  "results_hash": "blake3:c29c9a0eacdfc2fa0b57595977da570639528fce12b46fc80face37f4898c9e2",
+  "timeout": 600,
+  "parallel": 1,
+  "use_mcp_tools": false,
+  "disable_mcp": false,
+  "sandbox": true,
+  "legacy": false,
+  "quota_affected_tasks": 0,
+  "total_quota_retries": 0,
+  "total_self_test_commands": 35,
+  "total_toolchain_install_attempts": 0,
+  "total_out_of_workspace_read_attempts": 17,
+  "tasks_with_self_testing": 8,
+  "tasks_with_toolchain_install": 0,
+  "tasks_with_out_of_workspace_reads": 9
+}
