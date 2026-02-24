@@ -1,0 +1,3333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search API Benchmark Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        .timestamp { color: #666; margin-bottom: 30px; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .card h3 { color: #666; font-size: 0.9em; text-transform: uppercase; margin-bottom: 10px; }
+        .card .value { font-size: 2em; font-weight: bold; color: #2c3e50; }
+        .card .subtitle { color: #999; font-size: 0.9em; margin-top: 5px; }
+        .chart-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .chart-wrapper { position: relative; height: 300px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #2c3e50; color: white; font-weight: 600; }
+        tr:hover { background: #f9f9f9; }
+        .success { color: #27ae60; }
+        .failure { color: #e74c3c; }
+        .skipped { color: #7f8c8d; }
+        .provider-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: 600; }
+        .provider-firecrawl { background: #ff6b35; color: white; }
+        .provider-tavily { background: #3498db; color: white; }
+        .provider-brave { background: #e74c3c; color: white; }
+        .provider-exa { background: #9b59b6; color: white; }
+        .provider-jina { background: #27ae60; color: white; }
+        .provider-mixedbread { background: #f39c12; color: white; }
+        .provider-local { background: #1abc9c; color: white; }
+        .section { margin-bottom: 40px; }
+        h2 { color: #2c3e50; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid #3498db; }
+        .quality-note { color: #666; margin: -8px 0 16px; font-size: 0.9em; }
+        .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .chart-grid .chart-container { margin-bottom: 0; }
+        .chart-grid .chart-wrapper { height: 320px; }
+        .heatmap-cell { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9em; border-radius: 4px; }
+        .heatmap-excellent { background: #27ae60; color: white; }
+        .heatmap-good { background: #2ecc71; color: white; }
+        .heatmap-acceptable { background: #f39c12; color: white; }
+        .heatmap-poor { background: #e74c3c; color: white; }
+        .heatmap-na { background: #ecf0f1; color: #7f8c8d; }
+        .heatmap-grid { display: grid; gap: 4px; margin-top: 20px; }
+        .heatmap-header { font-weight: 600; font-size: 0.85em; color: #666; padding: 8px; text-align: center; }
+        .heatmap-provider { font-weight: 600; font-size: 0.85em; color: #333; padding: 8px; display: flex; align-items: center; }
+        .scatter-tooltip { background: rgba(0,0,0,0.8); color: white; padding: 8px 12px; border-radius: 4px; font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search API Benchmark Report</h1>
+        <p class="timestamp">Generated: 2026-02-24 01:51:44</p>
+        
+        <div class="section">
+            <div class="cards">
+                <div class="card">
+                    <h3>Total Tests</h3>
+                    <div class="value">65</div>
+                    <div class="subtitle">Across 5 providers</div>
+                </div>
+                <div class="card">
+                    <h3>Providers Tested</h3>
+                    <div class="value">5</div>
+                    <div class="subtitle">Brave vs Exa vs Firecrawl vs Mixedbread vs Tavily</div>
+                </div>
+                <div class="card">
+                    <h3>Test Scenarios</h3>
+                    <div class="value">13</div>
+                    <div class="subtitle">Search, Extract, Crawl</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Performance Comparison</h2>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="latencyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Cost Analysis - Total USD Cost</h2>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="costChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Success Rate</h2>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="successChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Scoring Overview</h2>
+            <p class="quality-note">Search relevance uses model-assisted signals. Extract and crawl use rule-based heuristics. These score families are reported separately.</p>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="qualityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="section">
+            <h2>Scoring by Test Type</h2>
+            <p class="quality-note">Search relevance uses model signals; extract and crawl scores are heuristic diagnostics.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Provider</th>
+                        <th>Search Relevance</th>
+                        <th>Search Coverage</th>
+                        <th>Semantic</th>
+                        <th>Semantic Coverage</th>
+                        <th>Reranker</th>
+                        <th>Reranker Coverage</th>
+                        <th>Search Component Avg</th>
+                        <th>Component Coverage</th>
+                        <th>Extract Heuristic</th>
+                        <th>Extract Coverage</th>
+                        <th>Crawl Heuristic</th>
+                        <th>Crawl Coverage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td>91.3</td>
+                        <td>100.0% (18/18)</td>
+                        <td>69.2</td>
+                        <td>100.0% (18/18)</td>
+                        <td>88.5</td>
+                        <td>100.0% (18/18)</td>
+                        <td>78.8</td>
+                        <td>100.0% (18/18)</td>
+                        <td>93.6</td>
+                        <td>100.0% (12/12)</td>
+                        <td>86.7</td>
+                        <td>100.0% (9/9)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td>88.8</td>
+                        <td>100.0% (18/18)</td>
+                        <td>66.7</td>
+                        <td>100.0% (18/18)</td>
+                        <td>65.8</td>
+                        <td>100.0% (18/18)</td>
+                        <td>66.3</td>
+                        <td>100.0% (18/18)</td>
+                        <td>90.0</td>
+                        <td>100.0% (12/12)</td>
+                        <td>98.0</td>
+                        <td>100.0% (9/9)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td>89.8</td>
+                        <td>77.8% (14/18)</td>
+                        <td>72.0</td>
+                        <td>77.8% (14/18)</td>
+                        <td>62.6</td>
+                        <td>72.2% (13/18)</td>
+                        <td>67.9</td>
+                        <td>77.8% (14/18)</td>
+                        <td>92.9</td>
+                        <td>83.3% (10/12)</td>
+                        <td>93.8</td>
+                        <td>66.7% (6/9)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td>88.0</td>
+                        <td>100.0% (18/18)</td>
+                        <td>69.9</td>
+                        <td>100.0% (18/18)</td>
+                        <td>60.4</td>
+                        <td>100.0% (18/18)</td>
+                        <td>65.2</td>
+                        <td>100.0% (18/18)</td>
+                        <td>93.6</td>
+                        <td>100.0% (12/12)</td>
+                        <td>85.7</td>
+                        <td>100.0% (9/9)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td>91.2</td>
+                        <td>100.0% (18/18)</td>
+                        <td>67.7</td>
+                        <td>100.0% (18/18)</td>
+                        <td>88.2</td>
+                        <td>100.0% (18/18)</td>
+                        <td>77.9</td>
+                        <td>100.0% (18/18)</td>
+                        <td>97.1</td>
+                        <td>100.0% (12/12)</td>
+                        <td>92.8</td>
+                        <td>100.0% (9/9)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Search Scoring Breakdown: Semantic &amp; Reranker</h2>
+            <p class="quality-note">Embedding similarity (semantic) and reranker confidence scores for search tests. These are the two components that compose the blended search relevance score above.</p>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="semanticRerankerChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Advanced Analytics</h2>
+        </div>
+
+        <div class="section">
+            <h2>Provider Performance Profile</h2>
+            <p class="quality-note">All dimensions normalized to 0-100 scale (higher is better). Speed and cost are inverted so higher = faster/cheaper.</p>
+            <div class="chart-container">
+                <div class="chart-wrapper" style="height: 450px;">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Latency Distribution</h2>
+            <p class="quality-note">Stacked bars show Min→P50, P50→P95, and P95→Max latency ranges per provider.</p>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="latencyDistChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Trade-off Analysis</h2>
+            <p class="quality-note">Green quadrant = sweet spot (low cost/fast + high quality). Red quadrant = least desirable. Crosshairs at provider median values.</p>
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <canvas id="costQualityScatter"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <canvas id="speedQualityScatter"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-wrapper">
+                        <canvas id="costSpeedScatter"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Performance Heatmap by Test Scenario</h2>
+            <div class="chart-container">
+                <div id="performanceHeatmap"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Error Breakdown by Category</h2>
+            <div class="chart-container">
+                <div class="chart-wrapper">
+                    <canvas id="errorBreakdownChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="section">
+            <h2>Detailed Results</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Test</th>
+                        <th>Provider</th>
+                        <th>Status</th>
+                        <th>Latency</th>
+                        <th>Cost (USD)</th>
+                        <th>Results/Content</th>
+                        <th>Score Family</th>
+                        <th>Score</th>
+                        <th>Semantic (Search)</th>
+                        <th>Reranker (Search)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>389ms</td>
+                        <td>-</td>
+                        <td>10 pages, 50883 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>93.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>26753ms</td>
+                        <td>$0.17</td>
+                        <td>10 pages, 81388 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>96.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>499ms</td>
+                        <td>$0.0050</td>
+                        <td>10 pages, 650205 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>96.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1866ms</td>
+                        <td>$0.0010</td>
+                        <td>10 pages, 594295 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>70429ms</td>
+                        <td>$0.05</td>
+                        <td>10 pages, 694246 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>89.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>35761ms</td>
+                        <td>$0.05</td>
+                        <td>10 pages, 694246 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>89.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>379ms</td>
+                        <td>$0.0050</td>
+                        <td>10 pages, 650205 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>96.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>292ms</td>
+                        <td>$0.0010</td>
+                        <td>10 pages, 594295 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>22514ms</td>
+                        <td>$0.17</td>
+                        <td>10 pages, 682702 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>93.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>4140ms</td>
+                        <td>$0.17</td>
+                        <td>10 pages, 641373 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>94.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>395ms</td>
+                        <td>$0.0050</td>
+                        <td>10 pages, 650205 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>96.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1848ms</td>
+                        <td>$0.0010</td>
+                        <td>10 pages, 616226 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>195ms</td>
+                        <td>-</td>
+                        <td>10 pages, 50883 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>93.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>195ms</td>
+                        <td>-</td>
+                        <td>10 pages, 50883 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>93.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Deep Crawl</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>43274ms</td>
+                        <td>$0.05</td>
+                        <td>10 pages, 694246 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>89.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>7120ms</td>
+                        <td>$0.07</td>
+                        <td>4 pages, 51195 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>84.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1307ms</td>
+                        <td>$0.0050</td>
+                        <td>2 pages, 659 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>64.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>20672ms</td>
+                        <td>$0.03</td>
+                        <td>5 pages, 61072 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>96.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>350ms</td>
+                        <td>-</td>
+                        <td>2 pages, 659 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>64.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>3334ms</td>
+                        <td>$0.07</td>
+                        <td>4 pages, 51195 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>84.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1077ms</td>
+                        <td>$0.0050</td>
+                        <td>2 pages, 659 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>64.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>745ms</td>
+                        <td>$0.0010</td>
+                        <td>5 pages, 7645 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>96.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>408ms</td>
+                        <td>-</td>
+                        <td>2 pages, 659 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>64.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="failure">✗ Fail</span></td>
+                        <td>90000ms</td>
+                        <td>-</td>
+                        <td>0 pages, 0 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>4792ms</td>
+                        <td>$0.07</td>
+                        <td>4 pages, 51195 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>84.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>333ms</td>
+                        <td>$0.0050</td>
+                        <td>2 pages, 659 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>64.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>908ms</td>
+                        <td>$0.0010</td>
+                        <td>5 pages, 6420 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>96.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>349ms</td>
+                        <td>-</td>
+                        <td>2 pages, 659 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>64.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>175ms</td>
+                        <td>$0.0010</td>
+                        <td>5 pages, 6420 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>96.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Shallow Multi-Page</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="failure">✗ Fail</span></td>
+                        <td>90002ms</td>
+                        <td>-</td>
+                        <td>0 pages, 0 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>218ms</td>
+                        <td>$0.02</td>
+                        <td>1 pages, 21104 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>685ms</td>
+                        <td>$0.0050</td>
+                        <td>1 pages, 5730 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1589ms</td>
+                        <td>$0.0010</td>
+                        <td>1 pages, 7927 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>22ms</td>
+                        <td>-</td>
+                        <td>1 pages, 14467 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>44964ms</td>
+                        <td>$0.0050</td>
+                        <td>1 pages, 19719 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>180ms</td>
+                        <td>$0.02</td>
+                        <td>1 pages, 21104 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>146ms</td>
+                        <td>$0.0050</td>
+                        <td>1 pages, 5730 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>263ms</td>
+                        <td>$0.0010</td>
+                        <td>1 pages, 7927 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>23ms</td>
+                        <td>-</td>
+                        <td>1 pages, 14467 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="failure">✗ Fail</span></td>
+                        <td>90001ms</td>
+                        <td>-</td>
+                        <td>0 pages, 0 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>198ms</td>
+                        <td>$0.02</td>
+                        <td>1 pages, 21104 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>212ms</td>
+                        <td>$0.0050</td>
+                        <td>1 pages, 5730 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>267ms</td>
+                        <td>$0.0010</td>
+                        <td>1 pages, 7927 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>23ms</td>
+                        <td>-</td>
+                        <td>1 pages, 14467 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Crawl - Single Page</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>47943ms</td>
+                        <td>$0.0050</td>
+                        <td>1 pages, 19719 chars</td>
+                        <td>Crawl Heuristic</td>
+                        <td>100.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>4899ms</td>
+                        <td>$0.0050</td>
+                        <td>5608 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>59ms</td>
+                        <td>$0.02</td>
+                        <td>3517 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>11078ms</td>
+                        <td>$0.0050</td>
+                        <td>5608 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>79ms</td>
+                        <td>$0.02</td>
+                        <td>3517 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>123ms</td>
+                        <td>-</td>
+                        <td>3514 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>133ms</td>
+                        <td>$0.0010</td>
+                        <td>2111 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>20ms</td>
+                        <td>-</td>
+                        <td>3514 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>167ms</td>
+                        <td>$0.0010</td>
+                        <td>2111 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>95ms</td>
+                        <td>-</td>
+                        <td>3514 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>63ms</td>
+                        <td>$0.02</td>
+                        <td>3517 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>24761ms</td>
+                        <td>$0.0050</td>
+                        <td>5608 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>75ms</td>
+                        <td>-</td>
+                        <td>3514 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>157ms</td>
+                        <td>$0.0010</td>
+                        <td>2111 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>103ms</td>
+                        <td>-</td>
+                        <td>3514 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Code Documentation</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>78ms</td>
+                        <td>-</td>
+                        <td>3514 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>97.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>970ms</td>
+                        <td>$0.0050</td>
+                        <td>669039 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>199ms</td>
+                        <td>$0.02</td>
+                        <td>491491 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.4</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>283ms</td>
+                        <td>-</td>
+                        <td>509122 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>127ms</td>
+                        <td>$0.02</td>
+                        <td>491491 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.4</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>104ms</td>
+                        <td>-</td>
+                        <td>509122 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>499ms</td>
+                        <td>$0.0010</td>
+                        <td>255781 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>95.9</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>86ms</td>
+                        <td>-</td>
+                        <td>509122 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>6724ms</td>
+                        <td>$0.0050</td>
+                        <td>669039 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>90ms</td>
+                        <td>$0.02</td>
+                        <td>491491 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.4</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>284ms</td>
+                        <td>-</td>
+                        <td>509122 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>116ms</td>
+                        <td>-</td>
+                        <td>509122 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>511ms</td>
+                        <td>$0.0010</td>
+                        <td>255781 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>95.9</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>526ms</td>
+                        <td>$0.0010</td>
+                        <td>255781 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>95.9</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>95ms</td>
+                        <td>-</td>
+                        <td>509122 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.2</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Encyclopedia Article</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="failure">✗ Fail</span></td>
+                        <td>90000ms</td>
+                        <td>-</td>
+                        <td>0 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>149ms</td>
+                        <td>$0.0010</td>
+                        <td>4789 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>378ms</td>
+                        <td>-</td>
+                        <td>11101 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>55ms</td>
+                        <td>$0.02</td>
+                        <td>10282 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.9</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>89ms</td>
+                        <td>-</td>
+                        <td>11103 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>153ms</td>
+                        <td>$0.0010</td>
+                        <td>4789 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>86ms</td>
+                        <td>-</td>
+                        <td>11103 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>27459ms</td>
+                        <td>$0.0050</td>
+                        <td>15584 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>55ms</td>
+                        <td>$0.02</td>
+                        <td>10282 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.9</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>415ms</td>
+                        <td>-</td>
+                        <td>11104 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>209ms</td>
+                        <td>$0.0010</td>
+                        <td>4789 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>104ms</td>
+                        <td>-</td>
+                        <td>11104 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>57635ms</td>
+                        <td>$0.0050</td>
+                        <td>15584 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>3539ms</td>
+                        <td>$0.0050</td>
+                        <td>15584 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>103ms</td>
+                        <td>-</td>
+                        <td>11100 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>83.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - News Article</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>53ms</td>
+                        <td>$0.02</td>
+                        <td>10282 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>96.9</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>32ms</td>
+                        <td>-</td>
+                        <td>14467 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>150ms</td>
+                        <td>$0.0010</td>
+                        <td>7641 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>25ms</td>
+                        <td>-</td>
+                        <td>14467 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>2610ms</td>
+                        <td>$0.02</td>
+                        <td>21104 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>138ms</td>
+                        <td>$0.0010</td>
+                        <td>7641 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>19ms</td>
+                        <td>-</td>
+                        <td>14467 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>51ms</td>
+                        <td>$0.02</td>
+                        <td>21104 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>19ms</td>
+                        <td>-</td>
+                        <td>14467 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>40899ms</td>
+                        <td>$0.0050</td>
+                        <td>21421 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>178ms</td>
+                        <td>$0.0010</td>
+                        <td>7641 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>7350ms</td>
+                        <td>$0.0050</td>
+                        <td>21421 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>55ms</td>
+                        <td>$0.02</td>
+                        <td>21104 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>19ms</td>
+                        <td>-</td>
+                        <td>14467 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>18ms</td>
+                        <td>-</td>
+                        <td>14467 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>98.0</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Extract - Technical Docs</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="failure">✗ Fail</span></td>
+                        <td>90003ms</td>
+                        <td>-</td>
+                        <td>0 chars</td>
+                        <td>Extraction Heuristic</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>2319ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.8</td>
+                        <td>60.1</td>
+                        <td>93.1</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>777ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.5</td>
+                        <td>59.6</td>
+                        <td>77.8</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1612ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>86.4</td>
+                        <td>57.7</td>
+                        <td>38.0</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>4724ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>87.5</td>
+                        <td>56.0</td>
+                        <td>56.2</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>33516ms</td>
+                        <td>$0.03</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>84.9</td>
+                        <td>56.7</td>
+                        <td>21.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="failure">✗ Fail</span></td>
+                        <td>90001ms</td>
+                        <td>-</td>
+                        <td>0 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>42ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.8</td>
+                        <td>60.1</td>
+                        <td>93.1</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>311ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.5</td>
+                        <td>59.6</td>
+                        <td>77.9</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>4101ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>87.6</td>
+                        <td>57.4</td>
+                        <td>56.2</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1247ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>86.4</td>
+                        <td>57.7</td>
+                        <td>38.0</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>5042ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>87.6</td>
+                        <td>57.4</td>
+                        <td>56.3</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1255ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>85.0</td>
+                        <td>57.5</td>
+                        <td>19.6</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>42ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.8</td>
+                        <td>60.1</td>
+                        <td>93.2</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>319ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.5</td>
+                        <td>59.6</td>
+                        <td>77.9</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Basic Facts</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>48464ms</td>
+                        <td>$0.03</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>84.8</td>
+                        <td>56.7</td>
+                        <td>21.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>2523ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.4</td>
+                        <td>63.5</td>
+                        <td>75.0</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>597ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.2</td>
+                        <td>65.1</td>
+                        <td>79.4</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1624ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.9</td>
+                        <td>66.4</td>
+                        <td>72.9</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>6390ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>88.7</td>
+                        <td>63.8</td>
+                        <td>56.2</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>41105ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.1</td>
+                        <td>63.6</td>
+                        <td>67.2</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>46ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.4</td>
+                        <td>63.5</td>
+                        <td>74.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>170ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.2</td>
+                        <td>65.1</td>
+                        <td>79.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>7740ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>88.5</td>
+                        <td>59.5</td>
+                        <td>60.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>2047ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.0</td>
+                        <td>67.8</td>
+                        <td>72.3</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>43ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.3</td>
+                        <td>63.5</td>
+                        <td>74.3</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>182ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.2</td>
+                        <td>65.1</td>
+                        <td>79.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1259ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.3</td>
+                        <td>76.4</td>
+                        <td>61.9</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>5224ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>88.1</td>
+                        <td>58.1</td>
+                        <td>57.0</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>52259ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.1</td>
+                        <td>63.6</td>
+                        <td>66.9</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Complex Query</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="failure">✗ Fail</span></td>
+                        <td>90001ms</td>
+                        <td>-</td>
+                        <td>0 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>2063ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.1</td>
+                        <td>68.4</td>
+                        <td>99.4</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>598ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.1</td>
+                        <td>72.5</td>
+                        <td>94.6</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>10331ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.8</td>
+                        <td>72.4</td>
+                        <td>89.0</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>2002ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.5</td>
+                        <td>69.9</td>
+                        <td>89.1</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>63965ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.1</td>
+                        <td>72.5</td>
+                        <td>81.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="failure">✗ Fail</span></td>
+                        <td>90007ms</td>
+                        <td>-</td>
+                        <td>0 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>47ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.1</td>
+                        <td>68.4</td>
+                        <td>99.4</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>185ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.1</td>
+                        <td>72.5</td>
+                        <td>94.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1822ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.3</td>
+                        <td>67.3</td>
+                        <td>76.6</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>83210ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.1</td>
+                        <td>72.5</td>
+                        <td>81.6</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>42ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.1</td>
+                        <td>68.4</td>
+                        <td>99.4</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>171ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.1</td>
+                        <td>72.5</td>
+                        <td>94.4</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>8572ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.0</td>
+                        <td>74.2</td>
+                        <td>91.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>3631ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.5</td>
+                        <td>69.9</td>
+                        <td>89.1</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Niche Academic</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>9447ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.5</td>
+                        <td>71.5</td>
+                        <td>86.8</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>2299ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.9</td>
+                        <td>65.8</td>
+                        <td>72.9</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>614ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.7</td>
+                        <td>67.6</td>
+                        <td>94.4</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>8149ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>87.7</td>
+                        <td>64.9</td>
+                        <td>39.7</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="failure">✗ Fail</span></td>
+                        <td>90000ms</td>
+                        <td>-</td>
+                        <td>0 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>187ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.7</td>
+                        <td>67.6</td>
+                        <td>94.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>7600ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.6</td>
+                        <td>78.0</td>
+                        <td>65.6</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>43ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.9</td>
+                        <td>65.8</td>
+                        <td>72.8</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1549ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.2</td>
+                        <td>69.8</td>
+                        <td>72.0</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1691ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.7</td>
+                        <td>71.1</td>
+                        <td>63.3</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>5659ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.6</td>
+                        <td>78.0</td>
+                        <td>65.8</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>218ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.7</td>
+                        <td>67.6</td>
+                        <td>94.3</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>9563ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>87.6</td>
+                        <td>64.0</td>
+                        <td>39.6</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>46ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.9</td>
+                        <td>65.8</td>
+                        <td>72.9</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>8722ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>88.3</td>
+                        <td>65.1</td>
+                        <td>49.3</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Product Comparison</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>2007ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.3</td>
+                        <td>71.7</td>
+                        <td>67.4</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>778ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.3</td>
+                        <td>74.9</td>
+                        <td>93.0</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>14145ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.0</td>
+                        <td>77.1</td>
+                        <td>74.2</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1868ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.7</td>
+                        <td>73.7</td>
+                        <td>96.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>45ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.7</td>
+                        <td>73.7</td>
+                        <td>96.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>166ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.4</td>
+                        <td>75.2</td>
+                        <td>93.0</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>4591ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.4</td>
+                        <td>76.5</td>
+                        <td>80.1</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>5519ms</td>
+                        <td>$0.0050</td>
+                        <td>4 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>88.8</td>
+                        <td>67.5</td>
+                        <td>53.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1160ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.2</td>
+                        <td>79.0</td>
+                        <td>47.3</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>14927ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.0</td>
+                        <td>77.1</td>
+                        <td>74.1</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1141ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>89.2</td>
+                        <td>78.5</td>
+                        <td>45.6</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>12717ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.0</td>
+                        <td>77.1</td>
+                        <td>74.1</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>43ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.7</td>
+                        <td>73.8</td>
+                        <td>96.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1579ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>88.1</td>
+                        <td>79.3</td>
+                        <td>32.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>4620ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.0</td>
+                        <td>73.1</td>
+                        <td>92.2</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Recent Technology</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>190ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.4</td>
+                        <td>75.2</td>
+                        <td>93.1</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>2160ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>78.6</td>
+                        <td>74.3</td>
+                        <td>62.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>2176ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.5</td>
+                        <td>74.9</td>
+                        <td>92.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>587ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.2</td>
+                        <td>75.2</td>
+                        <td>91.9</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>4365ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.2</td>
+                        <td>73.3</td>
+                        <td>77.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>11737ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.5</td>
+                        <td>78.4</td>
+                        <td>59.8</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>6255ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.0</td>
+                        <td>71.2</td>
+                        <td>67.2</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>1726ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.1</td>
+                        <td>71.5</td>
+                        <td>70.0</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>743ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.1</td>
+                        <td>75.2</td>
+                        <td>91.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>71905ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>91.3</td>
+                        <td>78.4</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>42ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.5</td>
+                        <td>74.8</td>
+                        <td>92.6</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-tavily">Tavily</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>45ms</td>
+                        <td>$0.02</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.5</td>
+                        <td>74.8</td>
+                        <td>92.5</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-brave">Brave</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>190ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>92.2</td>
+                        <td>75.2</td>
+                        <td>91.7</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-exa">Exa</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>3962ms</td>
+                        <td>$0.0050</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>79.3</td>
+                        <td>74.1</td>
+                        <td>76.1</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-mixedbread">Mixedbread</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>939ms</td>
+                        <td>$0.0075</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>78.6</td>
+                        <td>73.2</td>
+                        <td>69.4</td>
+                    </tr>
+                    <tr>
+                        <td>Search - Technical Deep Dive</td>
+                        <td><span class="provider-badge provider-firecrawl">Firecrawl</span></td>
+                        <td><span class="success">✓ Pass</span></td>
+                        <td>15335ms</td>
+                        <td>$0.04</td>
+                        <td>5 results</td>
+                        <td>Search Relevance (Model-Assisted)</td>
+                        <td>90.5</td>
+                        <td>78.4</td>
+                        <td>59.9</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+
+        // Score Chart (separate score families)
+        new Chart(document.getElementById('qualityChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Brave', 'Exa', 'Firecrawl', 'Mixedbread', 'Tavily'],
+                datasets: [
+                    {
+                        label: 'Search Relevance',
+                        data: [91.32, 88.82, 89.76, 88.03, 91.24],
+                        backgroundColor: ['#ff6b35', '#3498db', '#27ae60', '#9b59b6', '#e74c3c'],
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Extract Heuristic',
+                        data: [93.59, 90.03, 92.88, 93.59, 97.13],
+                        backgroundColor: 'rgba(52, 152, 219, 0.65)',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Crawl Heuristic',
+                        data: [86.67, 98.00, 93.83, 85.67, 92.78],
+                        backgroundColor: 'rgba(44, 62, 80, 0.65)',
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, position: 'bottom' },
+                    title: { display: true, text: 'Scores by Type (no blended single score)' }
+                },
+                scales: {
+                    y: {
+                        min: 83.20,
+                        max: 100.00,
+                        title: { display: true, text: 'Score' }
+                    }
+                }
+            }
+        });
+
+        // Semantic & Reranker Score Chart
+        new Chart(document.getElementById('semanticRerankerChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Brave', 'Exa', 'Firecrawl', 'Mixedbread', 'Tavily'],
+                datasets: [
+                    {
+                        label: 'Semantic (Embedding Similarity)',
+                        data: [69.18, 66.67, 72.01, 69.93, 67.73],
+                        backgroundColor: 'rgba(52, 152, 219, 0.75)',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Reranker Confidence',
+                        data: [88.50, 65.84, 62.60, 60.42, 88.16],
+                        backgroundColor: 'rgba(155, 89, 182, 0.75)',
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: true, position: 'bottom' },
+                    title: { display: true, text: 'Search Score Components: Embedding Similarity vs Reranker Confidence' }
+                },
+                scales: {
+                    y: {
+                        min: 54.81,
+                        max: 94.12,
+                        title: { display: true, text: 'Score (0-100)' }
+                    }
+                }
+            }
+        });
+
+        // Latency Chart
+        new Chart(document.getElementById('latencyChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Brave', 'Exa', 'Firecrawl', 'Mixedbread', 'Tavily'],
+                datasets: [{
+                    label: 'Average Latency (ms)',
+                    data: [345.00, 3288.00, 44485.00, 865.00, 2218.00],
+                    backgroundColor: ['#ff6b35', '#3498db', '#27ae60', '#9b59b6', '#e74c3c'],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Average Response Time' }
+                },
+                scales: {
+                    y: {
+                        min: 0.00,
+                        max: 55520.00,
+                        title: { display: true, text: 'Milliseconds' }
+                    }
+                }
+            }
+        });
+
+        // Success Rate Chart
+        new Chart(document.getElementById('successChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Brave', 'Exa', 'Firecrawl', 'Mixedbread', 'Tavily'],
+                datasets: [{
+                    label: 'Success Rate (%)',
+                    data: [100.00, 100.00, 76.92, 100.00, 100.00],
+                    backgroundColor: ['#ff6b35', '#3498db', '#27ae60', '#9b59b6', '#e74c3c'],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Request Success Rate' }
+                },
+                scales: {
+                    y: {
+                        min: 0.00,
+                        max: 100.00,
+                        title: { display: true, text: 'Percentage' }
+                    }
+                }
+            }
+        });
+
+        // USD Cost Chart - Total Cost
+        new Chart(document.getElementById('costChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Brave', 'Exa', 'Firecrawl', 'Mixedbread', 'Tavily'],
+                datasets: [{
+                    label: 'Total USD Cost',
+                    data: [0.14, 0.11, 0.72, 0.14, 1.27],
+                    backgroundColor: ['#ff6b35', '#3498db', '#27ae60', '#9b59b6', '#e74c3c'],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Total API Cost in USD (lower is better)' }
+                },
+                scales: {
+                    y: { 
+                        min: 0.000000,
+                        max: 1.562250,
+                        title: { display: true, text: 'USD ($)' },
+                        ticks: {
+                            callback: function(value) {
+                                const abs = Math.abs(Number(value));
+                                const digits = abs < 0.001 ? 5 : (abs < 0.01 ? 4 : 3);
+                                return '$' + Number(value).toFixed(digits);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+        // Empty state annotation plugin for charts with no meaningful data
+        const emptyStatePlugin = {
+            id: 'emptyState',
+            afterDraw(chart, args, opts) {
+                if (!opts || !opts.enabled) return;
+                const chartArea = chart.chartArea;
+                if (!chartArea) return;
+                const {ctx} = chart;
+                const {left, right, top, bottom} = chartArea;
+                ctx.save();
+                ctx.fillStyle = 'rgba(80, 80, 80, 0.8)';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.font = '600 13px sans-serif';
+                ctx.fillText(opts.text || 'No data available', (left + right) / 2, (top + bottom) / 2);
+                ctx.restore();
+            }
+        };
+
+        // Quadrant background plugin for scatter plots
+        const quadrantPlugin = {
+            id: 'quadrantBackground',
+            beforeDraw(chart) {
+                const opts = chart.options.plugins.quadrantBackground;
+                if (!opts) return;
+                const chartArea = chart.chartArea;
+                const x = chart.scales.x;
+                const y = chart.scales.y;
+                if (!chartArea || !x || !y) return;
+                const {ctx} = chart;
+                const {left, top, right, bottom} = chartArea;
+                const midX = x.getPixelForValue(opts.xMid);
+                const midY = y.getPixelForValue(opts.yMid);
+                const clampX = Math.max(left, Math.min(right, midX));
+                const clampY = Math.max(top, Math.min(bottom, midY));
+
+                ctx.save();
+                // Sweet-spot quadrant (low cost/fast + high quality)
+                ctx.fillStyle = opts.sweetSpot || 'rgba(46, 204, 113, 0.08)';
+                if (opts.sweetCorner === 'topLeft') {
+                    ctx.fillRect(left, top, clampX - left, clampY - top);
+                } else if (opts.sweetCorner === 'bottomLeft') {
+                    ctx.fillRect(left, clampY, clampX - left, bottom - clampY);
+                }
+
+                // Worst quadrant (opposite corner)
+                ctx.fillStyle = opts.worst || 'rgba(231, 76, 60, 0.06)';
+                if (opts.sweetCorner === 'topLeft') {
+                    ctx.fillRect(clampX, clampY, right - clampX, bottom - clampY);
+                } else if (opts.sweetCorner === 'bottomLeft') {
+                    ctx.fillRect(clampX, top, right - clampX, clampY - top);
+                }
+
+                // Draw crosshair lines
+                ctx.strokeStyle = 'rgba(0,0,0,0.10)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(clampX, top); ctx.lineTo(clampX, bottom);
+                ctx.moveTo(left, clampY); ctx.lineTo(right, clampY);
+                ctx.stroke();
+                ctx.restore();
+            }
+        };
+        Chart.register(emptyStatePlugin, quadrantPlugin);
+
+        // Radar Chart - Provider Performance Profile
+        new Chart(document.getElementById('radarChart'), {
+            type: 'radar',
+            data: {
+                labels: ['Success Rate', 'Speed Score', 'Cost Efficiency', 'Content Volume', 'Search Relevance'],
+                datasets: [{
+                    label: 'Brave',
+                    data: [100.00, 99.22, 88.89, 48.55, 100.00],
+                    backgroundColor: '#ff6b35'.replace("'", "").replace("'", "") + '33',
+                    borderColor: '#ff6b35',
+                    pointBackgroundColor: '#ff6b35',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#ff6b35',
+                    borderWidth: 2
+                },{
+                    label: 'Exa',
+                    data: [100.00, 92.61, 91.40, 80.59, 97.26],
+                    backgroundColor: '#3498db'.replace("'", "").replace("'", "") + '33',
+                    borderColor: '#3498db',
+                    pointBackgroundColor: '#3498db',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#3498db',
+                    borderWidth: 2
+                },{
+                    label: 'Firecrawl',
+                    data: [76.92, 0.00, 29.08, 100.00, 98.29],
+                    backgroundColor: '#27ae60'.replace("'", "").replace("'", "") + '33',
+                    borderColor: '#27ae60',
+                    pointBackgroundColor: '#27ae60',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#27ae60',
+                    borderWidth: 2
+                },{
+                    label: 'Mixedbread',
+                    data: [100.00, 98.06, 88.89, 33.00, 96.40],
+                    backgroundColor: '#9b59b6'.replace("'", "").replace("'", "") + '33',
+                    borderColor: '#9b59b6',
+                    pointBackgroundColor: '#9b59b6',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#9b59b6',
+                    borderWidth: 2
+                },{
+                    label: 'Tavily',
+                    data: [100.00, 95.01, 0.00, 43.81, 99.90],
+                    backgroundColor: '#e74c3c'.replace("'", "").replace("'", "") + '33',
+                    borderColor: '#e74c3c',
+                    pointBackgroundColor: '#e74c3c',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#e74c3c',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Multi-Dimensional Performance Comparison (0-100, higher is better)' },
+                    legend: { position: 'bottom' },
+                    emptyState: { enabled: false, text: 'No comparable performance profile data' }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: { stepSize: 20 }
+                    }
+                }
+            }
+        });
+
+        // Latency Distribution Chart
+        new Chart(document.getElementById('latencyDistChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Brave', 'Exa', 'Firecrawl', 'Mixedbread', 'Tavily'],
+                datasets: [
+                    {
+                        label: 'Min-P50 Range',
+                        data: [193.00, 1715.00, 40135.00, 371.00, 37.00],
+                        backgroundColor: 'rgba(52, 152, 219, 0.8)',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'P50-P95 Range',
+                        data: [566.00, 7599.00, 48897.00, 1658.00, 7041.00],
+                        backgroundColor: 'rgba(46, 204, 113, 0.8)',
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'P95-Max Range',
+                        data: [529.00, 884.00, 5.00, 1584.00, 19633.00],
+                        backgroundColor: 'rgba(231, 76, 60, 0.8)',
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Latency Distribution: Min, P50, P95, Max (ms)' },
+                    legend: { display: true, position: 'bottom' },
+                    emptyState: { enabled: false, text: '' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const datasetIndex = context.datasetIndex;
+                                const dataIndex = context.dataIndex;
+                                const ranges = [['19ms', '212ms', '1307ms'], ['133ms', '1848ms', '10331ms'], ['970ms', '41105ms', '90007ms'], ['18ms', '389ms', '3631ms'], ['42ms', '79ms', '26753ms']];
+                                if (!ranges.length) {
+                                    return context.dataset.label + ': ' + context.raw.toFixed(0) + 'ms';
+                                }
+                                const range = ranges[dataIndex];
+                                if (!range) {
+                                    return context.dataset.label + ': ' + context.raw.toFixed(0) + 'ms';
+                                }
+                                return context.dataset.label + ': ' + range[datasetIndex];
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: { 
+                        stacked: true,
+                        min: 0.00,
+                        max: 107747.00,
+                        title: { display: true, text: 'Milliseconds' }
+                    }
+                }
+            }
+        });
+
+        // Cost vs Search Relevance Scatter Plot
+        new Chart(document.getElementById('costQualityScatter'), {
+            type: 'scatter',
+            data: { datasets: [{
+                    label: 'Brave',
+                    data: [{x: 0.001047, y: 91.323158}],
+                    backgroundColor: '#ff6b35',
+                    borderColor: '#ff6b35',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Exa',
+                    data: [{x: 0.000810, y: 88.817750}],
+                    backgroundColor: '#3498db',
+                    borderColor: '#3498db',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Firecrawl',
+                    data: [{x: 0.006682, y: 89.763380}],
+                    backgroundColor: '#27ae60',
+                    borderColor: '#27ae60',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Mixedbread',
+                    data: [{x: 0.001047, y: 88.032957}],
+                    backgroundColor: '#9b59b6',
+                    borderColor: '#9b59b6',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Tavily',
+                    data: [{x: 0.009422, y: 91.236169}],
+                    backgroundColor: '#e74c3c',
+                    borderColor: '#e74c3c',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                }] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Cost vs Search Relevance', font: { size: 14 } },
+                    legend: { display: true, position: 'bottom' },
+                    quadrantBackground: {
+                        xMid: 0.001047, yMid: 89.76,
+                        sweetCorner: 'topLeft',
+                        sweetSpot: 'rgba(46, 204, 113, 0.08)',
+                        worst: 'rgba(231, 76, 60, 0.06)'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': $' + context.raw.x.toFixed(4) + ', relevance ' + context.raw.y.toFixed(1);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'logarithmic',
+                        title: { display: true, text: 'Cost per Result (USD)' },
+                        min: 0.000097,
+                        max: 0.011307,
+                        ticks: {
+                            callback: function(v) {
+                                const abs = Math.abs(Number(v));
+                                const digits = abs < 0.001 ? 5 : (abs < 0.01 ? 4 : 4);
+                                return '$' + Number(v).toFixed(digits);
+                            }
+                        }
+                    },
+                    y: {
+                        title: { display: true, text: 'Search Relevance (0-100)' },
+                        min: 87.26,
+                        max: 92.26
+                    }
+                }
+            }
+        });
+
+        // Speed vs Search Relevance Scatter Plot
+        new Chart(document.getElementById('speedQualityScatter'), {
+            type: 'scatter',
+            data: { datasets: [{
+                    label: 'Brave',
+                    data: [{x: 345.000000, y: 91.323158}],
+                    backgroundColor: '#ff6b35',
+                    borderColor: '#ff6b35',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Exa',
+                    data: [{x: 3288.000000, y: 88.817750}],
+                    backgroundColor: '#3498db',
+                    borderColor: '#3498db',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Firecrawl',
+                    data: [{x: 44485.000000, y: 89.763380}],
+                    backgroundColor: '#27ae60',
+                    borderColor: '#27ae60',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Mixedbread',
+                    data: [{x: 865.000000, y: 88.032957}],
+                    backgroundColor: '#9b59b6',
+                    borderColor: '#9b59b6',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Tavily',
+                    data: [{x: 2218.000000, y: 91.236169}],
+                    backgroundColor: '#e74c3c',
+                    borderColor: '#e74c3c',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                }] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Speed vs Search Relevance', font: { size: 14 } },
+                    legend: { display: true, position: 'bottom' },
+                    quadrantBackground: {
+                        xMid: 2218.00, yMid: 89.76,
+                        sweetCorner: 'topLeft',
+                        sweetSpot: 'rgba(46, 204, 113, 0.08)',
+                        worst: 'rgba(231, 76, 60, 0.06)'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw.x.toFixed(0) + 'ms, relevance ' + context.raw.y.toFixed(1);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'logarithmic',
+                        title: { display: true, text: 'Average Latency (ms)' },
+                        min: 92.16,
+                        max: 53382.00,
+                        ticks: { callback: function(v) { return Number(v).toLocaleString(); } }
+                    },
+                    y: {
+                        title: { display: true, text: 'Search Relevance (0-100)' },
+                        min: 87.26,
+                        max: 92.26
+                    }
+                }
+            }
+        });
+
+        // Cost vs Speed Scatter Plot
+        new Chart(document.getElementById('costSpeedScatter'), {
+            type: 'scatter',
+            data: { datasets: [{
+                    label: 'Brave',
+                    data: [{x: 0.001047, y: 345.000000}],
+                    backgroundColor: '#ff6b35',
+                    borderColor: '#ff6b35',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Exa',
+                    data: [{x: 0.000810, y: 3288.000000}],
+                    backgroundColor: '#3498db',
+                    borderColor: '#3498db',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Firecrawl',
+                    data: [{x: 0.006682, y: 44485.000000}],
+                    backgroundColor: '#27ae60',
+                    borderColor: '#27ae60',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Mixedbread',
+                    data: [{x: 0.001047, y: 865.000000}],
+                    backgroundColor: '#9b59b6',
+                    borderColor: '#9b59b6',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                },{
+                    label: 'Tavily',
+                    data: [{x: 0.009422, y: 2218.000000}],
+                    backgroundColor: '#e74c3c',
+                    borderColor: '#e74c3c',
+                    borderWidth: 2,
+                    pointRadius: 8,
+                    pointHoverRadius: 11
+                }] },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Cost vs Speed', font: { size: 14 } },
+                    legend: { display: true, position: 'bottom' },
+                    quadrantBackground: {
+                        xMid: 0.001047, yMid: 2218.00,
+                        sweetCorner: 'bottomLeft',
+                        sweetSpot: 'rgba(46, 204, 113, 0.08)',
+                        worst: 'rgba(231, 76, 60, 0.06)'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': $' + context.raw.x.toFixed(4) + ', ' + context.raw.y.toFixed(0) + 'ms';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'logarithmic',
+                        title: { display: true, text: 'Cost per Result (USD)' },
+                        min: 0.000097,
+                        max: 0.011307,
+                        ticks: {
+                            callback: function(v) {
+                                const abs = Math.abs(Number(v));
+                                const digits = abs < 0.001 ? 5 : (abs < 0.01 ? 4 : 4);
+                                return '$' + Number(v).toFixed(digits);
+                            }
+                        }
+                    },
+                    y: {
+                        type: 'logarithmic',
+                        title: { display: true, text: 'Average Latency (ms)' },
+                        min: 92.16,
+                        max: 53382.00,
+                        ticks: { callback: function(v) { return Number(v).toLocaleString(); } }
+                    }
+                }
+            }
+        });
+
+        // Error Breakdown Chart
+        new Chart(document.getElementById('errorBreakdownChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Brave', 'Exa', 'Firecrawl', 'Mixedbread', 'Tavily'],
+                datasets: [{
+                    label: 'Timeout',
+                    data: [0, 0, 9, 0, 0],
+                    backgroundColor: '#e74c3c',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Error Distribution by Category' },
+                    legend: { position: 'bottom' },
+                    emptyState: { enabled: false, text: 'No errors recorded in this run' }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: { 
+                        stacked: true,
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Errors' }
+                    }
+                }
+            }
+        });
+
+
+        // Performance Heatmap
+        document.getElementById('performanceHeatmap').innerHTML = `<div class="heatmap-grid" style="grid-template-columns: 150px repeat(13, 1fr);"><div class="heatmap-header"></div><div class="heatmap-header">Crawl - Deep Crawl</div><div class="heatmap-header">Crawl - Shallow Multi-Page</div><div class="heatmap-header">Crawl - Single Page</div><div class="heatmap-header">Extract - Code Documentation</div><div class="heatmap-header">Extract - Encyclopedia Article</div><div class="heatmap-header">Extract - News Article</div><div class="heatmap-header">Extract - Technical Docs</div><div class="heatmap-header">Search - Basic Facts</div><div class="heatmap-header">Search - Complex Query</div><div class="heatmap-header">Search - Niche Academic</div><div class="heatmap-header">Search - Product Comparison</div><div class="heatmap-header">Search - Recent Technology</div><div class="heatmap-header">Search - Technical Deep Dive</div><div class="heatmap-provider"><span class="provider-badge provider-brave">Brave</span></div><div class="heatmap-cell heatmap-excellent" title="Score: 99">99</div><div class="heatmap-cell heatmap-excellent" title="Score: 96">96</div><div class="heatmap-cell heatmap-excellent" title="Score: 93">93</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 99">99</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 95">95</div><div class="heatmap-cell heatmap-excellent" title="Score: 95">95</div><div class="heatmap-cell heatmap-excellent" title="Score: 95">95</div><div class="heatmap-cell heatmap-excellent" title="Score: 94">94</div><div class="heatmap-cell heatmap-excellent" title="Score: 94">94</div><div class="heatmap-cell heatmap-excellent" title="Score: 95">95</div><div class="heatmap-provider"><span class="provider-badge provider-exa">Exa</span></div><div class="heatmap-cell heatmap-excellent" title="Score: 99">99</div><div class="heatmap-cell heatmap-excellent" title="Score: 99">99</div><div class="heatmap-cell heatmap-excellent" title="Score: 98">98</div><div class="heatmap-cell heatmap-excellent" title="Score: 98">98</div><div class="heatmap-cell heatmap-excellent" title="Score: 96">96</div><div class="heatmap-cell heatmap-excellent" title="Score: 98">98</div><div class="heatmap-cell heatmap-excellent" title="Score: 98">98</div><div class="heatmap-cell heatmap-excellent" title="Score: 92">92</div><div class="heatmap-cell heatmap-excellent" title="Score: 92">92</div><div class="heatmap-cell heatmap-excellent" title="Score: 92">92</div><div class="heatmap-cell heatmap-good" title="Score: 70">70</div><div class="heatmap-cell heatmap-excellent" title="Score: 86">86</div><div class="heatmap-cell heatmap-excellent" title="Score: 94">94</div><div class="heatmap-provider"><span class="provider-badge provider-firecrawl">Firecrawl</span></div><div class="heatmap-cell heatmap-good" title="Score: 61">61</div><div class="heatmap-cell heatmap-acceptable" title="Score: 60">60</div><div class="heatmap-cell heatmap-good" title="Score: 66">66</div><div class="heatmap-cell heatmap-excellent" title="Score: 85">85</div><div class="heatmap-cell heatmap-excellent" title="Score: 86">86</div><div class="heatmap-cell heatmap-good" title="Score: 76">76</div><div class="heatmap-cell heatmap-good" title="Score: 61">61</div><div class="heatmap-cell heatmap-acceptable" title="Score: 49">49</div><div class="heatmap-cell heatmap-acceptable" title="Score: 46">46</div><div class="heatmap-cell heatmap-acceptable" title="Score: 47">47</div><div class="heatmap-cell heatmap-na" title="Score: 0">0</div><div class="heatmap-cell heatmap-acceptable" title="Score: 42">42</div><div class="heatmap-cell heatmap-good" title="Score: 65">65</div><div class="heatmap-provider"><span class="provider-badge provider-mixedbread">Mixedbread</span></div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 99">99</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 92">92</div><div class="heatmap-cell heatmap-excellent" title="Score: 93">93</div><div class="heatmap-cell heatmap-excellent" title="Score: 93">93</div><div class="heatmap-cell heatmap-excellent" title="Score: 89">89</div><div class="heatmap-cell heatmap-excellent" title="Score: 91">91</div><div class="heatmap-cell heatmap-excellent" title="Score: 93">93</div><div class="heatmap-provider"><span class="provider-badge provider-tavily">Tavily</span></div><div class="heatmap-cell heatmap-acceptable" title="Score: 59">59</div><div class="heatmap-cell heatmap-acceptable" title="Score: 60">60</div><div class="heatmap-cell heatmap-good" title="Score: 70">70</div><div class="heatmap-cell heatmap-good" title="Score: 70">70</div><div class="heatmap-cell heatmap-good" title="Score: 69">69</div><div class="heatmap-cell heatmap-good" title="Score: 70">70</div><div class="heatmap-cell heatmap-good" title="Score: 68">68</div><div class="heatmap-cell heatmap-excellent" title="Score: 83">83</div><div class="heatmap-cell heatmap-excellent" title="Score: 85">85</div><div class="heatmap-cell heatmap-excellent" title="Score: 86">86</div><div class="heatmap-cell heatmap-good" title="Score: 79">79</div><div class="heatmap-cell heatmap-excellent" title="Score: 83">83</div><div class="heatmap-cell heatmap-excellent" title="Score: 85">85</div></div>`;    </script>
+</body>
+</html>

@@ -5,6 +5,7 @@
 
     const navLinks = [
         { name: 'Leaderboard', path: '/' },
+        { name: 'Evals', path: '/evals' },
         { name: 'About', path: '/about' },
         { name: 'Submit', path: '/submit' }
     ];
@@ -16,7 +17,7 @@
         {#each navLinks as link (link.path)}
             <a 
                 href={link.path} 
-                class="px-3 sm:px-4 py-2 rounded-full text-sm font-medium transition-all {$page.url.pathname === link.path ? 'bg-foreground dark:bg-white text-background dark:text-black font-semibold' : 'text-muted-foreground dark:text-white/60 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5'} whitespace-nowrap"
+                class="px-3 sm:px-4 py-2 rounded-full text-sm font-medium transition-all {(link.path === '/' ? $page.url.pathname === '/' : $page.url.pathname.startsWith(link.path)) ? 'bg-foreground dark:bg-white text-background dark:text-black font-semibold' : 'text-muted-foreground dark:text-white/60 hover:text-foreground dark:hover:text-white hover:bg-foreground/5 dark:hover:bg-white/5'} whitespace-nowrap"
             >
                 {link.name}
             </a>

@@ -161,7 +161,7 @@
             <!-- Content Area -->
             {#if activeTab === 'report'}
                 <div>
-                    <article class="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-h1:text-3xl prose-h2:text-2xl prose-a:text-indigo-600 dark:prose-a:text-indigo-400 prose-pre:bg-muted dark:prose-pre:bg-[#181825] prose-pre:border prose-pre:border-border dark:prose-pre:border-white/10">
+                    <article class="prose prose-report max-w-none">
                         {@html reportHtml}
                     </article>
                 </div>
