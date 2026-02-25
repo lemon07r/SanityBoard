@@ -1,0 +1,61 @@
+{
+  "agent": "codex",
+  "model": "gpt-5.3-codex-spark",
+  "reasoning": "high",
+  "timestamp": "2026-02-24T120300",
+  "pass_rate": 50,
+  "weighted_pass_rate": 45.32892760588765,
+  "passed": 13,
+  "failed": 13,
+  "total": 26,
+  "weighted_score": 15.090000000000002,
+  "max_possible_score": 33.290000000000006,
+  "clean_passes": 13,
+  "partial_passes": 0,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "go": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "kotlin": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "rust": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "typescript": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "pass_rate": 60
+    },
+    "zig": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    }
+  },
+  "total_duration_seconds": 702.670716369,
+  "agent_duration_seconds": 536.5296126879999,
+  "harness_version": "v1.6.1",
+  "weight_version": "2.0",
+  "tasks_hash": "blake3:168696ded119da3ea973f15bde9c00151c127b3f54168196a84212827fa1b1f0",
+  "results_hash": "blake3:d06717c4f23ed86afe3a1399aa7a1b9437e78202dc83d2b460f18af2ba4fde1d",
+  "legacy": true
+}
