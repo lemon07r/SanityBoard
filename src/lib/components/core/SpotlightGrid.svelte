@@ -25,7 +25,7 @@
 <div 
   bind:this={container}
   onmousemove={handleMouseMove}
-  class="relative group rounded-xl border border-border/40 dark:border-white/5 bg-card/80 dark:bg-black/40 overflow-hidden"
+  class="relative group rounded-xl border border-border/40 dark:border-white/5 bg-card/80 dark:bg-black/40"
 >
   <!-- Content -->
   <div class="relative z-10 flex flex-col divide-y divide-border/40 dark:divide-white/5">
@@ -34,7 +34,7 @@
 
   <!-- Spotlight Overlay -->
   <div 
-    class="pointer-events-none absolute inset-0 z-20 transition-opacity duration-500 opacity-0 group-hover:opacity-100"
+    class="pointer-events-none absolute inset-0 z-20 transition-opacity duration-500 opacity-0 group-hover:opacity-100 overflow-hidden rounded-xl"
     style="
       background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.06), transparent 40%);
     "

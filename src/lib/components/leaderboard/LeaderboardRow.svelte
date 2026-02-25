@@ -6,6 +6,27 @@
 
   let { run, rank }: { run: RunData; rank: number } = $props();
 
+  let tooltipEl: HTMLDivElement | undefined = $state();
+  let tooltipPlacement = $state<'above' | 'below' | 'left' | 'right'>('above');
+
+  function repositionTooltip() {
+    if (!tooltipEl) return;
+    tooltipPlacement = 'above';
+    requestAnimationFrame(() => {
+      if (!tooltipEl) return;
+      const rect = tooltipEl.getBoundingClientRect();
+      const vw = window.innerWidth;
+
+      if (rect.top < 0) {
+        tooltipPlacement = 'below';
+      } else if (rect.right > vw) {
+        tooltipPlacement = 'left';
+      } else if (rect.left < 0) {
+        tooltipPlacement = 'right';
+      }
+    });
+  }
+
   let isOpen = $state(false);
   let isVerified = $derived(run.metadata.verified === true);
 
@@ -135,10 +156,17 @@
             {@const skillsList = meta['Skills used'] ?? []}
             {@const mcpList = meta['MCP tools used'] ?? []}
             {@const hasDetails = skillsList.length > 0 || mcpList.length > 0}
-            <div class="relative group/tooltip">
+            <div class="relative group/tooltip" onmouseenter={repositionTooltip}>
                 <Check size={16} class="text-cyan-600 dark:text-cyan-400" />
                 {#if hasDetails}
-                    <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-150 z-50">
+                    <div
+                        bind:this={tooltipEl}
+                        class="pointer-events-none absolute opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-150 z-50
+                            {tooltipPlacement === 'above' ? 'bottom-full left-1/2 -translate-x-1/2 mb-2' : ''}
+                            {tooltipPlacement === 'below' ? 'top-full left-1/2 -translate-x-1/2 mt-2' : ''}
+                            {tooltipPlacement === 'left' ? 'right-full top-1/2 -translate-y-1/2 mr-2' : ''}
+                            {tooltipPlacement === 'right' ? 'left-full top-1/2 -translate-y-1/2 ml-2' : ''}"
+                    >
                         <div class="bg-popover dark:bg-[#09090b] border border-border/40 dark:border-white/10 rounded-lg shadow-xl px-3 py-2 text-xs whitespace-nowrap ring-1 ring-border/10 dark:ring-white/5">
                             {#if skillsList.length > 0}
                                 <div class="text-[10px] font-bold text-muted-foreground/50 dark:text-white/40 uppercase tracking-widest mb-1">Skills</div>
@@ -153,7 +181,16 @@
                                 {/each}
                             {/if}
                         </div>
-                        <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-border/40 dark:border-t-white/10"></div>
+                        <!-- Arrow -->
+                        {#if tooltipPlacement === 'above'}
+                            <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-border/40 dark:border-t-white/10"></div>
+                        {:else if tooltipPlacement === 'below'}
+                            <div class="absolute bottom-full left-1/2 -translate-x-1/2 -mb-px border-4 border-transparent border-b-border/40 dark:border-b-white/10"></div>
+                        {:else if tooltipPlacement === 'left'}
+                            <div class="absolute left-full top-1/2 -translate-y-1/2 -ml-px border-4 border-transparent border-l-border/40 dark:border-l-white/10"></div>
+                        {:else if tooltipPlacement === 'right'}
+                            <div class="absolute right-full top-1/2 -translate-y-1/2 -mr-px border-4 border-transparent border-r-border/40 dark:border-r-white/10"></div>
+                        {/if}
                     </div>
                 {/if}
             </div>
