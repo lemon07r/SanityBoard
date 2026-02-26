@@ -156,6 +156,7 @@
             {@const skillsList = meta['Skills used'] ?? []}
             {@const mcpList = meta['MCP tools used'] ?? []}
             {@const hasDetails = skillsList.length > 0 || mcpList.length > 0}
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div class="relative group/tooltip" onmouseenter={repositionTooltip}>
                 <Check size={16} class="text-cyan-600 dark:text-cyan-400" />
                 {#if hasDetails}
