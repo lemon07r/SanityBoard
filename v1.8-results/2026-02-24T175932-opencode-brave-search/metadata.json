@@ -1,0 +1,18 @@
+{
+  "Agent Name": "OpenCode",
+  "Agent Version": "v1.2.10",
+  "Model Name": "Kimi K2.5",
+  "Variant": "",
+  "Model Provider": "Moonshot AI",
+  "Access Provider": "Kimi For Coding",
+  "Run Date": "2026-02-24",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Open Weight",
+  "Agent URL": "https://github.com/anomalyco/opencode",
+  "Skills or MCP available": true,
+  "Skills used": [],
+  "MCP tools used": [
+    "Brave Search"
+  ]
+}

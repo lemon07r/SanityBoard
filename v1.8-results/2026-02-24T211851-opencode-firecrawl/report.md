@@ -1,0 +1,143 @@
+# Evaluation Report
+
+## Summary
+
+| Metric | Value |
+|--------|-------|
+| Agent | **opencode** |
+| Model | cliproxy-kimi/kimi-k2.5 |
+| MCP Tools Mode | Yes |
+| Sandbox | Yes |
+| Timestamp | 2026-02-24T211851 |
+| Pass Rate | **53.8%** (14/26) |
+| Weighted Pass Rate | **47.7%** |
+| Weighted Score | 15.88 / 33.29 |
+| Duration | 3158.5s |
+
+## Quality Breakdown
+
+- **Integrity Violations** (modified test files): 2
+- **Failures**: 10
+- **Quota-affected tasks**: 0
+- **Auth-affected tasks**: 0
+- **Infra-affected tasks**: 0
+
+| Failure Class | Tasks |
+|---------------|-------|
+| integrity | 2 |
+| validation_timeout | 1 |
+
+## Behavior Telemetry
+
+- **Total self-test commands**: 55
+- **Tasks with self-testing**: 24/26
+- **Total toolchain install attempts**: 4
+- **Tasks with toolchain install attempts**: 4/26
+- **Total out-of-workspace read attempts**: 69
+- **Tasks with out-of-workspace read attempts**: 8/26
+
+| Task | Self Tests | Self Test Conf. | Tool Installs | Out-of-Workspace Reads | Out-of-Workspace Conf. |
+|------|------------|-----------------|---------------|-------------------------|------------------------|
+| dart/future-pool | 1 | true | 0 | 5 | true |
+| dart/reactive-cache | 3 | true | 1 | 11 | true |
+| go/bank-account | 1 | true | 0 | 0 | true |
+| go/dining-philosophers | 1 | true | 0 | 0 | true |
+| go/errgroup-limit | 3 | true | 0 | 0 | true |
+| go/parallel-letter-frequency | 2 | true | 0 | 0 | true |
+| go/react | 2 | true | 0 | 0 | true |
+| go/singleflight | 2 | true | 0 | 0 | true |
+| kotlin/channel-multiplexer | 4 | true | 0 | 11 | true |
+| kotlin/flow-processor | 6 | true | 0 | 11 | true |
+| kotlin/lru-cache | 8 | true | 0 | 12 | true |
+| rust/circular-buffer | 1 | true | 0 | 0 | true |
+| rust/doubly-linked-list | 1 | true | 0 | 0 | true |
+| rust/generational-arena | 1 | true | 0 | 0 | true |
+| rust/macros | 1 | true | 0 | 0 | true |
+| rust/parallel-letter-frequency | 1 | true | 0 | 0 | true |
+| typescript/csv-lite | 2 | true | 0 | 0 | true |
+| typescript/forth | 1 | true | 0 | 0 | true |
+| typescript/glob | 2 | true | 0 | 0 | true |
+| typescript/promise-pool | 1 | true | 0 | 0 | true |
+| typescript/react | 2 | true | 0 | 0 | true |
+| zig/arena-allocator | 2 | true | 1 | 7 | true |
+| zig/comptime-json | 5 | true | 1 | 8 | true |
+| zig/small-vector | 2 | true | 1 | 4 | true |
+
+## Results by Language
+
+| Language | Passed | Failed | Total | Pass Rate |
+|----------|--------|--------|-------|-----------|
+| dart | 0 | 3 | 3 | 0.0% |
+| go | 6 | 0 | 6 | 100.0% |
+| kotlin | 0 | 3 | 3 | 0.0% |
+| rust | 4 | 2 | 6 | 66.7% |
+| typescript | 3 | 2 | 5 | 60.0% |
+| zig | 1 | 2 | 3 | 33.3% |
+
+## Results by Tier
+
+| Tier | Passed | Failed | Total | Pass Rate |
+|------|--------|--------|-------|-----------|
+| core | 8 | 4 | 12 | 66.7% |
+| extended | 6 | 8 | 14 | 42.9% |
+
+## Task Results
+
+| Task | Status | Weight | Score | Duration |
+|------|--------|--------|-------|----------|
+| dart/future-pool | ❌ FAIL | 1.46 | 0.00 | 196.8s |
+| dart/isolate-pool | ❌ FAIL | 1.50 | 0.00 | 196.8s |
+| dart/reactive-cache | ❌ FAIL | 1.50 | 0.00 | 242.7s |
+| go/bank-account | ✅ PASS | 1.04 | 1.04 | 33.9s |
+| go/dining-philosophers | ✅ PASS | 1.04 | 1.04 | 62.9s |
+| go/errgroup-limit | ✅ PASS | 1.14 | 1.14 | 48.8s |
+| go/parallel-letter-frequency | ✅ PASS | 1.04 | 1.04 | 52.7s |
+| go/react | ✅ PASS | 1.14 | 1.14 | 62.4s |
+| go/singleflight | ✅ PASS | 1.28 | 1.28 | 44.9s |
+| kotlin/channel-multiplexer | ❌ FAIL | 1.50 | 0.00 | 135.3s |
+| kotlin/flow-processor | 🚫 VIOLATION | 1.50 | -0.25 | 240.0s |
+| kotlin/lru-cache | 🚫 VIOLATION | 1.09 | -0.25 | 162.8s |
+| rust/circular-buffer | ✅ PASS | 1.12 | 1.12 | 42.7s |
+| rust/doubly-linked-list | ✅ PASS | 1.24 | 1.24 | 34.6s |
+| rust/generational-arena | ✅ PASS | 1.24 | 1.24 | 45.4s |
+| rust/macros | ❌ FAIL | 1.50 | 0.00 | 82.5s |
+| rust/parallel-letter-frequency | ✅ PASS | 1.12 | 1.12 | 53.5s |
+| rust/regex-lite | ❌ FAIL | 1.40 | 0.00 | 648.4s |
+| typescript/csv-lite | ✅ PASS | 1.36 | 1.36 | 90.5s |
+| typescript/forth | ❌ FAIL | 1.26 | 0.00 | 80.4s |
+| typescript/glob | ✅ PASS | 1.14 | 1.14 | 47.5s |
+| typescript/promise-pool | ❌ FAIL | 1.20 | 0.00 | 68.7s |
+| typescript/react | ✅ PASS | 1.14 | 1.14 | 67.6s |
+| zig/arena-allocator | ❌ FAIL | 1.50 | 0.00 | 94.0s |
+| zig/comptime-json | ❌ FAIL | 1.50 | 0.00 | 244.5s |
+| zig/small-vector | ✅ PASS | 1.34 | 1.34 | 78.1s |
+
+## Errors
+
+### kotlin/flow-processor
+
+```
+modified task files (disallowed): build.gradle.kts
+```
+
+### kotlin/lru-cache
+
+```
+modified task files (disallowed): build.gradle.kts, settings.gradle.kts
+```
+
+### rust/regex-lite
+
+```
+executing validation: exec timed out after 10m0s
+```
+
+## Verification
+
+- **Harness Version**: v1.8.1-3-g90b44f5-dirty
+- **Weight Version**: 2.1
+- **Tasks Hash**: `blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e`
+- **Results Hash**: `blake3:355914845e0928bc9fe3beb09e0792f60f6bd3f8e63d6ce8d60fbaeb51da1181`
+
+---
+*Generated by SanityHarness on 2026-02-24T211851*

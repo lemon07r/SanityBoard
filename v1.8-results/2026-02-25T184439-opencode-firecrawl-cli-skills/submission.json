@@ -1,0 +1,78 @@
+{
+  "agent": "opencode",
+  "model": "cliproxy-kimi/kimi-k2.5",
+  "timestamp": "2026-02-25T184439",
+  "pass_rate": 34.61538461538461,
+  "weighted_pass_rate": 32.26194052267948,
+  "passed": 9,
+  "failed": 17,
+  "total": 26,
+  "weighted_score": 10.74,
+  "max_possible_score": 33.290000000000006,
+  "integrity_violations": 2,
+  "by_language": {
+    "dart": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "go": {
+      "passed": 2,
+      "failed": 4,
+      "total": 6,
+      "pass_rate": 33.33333333333333
+    },
+    "kotlin": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "rust": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "typescript": {
+      "passed": 1,
+      "failed": 4,
+      "total": 5,
+      "pass_rate": 20
+    },
+    "zig": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    }
+  },
+  "total_duration_seconds": 2831.392986544,
+  "agent_duration_seconds": 2743.3684110219997,
+  "harness_version": "v1.8.4",
+  "weight_version": "2.1",
+  "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
+  "results_hash": "blake3:b797cffed5e3ce951372f9f434b43ab4f47ea59663867c4f9dde15d31e451301",
+  "timeout": 600,
+  "parallel": 1,
+  "use_mcp_tools": false,
+  "use_skills": true,
+  "disable_mcp": false,
+  "sandbox": true,
+  "legacy": false,
+  "quota_affected_tasks": 0,
+  "auth_affected_tasks": 0,
+  "infra_affected_tasks": 0,
+  "total_quota_retries": 0,
+  "total_infra_retries": 0,
+  "total_self_test_commands": 46,
+  "total_toolchain_install_attempts": 0,
+  "total_out_of_workspace_read_attempts": 45,
+  "skills_usage_rate": 30.76923076923077,
+  "total_skills_usage_signals": 26,
+  "tasks_with_self_testing": 16,
+  "tasks_with_toolchain_install": 0,
+  "tasks_with_out_of_workspace_reads": 9,
+  "tasks_with_skills_usage": 8
+}
