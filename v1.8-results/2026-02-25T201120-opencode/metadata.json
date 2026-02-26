@@ -2,17 +2,15 @@
   "Agent Name": "OpenCode",
   "Agent Version": "v1.2.10",
   "Model Name": "Kimi K2.5",
-  "Variant": "",
   "Model Provider": "Moonshot AI",
   "Access Provider": "CLIProxy",
-  "Run Date": "2026-02-24",
-  "verified": true,
+  "Run Date": "2026-02-25",
+  "Variant": "",
   "Agent Type": "Open Source",
   "Model Type": "Open Weight",
-  "Agent URL": "https://github.com/anomalyco/opencode",
-  "Skills or MCP available": true,
+  "Agent URL": "https://github.com/opencode-ai/opencode",
+  "verified": true,
+  "Skills or MCP available": false,
   "Skills used": [],
-  "MCP tools used": [
-    "Octocode"
-  ]
+  "MCP tools used": []
 }

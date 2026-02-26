@@ -1,15 +1,15 @@
 {
   "agent": "opencode",
   "model": "cliproxy-kimi/kimi-k2.5",
-  "timestamp": "2026-02-25T184439",
-  "pass_rate": 34.61538461538461,
-  "weighted_pass_rate": 32.26194052267948,
-  "passed": 9,
-  "failed": 17,
+  "timestamp": "2026-02-26T031018",
+  "pass_rate": 46.15384615384615,
+  "weighted_pass_rate": 41.66416341243616,
+  "passed": 12,
+  "failed": 14,
   "total": 26,
-  "weighted_score": 10.74,
+  "weighted_score": 13.870000000000001,
   "max_possible_score": 33.290000000000006,
-  "integrity_violations": 2,
+  "integrity_violations": 3,
   "by_language": {
     "dart": {
       "passed": 1,
@@ -18,10 +18,10 @@
       "pass_rate": 33.33333333333333
     },
     "go": {
-      "passed": 2,
-      "failed": 4,
+      "passed": 4,
+      "failed": 2,
       "total": 6,
-      "pass_rate": 33.33333333333333
+      "pass_rate": 66.66666666666666
     },
     "kotlin": {
       "passed": 0,
@@ -36,10 +36,10 @@
       "pass_rate": 66.66666666666666
     },
     "typescript": {
-      "passed": 1,
-      "failed": 4,
+      "passed": 2,
+      "failed": 3,
       "total": 5,
-      "pass_rate": 20
+      "pass_rate": 40
     },
     "zig": {
       "passed": 1,
@@ -48,12 +48,12 @@
       "pass_rate": 33.33333333333333
     }
   },
-  "total_duration_seconds": 2831.392986544,
-  "agent_duration_seconds": 2743.3684110219997,
-  "harness_version": "v1.8.4",
+  "total_duration_seconds": 4526.9532350009995,
+  "agent_duration_seconds": 3784.6741463569992,
+  "harness_version": "v1.8.4-3-g62f8538-dirty",
   "weight_version": "2.1",
   "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
-  "results_hash": "blake3:b797cffed5e3ce951372f9f434b43ab4f47ea59663867c4f9dde15d31e451301",
+  "results_hash": "blake3:ac7c6c0baf6aa7bb9e43bf17bc499ea3e75175f1d41618977ce6ddf10318aa91",
   "timeout": 600,
   "parallel": 1,
   "use_mcp_tools": false,
@@ -66,13 +66,15 @@
   "infra_affected_tasks": 0,
   "total_quota_retries": 0,
   "total_infra_retries": 0,
-  "total_self_test_commands": 46,
-  "total_toolchain_install_attempts": 0,
-  "total_out_of_workspace_read_attempts": 45,
-  "skills_usage_rate": 30.76923076923077,
-  "total_skills_usage_signals": 26,
-  "tasks_with_self_testing": 16,
-  "tasks_with_toolchain_install": 0,
+  "total_self_test_commands": 65,
+  "total_toolchain_install_attempts": 1,
+  "total_out_of_workspace_read_attempts": 76,
+  "total_toolchain_search_attempts": 42,
+  "skills_usage_rate": 100,
+  "total_skills_usage_signals": 67,
+  "tasks_with_self_testing": 21,
+  "tasks_with_toolchain_install": 1,
   "tasks_with_out_of_workspace_reads": 9,
-  "tasks_with_skills_usage": 8
+  "tasks_with_toolchain_search": 9,
+  "tasks_with_skills_usage": 26
 }
