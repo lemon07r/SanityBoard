@@ -26,7 +26,11 @@
         .chart-wrapper { position: relative; height: 300px; }
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background: #2c3e50; color: white; font-weight: 600; }
+        th { background: #2c3e50; color: white; font-weight: 600; cursor: pointer; user-select: none; position: relative; }
+        th:hover { background: #34495e; }
+        th .sort-arrow { margin-left: 4px; font-size: 0.7em; opacity: 0.5; }
+        th.sort-asc .sort-arrow { opacity: 1; }
+        th.sort-desc .sort-arrow { opacity: 1; }
         tr:hover { background: #f9f9f9; }
         .success { color: #27ae60; }
         .failure { color: #e74c3c; }
@@ -3326,6 +3330,38 @@
             }
         });
 
+
+        // Table sorting
+        document.querySelectorAll('table').forEach(function(table) {
+            var headers = table.querySelectorAll('th');
+            headers.forEach(function(th, colIdx) {
+                var arrow = document.createElement('span');
+                arrow.className = 'sort-arrow';
+                arrow.textContent = '⇅';
+                th.appendChild(arrow);
+                th.addEventListener('click', function() {
+                    var tbody = table.querySelector('tbody');
+                    var rows = Array.from(tbody.querySelectorAll('tr'));
+                    var asc = !th.classList.contains('sort-asc');
+                    // Reset all headers in this table
+                    headers.forEach(function(h) { h.classList.remove('sort-asc', 'sort-desc'); h.querySelector('.sort-arrow').textContent = '⇅'; });
+                    th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+                    th.querySelector('.sort-arrow').textContent = asc ? '▲' : '▼';
+                    rows.sort(function(a, b) {
+                        var aText = a.cells[colIdx].textContent.trim();
+                        var bText = b.cells[colIdx].textContent.trim();
+                        // Extract numeric value (handle $, ms, %, etc.)
+                        var aNum = parseFloat(aText.replace(/[^\d.\-]/g, ''));
+                        var bNum = parseFloat(bText.replace(/[^\d.\-]/g, ''));
+                        if (!isNaN(aNum) && !isNaN(bNum)) {
+                            return asc ? aNum - bNum : bNum - aNum;
+                        }
+                        return asc ? aText.localeCompare(bText) : bText.localeCompare(aText);
+                    });
+                    rows.forEach(function(row) { tbody.appendChild(row); });
+                });
+            });
+        });
 
         // Performance Heatmap
         document.getElementById('performanceHeatmap').innerHTML = `<div class="heatmap-grid" style="grid-template-columns: 150px repeat(13, 1fr);"><div class="heatmap-header"></div><div class="heatmap-header">Crawl - Deep Crawl</div><div class="heatmap-header">Crawl - Shallow Multi-Page</div><div class="heatmap-header">Crawl - Single Page</div><div class="heatmap-header">Extract - Code Documentation</div><div class="heatmap-header">Extract - Encyclopedia Article</div><div class="heatmap-header">Extract - News Article</div><div class="heatmap-header">Extract - Technical Docs</div><div class="heatmap-header">Search - Basic Facts</div><div class="heatmap-header">Search - Complex Query</div><div class="heatmap-header">Search - Niche Academic</div><div class="heatmap-header">Search - Product Comparison</div><div class="heatmap-header">Search - Recent Technology</div><div class="heatmap-header">Search - Technical Deep Dive</div><div class="heatmap-provider"><span class="provider-badge provider-brave">Brave</span></div><div class="heatmap-cell heatmap-excellent" title="Score: 99">99</div><div class="heatmap-cell heatmap-excellent" title="Score: 96">96</div><div class="heatmap-cell heatmap-excellent" title="Score: 93">93</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 99">99</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 95">95</div><div class="heatmap-cell heatmap-excellent" title="Score: 95">95</div><div class="heatmap-cell heatmap-excellent" title="Score: 95">95</div><div class="heatmap-cell heatmap-excellent" title="Score: 94">94</div><div class="heatmap-cell heatmap-excellent" title="Score: 94">94</div><div class="heatmap-cell heatmap-excellent" title="Score: 95">95</div><div class="heatmap-provider"><span class="provider-badge provider-exa">Exa</span></div><div class="heatmap-cell heatmap-excellent" title="Score: 99">99</div><div class="heatmap-cell heatmap-excellent" title="Score: 99">99</div><div class="heatmap-cell heatmap-excellent" title="Score: 98">98</div><div class="heatmap-cell heatmap-excellent" title="Score: 98">98</div><div class="heatmap-cell heatmap-excellent" title="Score: 96">96</div><div class="heatmap-cell heatmap-excellent" title="Score: 98">98</div><div class="heatmap-cell heatmap-excellent" title="Score: 98">98</div><div class="heatmap-cell heatmap-excellent" title="Score: 92">92</div><div class="heatmap-cell heatmap-excellent" title="Score: 92">92</div><div class="heatmap-cell heatmap-excellent" title="Score: 92">92</div><div class="heatmap-cell heatmap-good" title="Score: 70">70</div><div class="heatmap-cell heatmap-excellent" title="Score: 86">86</div><div class="heatmap-cell heatmap-excellent" title="Score: 94">94</div><div class="heatmap-provider"><span class="provider-badge provider-firecrawl">Firecrawl</span></div><div class="heatmap-cell heatmap-good" title="Score: 61">61</div><div class="heatmap-cell heatmap-acceptable" title="Score: 60">60</div><div class="heatmap-cell heatmap-good" title="Score: 66">66</div><div class="heatmap-cell heatmap-excellent" title="Score: 85">85</div><div class="heatmap-cell heatmap-excellent" title="Score: 86">86</div><div class="heatmap-cell heatmap-good" title="Score: 76">76</div><div class="heatmap-cell heatmap-good" title="Score: 61">61</div><div class="heatmap-cell heatmap-acceptable" title="Score: 49">49</div><div class="heatmap-cell heatmap-acceptable" title="Score: 46">46</div><div class="heatmap-cell heatmap-acceptable" title="Score: 47">47</div><div class="heatmap-cell heatmap-na" title="Score: 0">0</div><div class="heatmap-cell heatmap-acceptable" title="Score: 42">42</div><div class="heatmap-cell heatmap-good" title="Score: 65">65</div><div class="heatmap-provider"><span class="provider-badge provider-mixedbread">Mixedbread</span></div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 99">99</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 100">100</div><div class="heatmap-cell heatmap-excellent" title="Score: 92">92</div><div class="heatmap-cell heatmap-excellent" title="Score: 93">93</div><div class="heatmap-cell heatmap-excellent" title="Score: 93">93</div><div class="heatmap-cell heatmap-excellent" title="Score: 89">89</div><div class="heatmap-cell heatmap-excellent" title="Score: 91">91</div><div class="heatmap-cell heatmap-excellent" title="Score: 93">93</div><div class="heatmap-provider"><span class="provider-badge provider-tavily">Tavily</span></div><div class="heatmap-cell heatmap-acceptable" title="Score: 59">59</div><div class="heatmap-cell heatmap-acceptable" title="Score: 60">60</div><div class="heatmap-cell heatmap-good" title="Score: 70">70</div><div class="heatmap-cell heatmap-good" title="Score: 70">70</div><div class="heatmap-cell heatmap-good" title="Score: 69">69</div><div class="heatmap-cell heatmap-good" title="Score: 70">70</div><div class="heatmap-cell heatmap-good" title="Score: 68">68</div><div class="heatmap-cell heatmap-excellent" title="Score: 83">83</div><div class="heatmap-cell heatmap-excellent" title="Score: 85">85</div><div class="heatmap-cell heatmap-excellent" title="Score: 86">86</div><div class="heatmap-cell heatmap-good" title="Score: 79">79</div><div class="heatmap-cell heatmap-excellent" title="Score: 83">83</div><div class="heatmap-cell heatmap-excellent" title="Score: 85">85</div></div>`;    </script>
