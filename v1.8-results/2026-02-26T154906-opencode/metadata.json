@@ -1,9 +1,9 @@
 {
   "Agent Name": "OpenCode",
-  "Agent Version": "v1.2.10",
+  "Agent Version": "v1.2.15",
   "Model Name": "Claude Opus 4.6",
   "Variant": "high",
-  "Model Provider": "OpenAI API",
+  "Model Provider": "Anthropic",
   "Access Provider": "GitHub Copilot",
   "Run Date": "2026-02-23",
   "verified": true,

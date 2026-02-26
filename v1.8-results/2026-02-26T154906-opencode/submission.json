@@ -1,0 +1,81 @@
+{
+  "agent": "opencode",
+  "model": "cliproxy-copilot-claude/copilot-claude-opus-4.6",
+  "timestamp": "2026-02-26T154906",
+  "pass_rate": 73.07692307692307,
+  "weighted_pass_rate": 71.34274556924001,
+  "passed": 19,
+  "failed": 7,
+  "total": 26,
+  "skipped_external_tasks": 0,
+  "weighted_score": 23.750000000000004,
+  "max_possible_score": 33.290000000000006,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "pass_rate": 100
+    },
+    "rust": {
+      "passed": 5,
+      "failed": 1,
+      "total": 6,
+      "pass_rate": 83.33333333333334
+    },
+    "typescript": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "pass_rate": 60
+    },
+    "zig": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    }
+  },
+  "total_duration_seconds": 2786.3012084420006,
+  "agent_duration_seconds": 2670.861921179,
+  "harness_version": "v1.8.7",
+  "weight_version": "2.1",
+  "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
+  "results_hash": "blake3:e5c5ec315645b724c2e27a6ff1c3f5c77bb80ff2a065d392fe27b0172a68d6e2",
+  "timeout": 600,
+  "parallel": 1,
+  "use_mcp_tools": false,
+  "use_skills": false,
+  "disable_mcp": false,
+  "sandbox": true,
+  "legacy": false,
+  "quota_affected_tasks": 0,
+  "auth_affected_tasks": 0,
+  "infra_affected_tasks": 0,
+  "total_quota_retries": 0,
+  "total_infra_retries": 0,
+  "total_self_test_commands": 49,
+  "total_toolchain_install_attempts": 1,
+  "total_out_of_workspace_read_attempts": 69,
+  "total_toolchain_search_attempts": 30,
+  "skills_usage_rate": 0,
+  "total_skills_usage_signals": 0,
+  "tasks_with_self_testing": 22,
+  "tasks_with_toolchain_install": 1,
+  "tasks_with_out_of_workspace_reads": 9,
+  "tasks_with_toolchain_search": 9,
+  "tasks_with_skills_usage": 0
+}
