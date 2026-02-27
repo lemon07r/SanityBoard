@@ -1,0 +1,81 @@
+{
+  "agent": "omo",
+  "model": "unknown",
+  "timestamp": "2026-02-26T222812",
+  "pass_rate": 69.23076923076923,
+  "weighted_pass_rate": 67.0471613097026,
+  "passed": 18,
+  "failed": 8,
+  "total": 26,
+  "skipped_external_tasks": 0,
+  "weighted_score": 22.320000000000004,
+  "max_possible_score": 33.290000000000006,
+  "integrity_violations": 1,
+  "by_language": {
+    "dart": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "go": {
+      "passed": 5,
+      "failed": 1,
+      "total": 6,
+      "pass_rate": 83.33333333333334
+    },
+    "kotlin": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "pass_rate": 100
+    },
+    "rust": {
+      "passed": 3,
+      "failed": 3,
+      "total": 6,
+      "pass_rate": 50
+    },
+    "typescript": {
+      "passed": 4,
+      "failed": 1,
+      "total": 5,
+      "pass_rate": 80
+    },
+    "zig": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "pass_rate": 66.66666666666666
+    }
+  },
+  "total_duration_seconds": 3417.3750654580003,
+  "agent_duration_seconds": 3307.5552890149997,
+  "harness_version": "v1.8.7-dirty",
+  "weight_version": "2.1",
+  "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
+  "results_hash": "blake3:39ad9cd500882352779a35040e7f6e83fafe3d4fb404ee801ac1e46493867c51",
+  "timeout": 600,
+  "parallel": 1,
+  "use_mcp_tools": false,
+  "use_skills": false,
+  "disable_mcp": false,
+  "sandbox": true,
+  "legacy": false,
+  "quota_affected_tasks": 0,
+  "auth_affected_tasks": 0,
+  "infra_affected_tasks": 0,
+  "total_quota_retries": 0,
+  "total_infra_retries": 0,
+  "total_self_test_commands": 48,
+  "total_toolchain_install_attempts": 0,
+  "total_out_of_workspace_read_attempts": 49,
+  "total_toolchain_search_attempts": 24,
+  "skills_usage_rate": 0,
+  "total_skills_usage_signals": 0,
+  "tasks_with_self_testing": 22,
+  "tasks_with_toolchain_install": 0,
+  "tasks_with_out_of_workspace_reads": 9,
+  "tasks_with_toolchain_search": 9,
+  "tasks_with_skills_usage": 0
+}

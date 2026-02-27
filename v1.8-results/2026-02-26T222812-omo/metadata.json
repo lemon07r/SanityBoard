@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Oh My Opencode",
+  "Agent Version": "3.9.0",
+  "Model Name": "Claude Opus 4.6",
+  "Variant": "Mixed (GPT + Gemini)",
+  "Model Provider": "Anthropic",
+  "Access Provider": "GitHub Copilot",
+  "Run Date": "2026-02-26",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/code-yeongyu/oh-my-opencode",
+  "Skills or MCP available": true,
+  "Skills used": [],
+  "MCP tools used": ["Whatever the hell this junk comes with"]
+}
