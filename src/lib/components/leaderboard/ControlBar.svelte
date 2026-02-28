@@ -129,7 +129,7 @@
             <!-- Filter Menu -->
             <div class="relative">
                 <button 
-                    class="flex items-center gap-2 text-sm font-medium transition-colors border border-transparent rounded-lg px-2 py-1.5 hover:bg-foreground/5 dark:hover:bg-white/5 {isFilterOpen || filters.selectedProviders.length > 0 || filters.selectedModels.length > 0 || filters.selectedAgents.length > 0 || filters.mcpFilter !== 'all' || filters.agentTypeFilter !== 'all' || filters.modelTypeFilter !== 'all' ? 'text-foreground dark:text-white border-border/40 dark:border-white/10 bg-foreground/5 dark:bg-white/5' : 'text-muted-foreground dark:text-white/60'}"
+                    class="flex items-center gap-2 text-sm font-medium transition-colors border border-transparent rounded-lg px-2 py-1.5 hover:bg-foreground/5 dark:hover:bg-white/5 {isFilterOpen || filters.selectedProviders.length > 0 || filters.selectedModels.length > 0 || filters.selectedAgents.length > 0 || filters.mcpFilter !== 'no' || filters.agentTypeFilter !== 'all' || filters.modelTypeFilter !== 'all' ? 'text-foreground dark:text-white border-border/40 dark:border-white/10 bg-foreground/5 dark:bg-white/5' : 'text-muted-foreground dark:text-white/60'}"
                     onclick={() => { isFilterOpen = !isFilterOpen; isSortOpen = false; }}
                 >
                     <ListFilter size={16} />

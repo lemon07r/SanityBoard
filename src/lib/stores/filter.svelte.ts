@@ -21,7 +21,7 @@ export class FilterStore {
   selectedProviders = $state<string[]>([]);
   selectedModels = $state<string[]>([]);
   selectedAgents = $state<string[]>([]);
-  mcpFilter = $state<McpFilter>("all");
+  mcpFilter = $state<McpFilter>("no");
   agentTypeFilter = $state<OpenSourceFilter>("all");
   modelTypeFilter = $state<OpenSourceFilter>("all");
   dateRangeMin = $state<string | null>(null);
@@ -72,7 +72,8 @@ export class FilterStore {
   }
 
   toggleVersion() {
-    this.leaderboardVersion = this.leaderboardVersion === "legacy" ? "v18" : "legacy";
+    this.leaderboardVersion =
+      this.leaderboardVersion === "legacy" ? "v18" : "legacy";
   }
 
   resetFilters() {
@@ -80,7 +81,7 @@ export class FilterStore {
     this.selectedProviders = [];
     this.selectedModels = [];
     this.selectedAgents = [];
-    this.mcpFilter = "all";
+    this.mcpFilter = "no";
     this.agentTypeFilter = "all";
     this.modelTypeFilter = "all";
     this.dateRangeMin = null;

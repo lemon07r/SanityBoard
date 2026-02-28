@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Devin",
+  "Agent Version": "v3",
+  "Model Name": "Devin?",
+  "Variant": "Devin...",
+  "Model Provider": "DEVINNN",
+  "Access Provider": "dEviN",
+  "Run Date": "2026-02-27",
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://devin.ai",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}
