@@ -13,7 +13,7 @@ export type LeaderboardVersion = "legacy" | "v18";
 
 export class FilterStore {
   // Core State
-  leaderboardVersion = $state<LeaderboardVersion>("legacy");
+  leaderboardVersion = $state<LeaderboardVersion>("v18");
   filterType = $state<FilterType>("verified");
   sortBy = $state<SortOption>("score");
   sortDirection = $state<SortDirection>("desc");
