@@ -1,0 +1,16 @@
+{
+  "Agent Name": "OpenCode",
+  "Agent Version": "v1.3.5",
+  "Model Name": "MiniMax M2.7",
+  "Variant": "",
+  "Model Provider": "MiniMax",
+  "Access Provider": "Anthropic API",
+  "Run Date": "2026-03-29",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Open Weight",
+  "Agent URL": "https://github.com/opencode-ai/opencode",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

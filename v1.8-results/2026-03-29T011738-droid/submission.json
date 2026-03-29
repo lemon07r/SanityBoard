@@ -1,0 +1,81 @@
+{
+  "agent": "droid",
+  "model": "custom:Kimi-K2.5-Turbo-(Firepass-Anthropic)-3",
+  "timestamp": "2026-03-29T011738",
+  "pass_rate": 61.53846153846154,
+  "weighted_pass_rate": 55.482126764794224,
+  "passed": 16,
+  "failed": 10,
+  "total": 26,
+  "skipped_external_tasks": 0,
+  "weighted_score": 18.470000000000002,
+  "max_possible_score": 33.290000000000006,
+  "integrity_violations": 2,
+  "by_language": {
+    "dart": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "rust": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "typescript": {
+      "passed": 3,
+      "failed": 2,
+      "total": 5,
+      "pass_rate": 60
+    },
+    "zig": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    }
+  },
+  "total_duration_seconds": 3804.283629698,
+  "agent_duration_seconds": 3727.81847218,
+  "harness_version": "v1.8.7-dirty",
+  "weight_version": "2.1",
+  "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
+  "results_hash": "blake3:e590f52de7970fa4119eb46c138b4629bae7b4d276e2a9d7a96712c35fd4efc3",
+  "timeout": 600,
+  "parallel": 1,
+  "use_mcp_tools": false,
+  "use_skills": false,
+  "disable_mcp": false,
+  "sandbox": true,
+  "legacy": false,
+  "quota_affected_tasks": 0,
+  "auth_affected_tasks": 0,
+  "infra_affected_tasks": 0,
+  "total_quota_retries": 0,
+  "total_infra_retries": 0,
+  "total_self_test_commands": 1,
+  "total_toolchain_install_attempts": 0,
+  "total_out_of_workspace_read_attempts": 0,
+  "total_toolchain_search_attempts": 1,
+  "skills_usage_rate": 0,
+  "total_skills_usage_signals": 0,
+  "tasks_with_self_testing": 1,
+  "tasks_with_toolchain_install": 0,
+  "tasks_with_out_of_workspace_reads": 0,
+  "tasks_with_toolchain_search": 1,
+  "tasks_with_skills_usage": 0
+}

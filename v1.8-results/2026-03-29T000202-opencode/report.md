@@ -1,0 +1,117 @@
+# Evaluation Report
+
+## Summary
+
+| Metric | Value |
+|--------|-------|
+| Agent | **opencode** |
+| Model | minimax/MiniMax-M2.7 |
+| Sandbox | Yes |
+| Timestamp | 2026-03-29T000202 |
+| Pass Rate | **34.6%** (9/26) |
+| Weighted Pass Rate | **32.4%** |
+| Weighted Score | 10.78 / 33.29 |
+| Duration | 6896.8s |
+
+## Quality Breakdown
+
+- **Integrity Violations** (modified test files): 0
+- **Failures**: 17
+- **Quota-affected tasks**: 0
+- **Auth-affected tasks**: 0
+- **Infra-affected tasks**: 0
+
+## Behavior Telemetry
+
+- **Total self-test commands**: 40
+- **Tasks with self-testing**: 20/26
+- **Total toolchain install attempts**: 1
+- **Tasks with toolchain install attempts**: 1/26
+- **Total out-of-workspace read attempts**: 23
+- **Tasks with out-of-workspace read attempts**: 4/26
+- **Total toolchain search attempts**: 12
+- **Tasks with toolchain searching**: 6/26
+- **Total Agent Skills usage signals**: 0
+- **Tasks with Agent Skills usage**: 0/26 (0.0%)
+
+| Task | Self Tests | Self Test Conf. | Tool Installs | Out-of-Workspace Reads | Out-of-Workspace Conf. | Toolchain Searches | Skills Used | Skill Signals |
+|------|------------|-----------------|---------------|-------------------------|------------------------|--------------------|-------------|---------------|
+| dart/future-pool | 1 | true | 0 | 1 | true | 1 | false | 0 |
+| dart/isolate-pool | 1 | true | 0 | 6 | true | 2 | false | 0 |
+| dart/reactive-cache | 1 | true | 0 | 3 | true | 2 | false | 0 |
+| go/bank-account | 2 | true | 0 | 0 | true | 0 | false | 0 |
+| go/dining-philosophers | 1 | true | 0 | 0 | true | 0 | false | 0 |
+| go/errgroup-limit | 1 | true | 0 | 0 | true | 0 | false | 0 |
+| go/parallel-letter-frequency | 1 | true | 0 | 0 | true | 0 | false | 0 |
+| go/react | 3 | true | 0 | 0 | true | 0 | false | 0 |
+| go/singleflight | 4 | true | 0 | 0 | true | 0 | false | 0 |
+| kotlin/channel-multiplexer | 2 | true | 1 | 0 | true | 1 | false | 0 |
+| kotlin/flow-processor | 6 | true | 0 | 13 | true | 5 | false | 0 |
+| kotlin/lru-cache | 2 | true | 0 | 0 | true | 1 | false | 0 |
+| rust/circular-buffer | 2 | true | 0 | 0 | true | 0 | false | 0 |
+| rust/doubly-linked-list | 2 | true | 0 | 0 | true | 0 | false | 0 |
+| rust/generational-arena | 3 | true | 0 | 0 | true | 0 | false | 0 |
+| rust/macros | 1 | true | 0 | 0 | true | 0 | false | 0 |
+| rust/parallel-letter-frequency | 4 | true | 0 | 0 | true | 0 | false | 0 |
+| rust/regex-lite | 1 | true | 0 | 0 | true | 0 | false | 0 |
+| zig/arena-allocator | 1 | true | 0 | 0 | true | 0 | false | 0 |
+| zig/comptime-json | 1 | true | 0 | 0 | true | 0 | false | 0 |
+
+## Results by Language
+
+| Language | Passed | Failed | Total | Pass Rate |
+|----------|--------|--------|-------|-----------|
+| dart | 0 | 3 | 3 | 0.0% |
+| go | 3 | 3 | 6 | 50.0% |
+| kotlin | 0 | 3 | 3 | 0.0% |
+| rust | 4 | 2 | 6 | 66.7% |
+| typescript | 1 | 4 | 5 | 20.0% |
+| zig | 1 | 2 | 3 | 33.3% |
+
+## Results by Tier
+
+| Tier | Passed | Failed | Total | Pass Rate |
+|------|--------|--------|-------|-----------|
+| core | 5 | 7 | 12 | 41.7% |
+| extended | 4 | 10 | 14 | 28.6% |
+
+## Task Results
+
+| Task | Status | Weight | Score | Duration |
+|------|--------|--------|-------|----------|
+| dart/future-pool | ❌ FAIL | 1.46 | 0.00 | 192.1s |
+| dart/isolate-pool | ❌ FAIL | 1.50 | 0.00 | 377.3s |
+| dart/reactive-cache | ❌ FAIL | 1.50 | 0.00 | 465.7s |
+| go/bank-account | ✅ PASS | 1.04 | 1.04 | 31.6s |
+| go/dining-philosophers | ✅ PASS | 1.04 | 1.04 | 105.4s |
+| go/errgroup-limit | ❌ FAIL | 1.14 | 0.00 | 630.5s |
+| go/parallel-letter-frequency | ❌ FAIL | 1.04 | 0.00 | 29.2s |
+| go/react | ❌ FAIL | 1.14 | 0.00 | 600.4s |
+| go/singleflight | ✅ PASS | 1.28 | 1.28 | 453.3s |
+| kotlin/channel-multiplexer | ❌ FAIL | 1.50 | 0.00 | 605.3s |
+| kotlin/flow-processor | ❌ FAIL | 1.50 | 0.00 | 275.0s |
+| kotlin/lru-cache | ❌ FAIL | 1.09 | 0.00 | 109.1s |
+| rust/circular-buffer | ✅ PASS | 1.12 | 1.12 | 60.7s |
+| rust/doubly-linked-list | ✅ PASS | 1.24 | 1.24 | 76.2s |
+| rust/generational-arena | ✅ PASS | 1.24 | 1.24 | 225.4s |
+| rust/macros | ❌ FAIL | 1.50 | 0.00 | 45.0s |
+| rust/parallel-letter-frequency | ✅ PASS | 1.12 | 1.12 | 56.9s |
+| rust/regex-lite | ❌ FAIL | 1.40 | 0.00 | 104.4s |
+| typescript/csv-lite | ✅ PASS | 1.36 | 1.36 | 283.6s |
+| typescript/forth | ❌ FAIL | 1.26 | 0.00 | 80.2s |
+| typescript/glob | ❌ FAIL | 1.14 | 0.00 | 64.9s |
+| typescript/promise-pool | ❌ FAIL | 1.20 | 0.00 | 600.8s |
+| typescript/react | ❌ FAIL | 1.14 | 0.00 | 600.9s |
+| zig/arena-allocator | ❌ FAIL | 1.50 | 0.00 | 140.9s |
+| zig/comptime-json | ❌ FAIL | 1.50 | 0.00 | 603.9s |
+| zig/small-vector | ✅ PASS | 1.34 | 1.34 | 78.0s |
+
+## Verification
+
+- **Harness Version**: v1.8.7-dirty
+- **Weight Version**: 2.1
+- **Tasks Hash**: `blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e`
+- **Results Hash**: `blake3:791c35df35109795782fbafb8c53bf5b5e750172d2a1982b4e0c6486adb997c4`
+
+---
+*Generated by SanityHarness on 2026-03-29T000202*

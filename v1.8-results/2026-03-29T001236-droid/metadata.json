@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Droid",
+  "Agent Version": "v0.89.0",
+  "Model Name": "Kimi K2.5 Turbo",
+  "Variant": "",
+  "Model Provider": "Fireworks AI",
+  "Access Provider": "Firepass OpenAI",
+  "Run Date": "2026-03-29",
+  "verified": true,
+  "Agent Type": "Proprietary",
+  "Model Type": "Open Weight",
+  "Agent URL": "https://factory.ai",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}
