@@ -1,0 +1,81 @@
+{
+  "agent": "forge",
+  "model": "unknown",
+  "timestamp": "2026-03-29T125810",
+  "pass_rate": 46.15384615384615,
+  "weighted_pass_rate": 41.60408531090417,
+  "passed": 12,
+  "failed": 14,
+  "total": 26,
+  "skipped_external_tasks": 0,
+  "weighted_score": 13.850000000000001,
+  "max_possible_score": 33.290000000000006,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "rust": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "typescript": {
+      "passed": 1,
+      "failed": 4,
+      "total": 5,
+      "pass_rate": 20
+    },
+    "zig": {
+      "passed": 0,
+      "failed": 3,
+      "total": 3,
+      "pass_rate": 0
+    }
+  },
+  "total_duration_seconds": 6420.352195885,
+  "agent_duration_seconds": 6204.48444054,
+  "harness_version": "v1.8.9-dirty",
+  "weight_version": "2.1",
+  "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
+  "results_hash": "blake3:944b75a385f13ec899da65f4b7050a4aa4f39c398f96561bfe7927475d0f1ece",
+  "timeout": 600,
+  "parallel": 1,
+  "use_mcp_tools": false,
+  "use_skills": false,
+  "disable_mcp": false,
+  "sandbox": true,
+  "legacy": false,
+  "quota_affected_tasks": 1,
+  "auth_affected_tasks": 0,
+  "infra_affected_tasks": 0,
+  "total_quota_retries": 2,
+  "total_infra_retries": 0,
+  "total_self_test_commands": 56,
+  "total_toolchain_install_attempts": 1,
+  "total_out_of_workspace_read_attempts": 11,
+  "total_toolchain_search_attempts": 44,
+  "skills_usage_rate": 0,
+  "total_skills_usage_signals": 0,
+  "tasks_with_self_testing": 23,
+  "tasks_with_toolchain_install": 1,
+  "tasks_with_out_of_workspace_reads": 7,
+  "tasks_with_toolchain_search": 10,
+  "tasks_with_skills_usage": 0
+}
