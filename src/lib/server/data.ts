@@ -164,6 +164,7 @@ export function getAllRuns(dataDir: string = DATA_DIR): RunData[] {
   const ids = getRunIds(dataDir);
   return ids
     .map((id) => getRunData(id, dataDir))
+    .filter((run) => run.metadata !== null)
     .sort((a, b) => {
       // Sort by weighted_score desc, then date desc
       const scoreA = a.stats?.weighted_score || 0;
