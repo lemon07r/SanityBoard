@@ -1,0 +1,16 @@
+{
+  "Agent Name": "Codex CLI",
+  "Agent Version": "0.125.0",
+  "Model Name": "GPT-5.5",
+  "Variant": "xhigh",
+  "Model Provider": "OpenAI",
+  "Access Provider": "",
+  "Run Date": "2026-04-24",
+  "verified": true,
+  "Agent Type": "Open Source",
+  "Model Type": "Proprietary",
+  "Agent URL": "https://github.com/openai/codex",
+  "Skills or MCP available": false,
+  "Skills used": [],
+  "MCP tools used": []
+}

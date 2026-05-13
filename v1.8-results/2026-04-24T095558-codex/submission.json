@@ -1,0 +1,82 @@
+{
+  "agent": "codex",
+  "model": "gpt-5.5",
+  "reasoning": "xhigh",
+  "timestamp": "2026-04-24T095558",
+  "pass_rate": 80.76923076923077,
+  "weighted_pass_rate": 79.27305497146291,
+  "passed": 21,
+  "failed": 5,
+  "total": 26,
+  "skipped_external_tasks": 0,
+  "weighted_score": 26.390000000000008,
+  "max_possible_score": 33.290000000000006,
+  "integrity_violations": 0,
+  "by_language": {
+    "dart": {
+      "passed": 2,
+      "failed": 1,
+      "total": 3,
+      "pass_rate": 66.66666666666666
+    },
+    "go": {
+      "passed": 6,
+      "failed": 0,
+      "total": 6,
+      "pass_rate": 100
+    },
+    "kotlin": {
+      "passed": 3,
+      "failed": 0,
+      "total": 3,
+      "pass_rate": 100
+    },
+    "rust": {
+      "passed": 5,
+      "failed": 1,
+      "total": 6,
+      "pass_rate": 83.33333333333334
+    },
+    "typescript": {
+      "passed": 4,
+      "failed": 1,
+      "total": 5,
+      "pass_rate": 80
+    },
+    "zig": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    }
+  },
+  "total_duration_seconds": 6157.584004061,
+  "agent_duration_seconds": 6015.707696657001,
+  "harness_version": "v1.8.12-1-g34ba88c",
+  "weight_version": "2.1",
+  "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
+  "results_hash": "blake3:e3fed92a2b41b9050b4e8cc3b0a30a255e38614eae3b638ebecac11d2a56a7bb",
+  "timeout": 600,
+  "parallel": 1,
+  "use_mcp_tools": false,
+  "use_skills": false,
+  "disable_mcp": false,
+  "sandbox": true,
+  "legacy": false,
+  "quota_affected_tasks": 0,
+  "auth_affected_tasks": 0,
+  "infra_affected_tasks": 0,
+  "total_quota_retries": 0,
+  "total_infra_retries": 0,
+  "total_self_test_commands": 41,
+  "total_toolchain_install_attempts": 0,
+  "total_out_of_workspace_read_attempts": 2,
+  "total_toolchain_search_attempts": 2,
+  "skills_usage_rate": 0,
+  "total_skills_usage_signals": 0,
+  "tasks_with_self_testing": 18,
+  "tasks_with_toolchain_install": 0,
+  "tasks_with_out_of_workspace_reads": 1,
+  "tasks_with_toolchain_search": 2,
+  "tasks_with_skills_usage": 0
+}

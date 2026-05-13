@@ -1,0 +1,82 @@
+{
+  "agent": "opencode",
+  "model": "deepseek-openai/deepseek-v4-pro",
+  "reasoning": "max",
+  "timestamp": "2026-04-24T095415",
+  "pass_rate": 53.84615384615385,
+  "weighted_pass_rate": 50.826073896064884,
+  "passed": 14,
+  "failed": 12,
+  "total": 26,
+  "skipped_external_tasks": 0,
+  "weighted_score": 16.92,
+  "max_possible_score": 33.290000000000006,
+  "integrity_violations": 1,
+  "by_language": {
+    "dart": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "go": {
+      "passed": 5,
+      "failed": 1,
+      "total": 6,
+      "pass_rate": 83.33333333333334
+    },
+    "kotlin": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    },
+    "rust": {
+      "passed": 4,
+      "failed": 2,
+      "total": 6,
+      "pass_rate": 66.66666666666666
+    },
+    "typescript": {
+      "passed": 2,
+      "failed": 3,
+      "total": 5,
+      "pass_rate": 40
+    },
+    "zig": {
+      "passed": 1,
+      "failed": 2,
+      "total": 3,
+      "pass_rate": 33.33333333333333
+    }
+  },
+  "total_duration_seconds": 9122.412238855999,
+  "agent_duration_seconds": 8962.911724191998,
+  "harness_version": "v1.8.12-1-g34ba88c",
+  "weight_version": "2.1",
+  "tasks_hash": "blake3:3c951bc4b67b6739ff03d9f42709ffaa3652df423ebc3d8bdf4bf5b0961db82e",
+  "results_hash": "blake3:98e389f7dc506b5c3c73bf4b8d1c7812ad324dacbbf2f3c9537b306b869884ce",
+  "timeout": 600,
+  "parallel": 1,
+  "use_mcp_tools": false,
+  "use_skills": false,
+  "disable_mcp": false,
+  "sandbox": true,
+  "legacy": false,
+  "quota_affected_tasks": 0,
+  "auth_affected_tasks": 0,
+  "infra_affected_tasks": 0,
+  "total_quota_retries": 0,
+  "total_infra_retries": 0,
+  "total_self_test_commands": 45,
+  "total_toolchain_install_attempts": 1,
+  "total_out_of_workspace_read_attempts": 73,
+  "total_toolchain_search_attempts": 28,
+  "skills_usage_rate": 0,
+  "total_skills_usage_signals": 0,
+  "tasks_with_self_testing": 23,
+  "tasks_with_toolchain_install": 1,
+  "tasks_with_out_of_workspace_reads": 7,
+  "tasks_with_toolchain_search": 7,
+  "tasks_with_skills_usage": 0
+}
