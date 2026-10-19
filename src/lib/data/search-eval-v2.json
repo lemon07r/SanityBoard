@@ -1,0 +1,2233 @@
+{
+  "generated_from": {
+    "pilot": "results/2026-10-19T07-49-42-905Z-pilot",
+    "retrieval": "results/2026-10-19T07-57-39-681Z-eval",
+    "agents": "results/2026-10-19T08-07-51-071Z-eval",
+    "confirmation": "results/2026-10-19T08-26-06-898Z-eval"
+  },
+  "run_date": "2026-10-19",
+  "model": "Claude Opus 5.5 (adaptive thinking, medium effort)",
+  "blocked": [
+    {
+      "arm": "brave:llm-context",
+      "reason": "OPTION_NOT_IN_PLAN on the key's Free AI plan"
+    }
+  ],
+  "retrieval": {
+    "cases": 24,
+    "slices": {
+      "revera": 12,
+      "opencode": 12,
+      "traps": 6
+    },
+    "profiles": [
+      {
+        "arm": "exa:auto",
+        "provider": "Exa",
+        "profile": "auto",
+        "n": 24,
+        "url": {
+          "1": 22,
+          "3": 24,
+          "5": 24
+        },
+        "evidence": {
+          "1": 23,
+          "3": 23,
+          "5": 24
+        },
+        "evidence5_wilson": [
+          0.862,
+          1
+        ],
+        "read_ok": 24,
+        "evidence_in_read": 24,
+        "search_ms": {
+          "p50": 4456,
+          "p90": 6185
+        },
+        "total_ms": {
+          "p50": 4595,
+          "p90": 6299
+        },
+        "visible_tokens_p50": 5683,
+        "usd_per_query": 0.008,
+        "usd_basis": "metered",
+        "slices": {
+          "revera": {
+            "n": 12,
+            "evidence1": 11,
+            "evidence5": 12,
+            "in_read": 12
+          },
+          "opencode": {
+            "n": 12,
+            "evidence1": 12,
+            "evidence5": 12,
+            "in_read": 12
+          },
+          "traps": {
+            "n": 6,
+            "evidence1": 6,
+            "evidence5": 6,
+            "in_read": 6
+          }
+        },
+        "errors": {},
+        "judge": {
+          "n": 24,
+          "supported": 24,
+          "insufficient": 0,
+          "contradicted": 0
+        }
+      },
+      {
+        "arm": "parallel:fast",
+        "provider": "Parallel",
+        "profile": "fast",
+        "n": 24,
+        "url": {
+          "1": 11,
+          "3": 15,
+          "5": 21
+        },
+        "evidence": {
+          "1": 20,
+          "3": 24,
+          "5": 24
+        },
+        "evidence5_wilson": [
+          0.862,
+          1
+        ],
+        "read_ok": 24,
+        "evidence_in_read": 19,
+        "search_ms": {
+          "p50": 531,
+          "p90": 624
+        },
+        "total_ms": {
+          "p50": 1303,
+          "p90": 1518
+        },
+        "visible_tokens_p50": 5649,
+        "usd_per_query": 0.002,
+        "usd_basis": "estimate",
+        "slices": {
+          "revera": {
+            "n": 12,
+            "evidence1": 8,
+            "evidence5": 12,
+            "in_read": 8
+          },
+          "opencode": {
+            "n": 12,
+            "evidence1": 12,
+            "evidence5": 12,
+            "in_read": 11
+          },
+          "traps": {
+            "n": 6,
+            "evidence1": 5,
+            "evidence5": 6,
+            "in_read": 5
+          }
+        },
+        "errors": {},
+        "judge": {
+          "n": 24,
+          "supported": 24,
+          "insufficient": 0,
+          "contradicted": 0
+        }
+      },
+      {
+        "arm": "tavily:advanced",
+        "provider": "Tavily",
+        "profile": "advanced",
+        "n": 24,
+        "url": {
+          "1": 8,
+          "3": 19,
+          "5": 20
+        },
+        "evidence": {
+          "1": 21,
+          "3": 22,
+          "5": 22
+        },
+        "evidence5_wilson": [
+          0.742,
+          0.977
+        ],
+        "read_ok": 24,
+        "evidence_in_read": 21,
+        "search_ms": {
+          "p50": 3383,
+          "p90": 5476
+        },
+        "total_ms": {
+          "p50": 3763,
+          "p90": 5865
+        },
+        "visible_tokens_p50": 4980,
+        "usd_per_query": 0.0177,
+        "usd_basis": "estimate",
+        "slices": {
+          "revera": {
+            "n": 12,
+            "evidence1": 9,
+            "evidence5": 10,
+            "in_read": 10
+          },
+          "opencode": {
+            "n": 12,
+            "evidence1": 12,
+            "evidence5": 12,
+            "in_read": 11
+          },
+          "traps": {
+            "n": 6,
+            "evidence1": 6,
+            "evidence5": 6,
+            "in_read": 6
+          }
+        },
+        "errors": {},
+        "judge": {
+          "n": 24,
+          "supported": 22,
+          "insufficient": 2,
+          "contradicted": 0
+        }
+      },
+      {
+        "arm": "brave:web",
+        "provider": "Brave",
+        "profile": "web",
+        "n": 24,
+        "url": {
+          "1": 8,
+          "3": 13,
+          "5": 15
+        },
+        "evidence": {
+          "1": 14,
+          "3": 19,
+          "5": 21
+        },
+        "evidence5_wilson": [
+          0.69,
+          0.957
+        ],
+        "read_ok": 22,
+        "evidence_in_read": 20,
+        "search_ms": {
+          "p50": 517,
+          "p90": 559
+        },
+        "total_ms": {
+          "p50": 806,
+          "p90": 1586
+        },
+        "visible_tokens_p50": 4211,
+        "usd_per_query": 0.005,
+        "usd_basis": "estimate",
+        "slices": {
+          "revera": {
+            "n": 12,
+            "evidence1": 6,
+            "evidence5": 9,
+            "in_read": 11
+          },
+          "opencode": {
+            "n": 12,
+            "evidence1": 8,
+            "evidence5": 12,
+            "in_read": 9
+          },
+          "traps": {
+            "n": 6,
+            "evidence1": 3,
+            "evidence5": 4,
+            "in_read": 5
+          }
+        },
+        "errors": {
+          "http_4xx": 1,
+          "blocked": 1
+        },
+        "judge": {
+          "n": 24,
+          "supported": 24,
+          "insufficient": 0,
+          "contradicted": 0
+        }
+      },
+      {
+        "arm": "firecrawl:search",
+        "provider": "Firecrawl",
+        "profile": "search",
+        "n": 24,
+        "url": {
+          "1": 13,
+          "3": 18,
+          "5": 20
+        },
+        "evidence": {
+          "1": 12,
+          "3": 15,
+          "5": 16
+        },
+        "evidence5_wilson": [
+          0.467,
+          0.82
+        ],
+        "read_ok": 24,
+        "evidence_in_read": 17,
+        "search_ms": {
+          "p50": 942,
+          "p90": 1763
+        },
+        "total_ms": {
+          "p50": 2383,
+          "p90": 5763
+        },
+        "visible_tokens_p50": 3761,
+        "usd_per_query": 0.003,
+        "usd_basis": "estimate",
+        "slices": {
+          "revera": {
+            "n": 12,
+            "evidence1": 4,
+            "evidence5": 5,
+            "in_read": 9
+          },
+          "opencode": {
+            "n": 12,
+            "evidence1": 8,
+            "evidence5": 11,
+            "in_read": 8
+          },
+          "traps": {
+            "n": 6,
+            "evidence1": 2,
+            "evidence5": 3,
+            "in_read": 5
+          }
+        },
+        "errors": {},
+        "judge": {
+          "n": 24,
+          "supported": 21,
+          "insufficient": 3,
+          "contradicted": 0
+        }
+      }
+    ],
+    "matrix": [
+      {
+        "id": "r-pymongo-host-injection",
+        "slice": "revera",
+        "trap": false,
+        "category": "security-advisory-conditions",
+        "difficulty": "medium",
+        "question": "A multi-tenant Python service on pymongo 4.18.1 builds its MongoDB connection string by inserting a tenant-supplied hostname fragment into the host portion of the URI. Is it affected by the 2026 PyMongo connection-string host injection advisory, and which version fixes it?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 2,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 3,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": null,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-strawberry-async-permission",
+        "slice": "revera",
+        "trap": true,
+        "category": "security-advisory-conditions",
+        "difficulty": "hard",
+        "question": "Our API uses strawberry-graphql 0.300.0 and every custom permission class declares `async def has_permission(...)`. Is it affected by the 2026 Strawberry advisory where permission checks treat an awaitable authorization result as truthy?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-uv-wheel-windows",
+        "slice": "revera",
+        "trap": true,
+        "category": "security-advisory-conditions",
+        "difficulty": "medium",
+        "question": "Our Linux-only CI containers install Python dependencies with uv 0.12.10. Are they exposed to the 2026 uv wheel-extraction path traversal advisory?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 3,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": null,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": null,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-python312-tarfile-default-filter",
+        "slice": "revera",
+        "trap": true,
+        "category": "version-inapplicable-docs",
+        "difficulty": "hard",
+        "question": "A PR for a service pinned to Python 3.12 removes `filter='data'` from a `tarfile.extractall()` call, arguing that the safe 'data' filter is already the default. Is that true on Python 3.12?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-go-loopvar-go121-module",
+        "slice": "revera",
+        "trap": true,
+        "category": "version-inapplicable-docs",
+        "difficulty": "medium",
+        "question": "A Go module whose go.mod says `go 1.21` is now built with the Go 1.25 toolchain. A PR removes `v := v` copies before goroutines inside for loops, saying Go 1.22+ gives each iteration a fresh variable. Does the new per-iteration semantics apply to this module?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": null,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-quart-debug-print-version",
+        "slice": "revera",
+        "trap": true,
+        "category": "fixed-or-inapplicable-version",
+        "difficulty": "medium",
+        "question": "Our Quart app is pinned to quart 0.22.0. Is it affected by the 2026 advisory about Quart printing raw request bodies (including passwords) to stdout?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": null,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": null,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-got15-strict-content-length",
+        "slice": "revera",
+        "trap": false,
+        "category": "library-default-semantics",
+        "difficulty": "hard",
+        "question": "After upgrading the Node HTTP client got from v14 to v15, requests to a legacy upstream that sends a wrong Content-Length header started failing. What default changed in got 15 and how is the old behavior restored?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 3,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": null,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": null,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-chalk6-force-color",
+        "slice": "revera",
+        "trap": false,
+        "category": "upstream-breaking-behavior",
+        "difficulty": "hard",
+        "question": "A CI job sets FORCE_COLOR=1 and a PR upgrades chalk from 5 to 6. Does chalk 6 change how a numeric FORCE_COLOR value and ansi256() colors behave?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 2,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 2,
+            "read_error": true
+          },
+          "firecrawl:search": {
+            "evidence_rank": 2,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-mise-untrusted-shell-args",
+        "slice": "revera",
+        "trap": false,
+        "category": "security-advisory-conditions",
+        "difficulty": "hard",
+        "question": "Developers run mise 2026.7.10 and open untrusted repositories. Can a repository's local .mise.toml [settings] cause command execution without a trust prompt, and which mise version fixes it?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 4,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": null,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": null,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-rustls-handshake-encryption-level",
+        "slice": "revera",
+        "trap": false,
+        "category": "security-advisory-conditions",
+        "difficulty": "medium",
+        "question": "A Rust service's Cargo.lock pins rustls 0.23.40. Is it in the affected range of the 2026 rustls advisory about TLS 1.3 handshake messages accepted at the wrong encryption level, and can an attacker use it to alter a handshake?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 5,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-got16-cross-origin-credentials",
+        "slice": "revera",
+        "trap": false,
+        "category": "upstream-breaking-behavior",
+        "difficulty": "hard",
+        "question": "A service using got 16 has a beforeRequest hook that rewrites requests to a different origin (a regional mirror) and relies on the Authorization header set in the original options. What does got 16 do to credentials in this case?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 2,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": null,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": null,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "r-python-utcnow-deprecated",
+        "slice": "revera",
+        "trap": false,
+        "category": "library-default-semantics",
+        "difficulty": "easy",
+        "question": "A PR for a Python 3.12 service adds `datetime.datetime.utcnow()` timestamps and compares them with timezone-aware datetimes. What does utcnow() return, and what is its status in 3.12?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-next16-proxy-runtime",
+        "slice": "opencode",
+        "trap": true,
+        "category": "migration",
+        "difficulty": "medium",
+        "question": "When migrating a Next.js 15 middleware.ts that sets `export const config = { runtime: 'edge' }` to Next.js 16, what is the file renamed to and can it keep running on the edge runtime?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 2,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 4,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-pg18-uuidv7",
+        "slice": "opencode",
+        "trap": false,
+        "category": "current-recommended-api",
+        "difficulty": "easy",
+        "question": "On PostgreSQL 18, how can a table default generate time-ordered UUIDs natively without an extension, and does the function take any arguments?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-rust2024-set-var-unsafe",
+        "slice": "opencode",
+        "trap": false,
+        "category": "migration",
+        "difficulty": "easy",
+        "question": "After switching a crate to Rust edition 2024, calls to std::env::set_var fail to compile. Why, and which other functions are affected the same way?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-python315-tomllib-version",
+        "slice": "opencode",
+        "trap": false,
+        "category": "version-specific-docs",
+        "difficulty": "hard",
+        "question": "A config file uses TOML 1.1 syntax. Which TOML specification version does Python 3.15's built-in tomllib parse, and can tomllib write TOML?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-eslint10-eslintrc",
+        "slice": "opencode",
+        "trap": false,
+        "category": "migration",
+        "difficulty": "medium",
+        "question": "A project with a .eslintrc.json and ESLINT_USE_FLAT_CONFIG=false in CI upgrades to ESLint 10. Will the legacy config keep working?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 4,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": null,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-vitest5-sequential-removed",
+        "slice": "opencode",
+        "trap": false,
+        "category": "migration",
+        "difficulty": "hard",
+        "question": "After upgrading to Vitest 5, `describe.sequential(...)` in a suite that runs concurrently by default is no longer available. What should replace it?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 2,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-commander15-node-version",
+        "slice": "opencode",
+        "trap": false,
+        "category": "exact-fact",
+        "difficulty": "medium",
+        "question": "A CommonJS CLI wants to upgrade to Commander 15. What minimum Node.js version does Commander 15 require, and why?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-tailwind4-theme-colors",
+        "slice": "opencode",
+        "trap": false,
+        "category": "official-vs-old-snippets",
+        "difficulty": "easy",
+        "question": "In a Tailwind CSS v4 project with no tailwind.config.js, how do you add a custom color like mint-500 so utilities such as bg-mint-500 exist?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-node-require-async-module",
+        "slice": "opencode",
+        "trap": false,
+        "category": "error-troubleshooting",
+        "difficulty": "hard",
+        "question": "Node.js throws ERR_REQUIRE_ASYNC_MODULE when our CommonJS code calls require() on an ES module dependency. What causes this error, and which Node flag prints where the problem is in the module graph?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 2,
+            "read_error": true
+          },
+          "firecrawl:search": {
+            "evidence_rank": 3,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-compose-watch-sync-restart",
+        "slice": "opencode",
+        "trap": false,
+        "category": "config-cli",
+        "difficulty": "medium",
+        "question": "With Docker Compose watch (develop.watch), which action syncs a changed nginx.conf into the running container and restarts the service without rebuilding the image?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-github-api-version-default",
+        "slice": "opencode",
+        "trap": false,
+        "category": "multi-source-ambiguous",
+        "difficulty": "medium",
+        "question": "Our GitHub REST API client sends no X-GitHub-Api-Version header. Which API version do those requests use, what is the newest version we could pin, and what happens if we pin a version that is no longer supported?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 1,
+            "read_error": false
+          }
+        }
+      },
+      {
+        "id": "o-go124-tool-directive",
+        "slice": "opencode",
+        "trap": false,
+        "category": "config-cli",
+        "difficulty": "medium",
+        "question": "A Go 1.24+ repo still uses a tools.go file with blank imports to pin golangci-lint. What is the current recommended way to track and run tool dependencies, and which go get flag adds one?",
+        "ranks": {
+          "exa:auto": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "parallel:fast": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "tavily:advanced": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "brave:web": {
+            "evidence_rank": 1,
+            "read_error": false
+          },
+          "firecrawl:search": {
+            "evidence_rank": 2,
+            "read_error": false
+          }
+        }
+      }
+    ]
+  },
+  "revera": {
+    "quick_pass": [
+      {
+        "arm": "exa:auto",
+        "provider": "Exa",
+        "profile": "auto",
+        "runs": 4,
+        "model_usd_mean": 0.0726,
+        "search_usd_mean": 0.0075,
+        "search_usd_basis": "metered",
+        "wall_s_mean": 40,
+        "model_calls": 16,
+        "searches": 4,
+        "reads": 2,
+        "bugs_found": 2,
+        "bugs_available": 2,
+        "strict_fps": 0,
+        "uncertain": 0
+      },
+      {
+        "arm": "parallel:fast",
+        "provider": "Parallel",
+        "profile": "fast",
+        "runs": 4,
+        "model_usd_mean": 0.1091,
+        "search_usd_mean": 0.0018,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 49.1,
+        "model_calls": 19,
+        "searches": 6,
+        "reads": 2,
+        "bugs_found": 2,
+        "bugs_available": 2,
+        "strict_fps": 1,
+        "uncertain": 1
+      },
+      {
+        "arm": "tavily:advanced",
+        "provider": "Tavily",
+        "profile": "advanced",
+        "runs": 4,
+        "model_usd_mean": 0.1108,
+        "search_usd_mean": 0.022,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 52.4,
+        "model_calls": 19,
+        "searches": 5,
+        "reads": 4,
+        "bugs_found": 2,
+        "bugs_available": 2,
+        "strict_fps": 1,
+        "uncertain": 0
+      },
+      {
+        "arm": "brave:web",
+        "provider": "Brave",
+        "profile": "web",
+        "runs": 4,
+        "model_usd_mean": 0.0947,
+        "search_usd_mean": 0.0063,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 45.7,
+        "model_calls": 20,
+        "searches": 5,
+        "reads": 4,
+        "bugs_found": 2,
+        "bugs_available": 2,
+        "strict_fps": 1,
+        "uncertain": 0
+      },
+      {
+        "arm": "firecrawl:search",
+        "provider": "Firecrawl",
+        "profile": "search",
+        "runs": 4,
+        "model_usd_mean": 0.1177,
+        "search_usd_mean": 0.004,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 49.4,
+        "model_calls": 20,
+        "searches": 6,
+        "reads": 4,
+        "bugs_found": 2,
+        "bugs_available": 2,
+        "strict_fps": 0,
+        "uncertain": 1
+      },
+      {
+        "arm": "none",
+        "provider": "No search",
+        "profile": "baseline",
+        "runs": 4,
+        "model_usd_mean": 0.0391,
+        "search_usd_mean": 0,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 39.6,
+        "model_calls": 14,
+        "searches": 0,
+        "reads": 0,
+        "bugs_found": 0,
+        "bugs_available": 2,
+        "strict_fps": 0,
+        "uncertain": 1
+      }
+    ],
+    "pooled": [
+      {
+        "arm": "exa:auto",
+        "provider": "Exa",
+        "profile": "auto",
+        "runs": 10,
+        "model_usd_mean": 0.0773,
+        "search_usd_mean": 0.0075,
+        "search_usd_basis": "metered",
+        "wall_s_mean": 37.9,
+        "model_calls": 38,
+        "searches": 10,
+        "reads": 5,
+        "bugs_found": 6,
+        "bugs_available": 6,
+        "strict_fps": 0,
+        "uncertain": 1
+      },
+      {
+        "arm": "parallel:fast",
+        "provider": "Parallel",
+        "profile": "fast",
+        "runs": 4,
+        "model_usd_mean": 0.1091,
+        "search_usd_mean": 0.0018,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 49.1,
+        "model_calls": 19,
+        "searches": 6,
+        "reads": 2,
+        "bugs_found": 2,
+        "bugs_available": 2,
+        "strict_fps": 1,
+        "uncertain": 1
+      },
+      {
+        "arm": "tavily:advanced",
+        "provider": "Tavily",
+        "profile": "advanced",
+        "runs": 4,
+        "model_usd_mean": 0.1108,
+        "search_usd_mean": 0.022,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 52.4,
+        "model_calls": 19,
+        "searches": 5,
+        "reads": 4,
+        "bugs_found": 2,
+        "bugs_available": 2,
+        "strict_fps": 1,
+        "uncertain": 0
+      },
+      {
+        "arm": "brave:web",
+        "provider": "Brave",
+        "profile": "web",
+        "runs": 4,
+        "model_usd_mean": 0.0947,
+        "search_usd_mean": 0.0063,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 45.7,
+        "model_calls": 20,
+        "searches": 5,
+        "reads": 4,
+        "bugs_found": 2,
+        "bugs_available": 2,
+        "strict_fps": 1,
+        "uncertain": 0
+      },
+      {
+        "arm": "firecrawl:search",
+        "provider": "Firecrawl",
+        "profile": "search",
+        "runs": 10,
+        "model_usd_mean": 0.1182,
+        "search_usd_mean": 0.0038,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 52.9,
+        "model_calls": 53,
+        "searches": 15,
+        "reads": 10,
+        "bugs_found": 6,
+        "bugs_available": 6,
+        "strict_fps": 1,
+        "uncertain": 1
+      },
+      {
+        "arm": "none",
+        "provider": "No search",
+        "profile": "baseline",
+        "runs": 10,
+        "model_usd_mean": 0.0453,
+        "search_usd_mean": 0,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 41.4,
+        "model_calls": 38,
+        "searches": 0,
+        "reads": 0,
+        "bugs_found": 0,
+        "bugs_available": 6,
+        "strict_fps": 0,
+        "uncertain": 4
+      }
+    ]
+  },
+  "opencode": {
+    "quick_pass": [
+      {
+        "arm": "exa:auto",
+        "provider": "Exa",
+        "profile": "auto",
+        "runs": 4,
+        "model_usd_mean": 0.1049,
+        "search_usd_mean": 0.0105,
+        "search_usd_basis": "metered",
+        "wall_s_mean": 69.4,
+        "model_calls": 28,
+        "searches": 6,
+        "reads": 0,
+        "all_pass": 4,
+        "tasks": 4
+      },
+      {
+        "arm": "parallel:fast",
+        "provider": "Parallel",
+        "profile": "fast",
+        "runs": 4,
+        "model_usd_mean": 0.1053,
+        "search_usd_mean": 0.0013,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 59.8,
+        "model_calls": 25,
+        "searches": 3,
+        "reads": 2,
+        "all_pass": 3,
+        "tasks": 4
+      },
+      {
+        "arm": "tavily:advanced",
+        "provider": "Tavily",
+        "profile": "advanced",
+        "runs": 4,
+        "model_usd_mean": 0.1046,
+        "search_usd_mean": 0.016,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 60.7,
+        "model_calls": 26,
+        "searches": 4,
+        "reads": 2,
+        "all_pass": 3,
+        "tasks": 4
+      },
+      {
+        "arm": "brave:web",
+        "provider": "Brave",
+        "profile": "web",
+        "runs": 4,
+        "model_usd_mean": 0.089,
+        "search_usd_mean": 0.0063,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 59,
+        "model_calls": 26,
+        "searches": 5,
+        "reads": 1,
+        "all_pass": 3,
+        "tasks": 4
+      },
+      {
+        "arm": "firecrawl:search",
+        "provider": "Firecrawl",
+        "profile": "search",
+        "runs": 4,
+        "model_usd_mean": 0.1125,
+        "search_usd_mean": 0.0027,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 55.6,
+        "model_calls": 27,
+        "searches": 5,
+        "reads": 3,
+        "all_pass": 3,
+        "tasks": 4
+      },
+      {
+        "arm": "none",
+        "provider": "No search",
+        "profile": "baseline",
+        "runs": 4,
+        "model_usd_mean": 0.059,
+        "search_usd_mean": 0,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 54.5,
+        "model_calls": 23,
+        "searches": 0,
+        "reads": 0,
+        "all_pass": 4,
+        "tasks": 4
+      }
+    ],
+    "pooled": [
+      {
+        "arm": "exa:auto",
+        "provider": "Exa",
+        "profile": "auto",
+        "runs": 6,
+        "model_usd_mean": 0.1296,
+        "search_usd_mean": 0.0108,
+        "search_usd_basis": "metered",
+        "wall_s_mean": 76.5,
+        "model_calls": 47,
+        "searches": 9,
+        "reads": 2,
+        "all_pass": 5,
+        "tasks": 6
+      },
+      {
+        "arm": "parallel:fast",
+        "provider": "Parallel",
+        "profile": "fast",
+        "runs": 4,
+        "model_usd_mean": 0.1053,
+        "search_usd_mean": 0.0013,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 59.8,
+        "model_calls": 25,
+        "searches": 3,
+        "reads": 2,
+        "all_pass": 3,
+        "tasks": 4
+      },
+      {
+        "arm": "tavily:advanced",
+        "provider": "Tavily",
+        "profile": "advanced",
+        "runs": 4,
+        "model_usd_mean": 0.1046,
+        "search_usd_mean": 0.016,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 60.7,
+        "model_calls": 26,
+        "searches": 4,
+        "reads": 2,
+        "all_pass": 3,
+        "tasks": 4
+      },
+      {
+        "arm": "brave:web",
+        "provider": "Brave",
+        "profile": "web",
+        "runs": 4,
+        "model_usd_mean": 0.089,
+        "search_usd_mean": 0.0063,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 59,
+        "model_calls": 26,
+        "searches": 5,
+        "reads": 1,
+        "all_pass": 3,
+        "tasks": 4
+      },
+      {
+        "arm": "firecrawl:search",
+        "provider": "Firecrawl",
+        "profile": "search",
+        "runs": 6,
+        "model_usd_mean": 0.1353,
+        "search_usd_mean": 0.0035,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 61.5,
+        "model_calls": 46,
+        "searches": 10,
+        "reads": 5,
+        "all_pass": 4,
+        "tasks": 6
+      },
+      {
+        "arm": "none",
+        "provider": "No search",
+        "profile": "baseline",
+        "runs": 6,
+        "model_usd_mean": 0.0659,
+        "search_usd_mean": 0,
+        "search_usd_basis": "estimate",
+        "wall_s_mean": 63.2,
+        "model_calls": 39,
+        "searches": 0,
+        "reads": 0,
+        "all_pass": 5,
+        "tasks": 6
+      }
+    ]
+  },
+  "agent_matrix": [
+    {
+      "id": "rv-commander15-negate",
+      "product": "revera",
+      "title": "Update deployment CLI dependencies and add tags",
+      "clean": false,
+      "arms": {
+        "exa:auto": [
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          },
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 1
+          },
+          {
+            "rep": 2,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 1
+          }
+        ],
+        "parallel:fast": [
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "tavily:advanced": [
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "brave:web": [
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 2
+          }
+        ],
+        "firecrawl:search": [
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          },
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          },
+          {
+            "rep": 2,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "none": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 0
+          },
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 1,
+            "reads": 0,
+            "searches": 0
+          },
+          {
+            "rep": 2,
+            "bugs_found": 0,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "rv-got16-http2-agent",
+      "product": "revera",
+      "title": "Refresh relay HTTP dependencies and poll timeout",
+      "clean": false,
+      "arms": {
+        "exa:auto": [
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 1
+          },
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 1
+          },
+          {
+            "rep": 2,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "parallel:fast": [
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 1
+          }
+        ],
+        "tavily:advanced": [
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "brave:web": [
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "firecrawl:search": [
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 2
+          },
+          {
+            "rep": 1,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          },
+          {
+            "rep": 2,
+            "bugs_found": 1,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "none": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 1,
+            "reads": 0,
+            "searches": 0
+          },
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 1,
+            "reads": 0,
+            "searches": 0
+          },
+          {
+            "rep": 2,
+            "bugs_found": 0,
+            "bugs_available": 1,
+            "strict_fps": 0,
+            "uncertain": 1,
+            "reads": 0,
+            "searches": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "rv-got16-migrate",
+      "product": "revera",
+      "title": "Refresh the snapshot monitor transport",
+      "clean": true,
+      "arms": {
+        "exa:auto": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          },
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          },
+          {
+            "rep": 2,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 1,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "parallel:fast": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 1,
+            "uncertain": 1,
+            "reads": 1,
+            "searches": 3
+          }
+        ],
+        "tavily:advanced": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 1,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 2
+          }
+        ],
+        "brave:web": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 1,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "firecrawl:search": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 1,
+            "reads": 1,
+            "searches": 2
+          },
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 3
+          },
+          {
+            "rep": 2,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 1,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 2
+          }
+        ],
+        "none": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 0
+          },
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 0
+          },
+          {
+            "rep": 2,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "rv-ky2-migrate",
+      "product": "revera",
+      "title": "Update queue-control HTTP client",
+      "clean": true,
+      "arms": {
+        "exa:auto": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 1
+          }
+        ],
+        "parallel:fast": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 1
+          }
+        ],
+        "tavily:advanced": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "brave:web": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "firecrawl:search": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 1,
+            "searches": 1
+          }
+        ],
+        "none": [
+          {
+            "rep": 1,
+            "bugs_found": 0,
+            "bugs_available": 0,
+            "strict_fps": 0,
+            "uncertain": 0,
+            "reads": 0,
+            "searches": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "oc-ai7",
+      "product": "opencode",
+      "title": "Restore the catalog assistant on the updated AI SDK",
+      "clean": false,
+      "arms": {
+        "exa:auto": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 2,
+            "reads": 0
+          },
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 2,
+            "reads": 1
+          },
+          {
+            "rep": 2,
+            "all_pass": false,
+            "tests_pass": 3,
+            "tests_total": 4,
+            "searches": 1,
+            "reads": 1
+          }
+        ],
+        "parallel:fast": [
+          {
+            "rep": 1,
+            "all_pass": false,
+            "tests_pass": 3,
+            "tests_total": 4,
+            "searches": 1,
+            "reads": 1
+          }
+        ],
+        "tavily:advanced": [
+          {
+            "rep": 1,
+            "all_pass": false,
+            "tests_pass": 3,
+            "tests_total": 4,
+            "searches": 2,
+            "reads": 1
+          }
+        ],
+        "brave:web": [
+          {
+            "rep": 1,
+            "all_pass": false,
+            "tests_pass": 3,
+            "tests_total": 4,
+            "searches": 2,
+            "reads": 1
+          }
+        ],
+        "firecrawl:search": [
+          {
+            "rep": 1,
+            "all_pass": false,
+            "tests_pass": 3,
+            "tests_total": 4,
+            "searches": 3,
+            "reads": 1
+          },
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 2,
+            "reads": 1
+          },
+          {
+            "rep": 2,
+            "all_pass": false,
+            "tests_pass": 3,
+            "tests_total": 4,
+            "searches": 3,
+            "reads": 1
+          }
+        ],
+        "none": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 0,
+            "reads": 0
+          },
+          {
+            "rep": 1,
+            "all_pass": false,
+            "tests_pass": 3,
+            "tests_total": 4,
+            "searches": 0,
+            "reads": 0
+          },
+          {
+            "rep": 2,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 0,
+            "reads": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "oc-execa10",
+      "product": "opencode",
+      "title": "Restore the release command runner after a dependency update",
+      "clean": false,
+      "arms": {
+        "exa:auto": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 3,
+            "tests_total": 3,
+            "searches": 2,
+            "reads": 0
+          }
+        ],
+        "parallel:fast": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 3,
+            "tests_total": 3,
+            "searches": 1,
+            "reads": 1
+          }
+        ],
+        "tavily:advanced": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 3,
+            "tests_total": 3,
+            "searches": 1,
+            "reads": 1
+          }
+        ],
+        "brave:web": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 3,
+            "tests_total": 3,
+            "searches": 1,
+            "reads": 0
+          }
+        ],
+        "firecrawl:search": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 3,
+            "tests_total": 3,
+            "searches": 1,
+            "reads": 1
+          }
+        ],
+        "none": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 3,
+            "tests_total": 3,
+            "searches": 0,
+            "reads": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "oc-ky2",
+      "product": "opencode",
+      "title": "Repair the inventory API client after its HTTP dependency update",
+      "clean": false,
+      "arms": {
+        "exa:auto": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 2,
+            "reads": 0
+          }
+        ],
+        "parallel:fast": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 1,
+            "reads": 0
+          }
+        ],
+        "tavily:advanced": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 1,
+            "reads": 0
+          }
+        ],
+        "brave:web": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 2,
+            "reads": 0
+          }
+        ],
+        "firecrawl:search": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 1,
+            "reads": 1
+          }
+        ],
+        "none": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 0,
+            "reads": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "oc-ts7-config",
+      "product": "opencode",
+      "title": "Bring the warehouse typecheck configuration forward",
+      "clean": false,
+      "arms": {
+        "exa:auto": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 0,
+            "reads": 0
+          }
+        ],
+        "parallel:fast": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 0,
+            "reads": 0
+          }
+        ],
+        "tavily:advanced": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 0,
+            "reads": 0
+          }
+        ],
+        "brave:web": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 0,
+            "reads": 0
+          }
+        ],
+        "firecrawl:search": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 0,
+            "reads": 0
+          }
+        ],
+        "none": [
+          {
+            "rep": 1,
+            "all_pass": true,
+            "tests_pass": 4,
+            "tests_total": 4,
+            "searches": 0,
+            "reads": 0
+          }
+        ]
+      }
+    }
+  ],
+  "eval_cost": {
+    "provider_fees_usd": 1.72,
+    "agent_model_usd": 7.47,
+    "judge_model_usd": 8.86,
+    "model_basis": "Anthropic list-price estimate; proxy billing not visible"
+  }
+}
