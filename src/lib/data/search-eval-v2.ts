@@ -85,6 +85,32 @@ const reveraSummary = agentSummary.extend({
   uncertain: count,
 });
 const opencodeSummary = agentSummary.extend({ all_pass: count, tasks: count });
+const posthocProfileSchema = profileSchema.extend({
+  arm: z.string().min(1),
+  judge: z.null(),
+  posthoc: z.boolean(),
+  control: z.literal(true).optional(),
+  latency_note: z.string().min(1).optional(),
+});
+const posthocAgentFields = {
+  arm: z.string().min(1),
+  n: count.positive(),
+  posthoc: z.literal(true),
+};
+const posthocSchema = z.object({
+  run_date: z.iso.date(),
+  runs: z.object({
+    retrieval_same_day: z.string().min(1),
+    retrieval_exa_uncached: z.string().min(1),
+    revera: z.string().min(1),
+    opencode: z.string().min(1),
+  }),
+  notes: z.array(z.string()),
+  retrieval_same_day: z.array(posthocProfileSchema).length(9),
+  retrieval_exa_uncached: z.array(posthocProfileSchema).length(2),
+  revera: z.array(reveraSummary.extend(posthocAgentFields)).length(2),
+  opencode: z.array(opencodeSummary.extend(posthocAgentFields)).length(2),
+});
 const outcome = z.object({ rep: count, searches: count, reads: count });
 const reveraOutcome = outcome.extend({
   bugs_found: count,
@@ -145,6 +171,7 @@ export const searchEvalSchema = z.object({
     model_basis: z.string(),
   }),
   blocked: z.array(z.object({ arm: z.string(), reason: z.string() })),
+  posthoc: posthocSchema,
 });
 
 export type SearchEval = z.infer<typeof searchEvalSchema>;
@@ -153,6 +180,7 @@ export type Arm = z.infer<typeof armSchema>;
 export type AgentTask = SearchEval["agent_matrix"][number];
 export type AgentOutcome = AgentTask["arms"][Arm][number];
 export type Product = AgentTask["product"];
+export type PosthocProfile = z.infer<typeof posthocProfileSchema>;
 
 export const searchEval = searchEvalSchema.parse(rawData);
 export const PROVIDER_COLORS: Record<Arm, string> = {
@@ -167,6 +195,25 @@ export const profiles = [...searchEval.retrieval.profiles].sort(
   (a, b) => b.evidence[5] - a.evidence[5] || b.evidence[1] - a.evidence[1],
 );
 export const arms = searchEval.revera.quick_pass;
+export const posthoc = searchEval.posthoc;
+export const posthocProfiles = [
+  ...posthoc.retrieval_same_day,
+  ...posthoc.retrieval_exa_uncached,
+].sort(
+  (a, b) => b.evidence[5] - a.evidence[5] || b.evidence[1] - a.evidence[1],
+);
+export const posthocAgents = posthoc.revera.map((review) => {
+  const coding = posthoc.opencode.find((row) => row.arm === review.arm);
+  if (!coding)
+    throw new Error(`Post-hoc OpenCode evaluation is missing ${review.arm}`);
+  return { arm: review.arm, review, coding };
+});
+
+export function posthocProfile(arm: string): PosthocProfile {
+  const row = posthocProfiles.find((item) => item.arm === arm);
+  if (!row) throw new Error(`Post-hoc retrieval evaluation is missing ${arm}`);
+  return row;
+}
 
 function requiredArm<T extends { arm: Arm }>(rows: T[], arm: Arm): T {
   const row = rows.find((item) => item.arm === arm);

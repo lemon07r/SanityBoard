@@ -21,6 +21,10 @@
     noSearchCoding,
     noSearchReview,
     parallel,
+    posthoc,
+    posthocAgents,
+    posthocProfile,
+    posthocProfiles,
     profiles,
     PROVIDER_COLORS,
     repeatPasses,
@@ -40,11 +44,23 @@
   const cleanReviews = searchEval.agent_matrix.filter(
     (task) => task.product === "revera" && task.clean,
   ).length;
+  const developer = posthocProfile("firecrawl:developer");
+  const firecrawlControl = posthocProfile("firecrawl:search");
+  const cachedExa = posthocProfile("exa:auto");
+  const uncachedExa = posthocProfile("exa:auto-uncached");
+  const dynamicExa = posthocProfile("exa:auto-dynamic");
+  const liteExa = posthocProfile("exa:lite");
+  const parallelControl = posthocProfile("parallel:fast");
+  const tavilyControl = posthocProfile("tavily:advanced");
+  const dynamicTokenSaving = Math.round(
+    (1 - dynamicExa.visible_tokens_p50 / uncachedExa.visible_tokens_p50) * 100,
+  );
   const sections = [
     { id: "retrieval", label: "Retrieval" },
     { id: "revera", label: "Revera" },
     { id: "opencode", label: "OpenCode" },
     { id: "recommendations", label: "Recommendations" },
+    { id: "posthoc", label: "Post-hoc" },
     { id: "method", label: "Method & limits" },
   ];
 </script>
@@ -474,6 +490,12 @@
             )} s) alternative.
           </li>
           <li>Keep search an optional tool, not run on every task.</li>
+          <li>
+            Update 2026-10-24: Exa is now about as fast; <a
+              href="#posthoc"
+              class={link}>see post-hoc additions</a
+            >.
+          </li>
         </ul>
       </article>
     </div>
@@ -489,6 +511,330 @@
         as a loss. Optional reranker ablation skipped.
       </p>
     </div>
+  </section>
+
+  <section
+    id="posthoc"
+    class="scroll-mt-28 pt-12 sm:pt-16"
+    aria-labelledby="posthoc-title"
+  >
+    <p
+      class="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground dark:text-cyan-300"
+    >
+      Post-hoc additions, <time datetime={posthoc.run_date}
+        >{posthoc.run_date}</time
+      >
+    </p>
+    <h2
+      id="posthoc-title"
+      class="mt-3 text-3xl font-semibold tracking-tight text-foreground dark:text-white"
+    >
+      What changed after the frozen evaluation?
+    </h2>
+    <p class="mt-3 max-w-3xl text-sm leading-relaxed {muted}">
+      The <a
+        href={`${REPO}/blob/main/PROTOCOL.md`}
+        target="_blank"
+        rel="noopener noreferrer"
+        class={link}>protocol</a
+      >
+      allowed one baseline plus at most one alternative per provider, missing Firecrawl’s
+      Developer Index and Exa’s
+      <code class="text-xs text-foreground dark:text-white/85">objective</code>
+      field. These additions are reported separately; the {searchEval.run_date} results
+      above are unchanged. One rep each, no LLM judge.
+    </p>
+
+    <article class="mt-6 {card}">
+      <h3 class="text-lg font-semibold text-foreground dark:text-white">
+        Retrieval: same-day controls
+      </h3>
+      <p class="mt-2 text-sm leading-relaxed {muted}">
+        Same {searchEval.retrieval.cases} holdout cases, with all five original profiles
+        rerun as controls. Compare new arms with these controls, not the earlier table.
+        USD/query includes search + read.
+      </p>
+      <p class="mt-3 text-xs {muted} sm:hidden">
+        Swipe the table horizontally to compare all columns.
+      </p>
+      <!-- Keyboard focus enables native horizontal table scrolling. -->
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <div
+        role="region"
+        aria-label="Post-hoc retrieval results, scroll horizontally"
+        tabindex="0"
+        class="mt-5 overflow-x-auto rounded-lg focus-visible:outline-2 focus-visible:outline-foreground dark:focus-visible:outline-cyan-400"
+      >
+        <table
+          aria-label="Post-hoc retrieval"
+          class="w-full min-w-[900px] text-left text-sm tabular-nums text-foreground dark:text-white/85"
+        >
+          <thead class="border-b border-border/60 dark:border-white/10 {muted}">
+            <tr>
+              <th scope="col" class="px-3 py-3 font-medium">Profile</th>
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >Evidence@1</th
+              >
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >Evidence@5</th
+              >
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >Evidence in read</th
+              >
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >Search p50 ms</th
+              >
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >USD/query</th
+              >
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border/40 dark:divide-white/10">
+            {#each posthocProfiles as row (row.arm)}
+              <tr>
+                <th scope="row" class="px-3 py-3 font-normal">
+                  <div class="flex items-center gap-2 whitespace-nowrap">
+                    <code class="text-xs text-foreground dark:text-white/85"
+                      >{row.arm}</code
+                    >
+                    <span
+                      class="rounded border border-border/60 bg-muted/25 px-1.5 py-0.5 text-[10px] text-muted-foreground dark:border-white/10 dark:bg-white/5 dark:text-white/60"
+                      >{row.control || row.arm === "exa:auto-uncached"
+                        ? "control"
+                        : "new"}</span
+                    >
+                  </div>
+                </th>
+                <td class="px-3 py-3 text-right">{row.evidence[1]}/{row.n}</td>
+                <td class="px-3 py-3 text-right">{row.evidence[5]}/{row.n}</td>
+                <td class="px-3 py-3 text-right"
+                  >{row.evidence_in_read}/{row.n}</td
+                >
+                <td class="px-3 py-3 text-right">
+                  {row.search_ms.p50}{#if row.latency_note}<a
+                      href="#posthoc-latency-note"
+                      aria-label="Cache-flattered latency; see note"
+                      class={link}><sup>*</sup></a
+                    >{/if}
+                </td>
+                <td class="whitespace-nowrap px-3 py-3 text-right">
+                  {usd(row.usd_per_query)}
+                  <span class="text-xs {muted}">{row.usd_basis}</span>
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+      <p
+        id="posthoc-latency-note"
+        class="mt-4 scroll-mt-28 text-xs leading-relaxed {muted}"
+      >
+        * exa:auto is cache-flattered: {cachedExa.latency_note}.
+      </p>
+    </article>
+
+    <article class="mt-4 {card}">
+      <h3 class="text-lg font-semibold text-foreground dark:text-white">
+        Agents: one run per arm
+      </h3>
+      <p class="mt-2 text-sm leading-relaxed {muted}">
+        {posthoc.revera[0].n} Revera tasks and {posthoc.opencode[0].n} OpenCode tasks.
+        Model USD means are list-price estimates per task.
+      </p>
+      <p class="mt-3 text-xs {muted} sm:hidden">
+        Swipe the table horizontally to compare all columns.
+      </p>
+      <!-- Keyboard focus enables native horizontal table scrolling. -->
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <div
+        role="region"
+        aria-label="Post-hoc agent results, scroll horizontally"
+        tabindex="0"
+        class="mt-5 overflow-x-auto rounded-lg focus-visible:outline-2 focus-visible:outline-foreground dark:focus-visible:outline-cyan-400"
+      >
+        <table
+          aria-label="Post-hoc agents"
+          class="w-full min-w-[900px] text-left text-sm tabular-nums text-foreground dark:text-white/85"
+        >
+          <thead class="border-b border-border/60 dark:border-white/10 {muted}">
+            <tr>
+              <th scope="col" class="px-3 py-3 font-medium">Arm</th>
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >Revera bugs found/available</th
+              >
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >Strict FPs</th
+              >
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >Uncertain</th
+              >
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >OpenCode all-pass/tasks</th
+              >
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >Revera model USD mean</th
+              >
+              <th scope="col" class="px-3 py-3 text-right font-medium"
+                >OpenCode model USD mean</th
+              >
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border/40 dark:divide-white/10">
+            {#each posthocAgents as row (row.arm)}
+              <tr>
+                <th
+                  scope="row"
+                  class="whitespace-nowrap px-3 py-3 text-xs font-normal"
+                >
+                  <code class="text-foreground dark:text-white/85"
+                    >{row.arm}</code
+                  >
+                </th>
+                <td class="px-3 py-3 text-right"
+                  >{row.review.bugs_found}/{row.review.bugs_available}</td
+                >
+                <td class="px-3 py-3 text-right">{row.review.strict_fps}</td>
+                <td class="px-3 py-3 text-right">{row.review.uncertain}</td>
+                <td class="px-3 py-3 text-right"
+                  >{row.coding.all_pass}/{row.coding.tasks}</td
+                >
+                <td class="px-3 py-3 text-right"
+                  >{usd(row.review.model_usd_mean)}</td
+                >
+                <td class="px-3 py-3 text-right"
+                  >{usd(row.coding.model_usd_mean)}</td
+                >
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-xs leading-relaxed {muted}">
+        Both arms found both bugs. Firecrawl’s uncertain item was the same
+        defensible pooling comment described above. Exa missed oc-ai7, which
+        failed in some runs for every arm on
+        {searchEval.run_date}, including no search; the failing test was not
+        captured, so its cause is unchecked. This track still cannot rank
+        providers.
+      </p>
+    </article>
+
+    <article class="mt-4 {card}">
+      <h3 class="text-lg font-semibold text-foreground dark:text-white">
+        What the additions show
+      </h3>
+      <ul
+        class="mt-4 list-disc space-y-3 pl-4 text-sm leading-relaxed marker:text-muted-foreground dark:marker:text-white/35 {muted}"
+      >
+        <li>
+          Firecrawl Developer Index improved evidence@5 to {developer
+            .evidence[5]}/{developer.n}
+          vs {firecrawlControl.evidence[5]}/{firecrawlControl.n} for general search.
+          It gained on library and migration questions; both Firecrawl modes found
+          evidence on only 2 of 6 security-advisory cases. Evidence usually came from
+          GitHub issues or PRs, not the canonical page (url@5: {developer
+            .url[5]}/{developer.n}).
+        </li>
+        <li>
+          Exa’s objective field made no measurable difference in the
+          cache-controlled pair: the evidence rank changed in none of the {uncachedExa.n}
+          cases.
+        </li>
+        <li>
+          Exa dynamic highlights found evidence at rank 1 on {dynamicExa
+            .evidence[1]}/{dynamicExa.n}
+          with about {dynamicTokenSaving}% fewer visible tokens. That is a
+          one-case improvement, within noise.
+        </li>
+        <li>
+          Exa lite matched auto on evidence at about 40% lower cost ({usd(
+            liteExa.usd_per_query,
+            3,
+          )}
+          vs {usd(uncachedExa.usd_per_query, 3)} per query).
+        </li>
+        <li>
+          Cache-free Exa auto is now {seconds(uncachedExa.search_ms.p50, 2)} s search
+          p50, down from {seconds(exa.search_ms.p50)} s on {searchEval.run_date}.
+          That is about as fast as Parallel fast ({seconds(
+            parallelControl.search_ms.p50,
+            2,
+          )} s).
+        </li>
+        <li>
+          Brave spellcheck:false returned identical results on all {uncachedExa.n}
+          cases.
+        </li>
+        <li>
+          Tavily’s control drifted from {profiles.find(
+            (row) => row.arm === "tavily:advanced",
+          )?.evidence[5]}
+          to {tavilyControl.evidence[5]}/{tavilyControl.n} evidence@5. Indexes change
+          over time.
+        </li>
+      </ul>
+    </article>
+
+    <div
+      class="mt-4 rounded-xl border border-border/60 bg-muted/20 p-5 dark:border-white/10 dark:bg-white/[0.025]"
+    >
+      <h3 class="text-sm font-semibold text-foreground dark:text-white">
+        Two problems found and fixed
+      </h3>
+      <ul
+        class="mt-3 list-disc space-y-2 pl-4 text-sm leading-relaxed marker:text-muted-foreground dark:marker:text-white/35 {muted}"
+      >
+        <li>
+          Exa’s result cache ignores objective. The first comparison was voided
+          and rerun with cache-busting settings; use the uncached pair above.
+        </li>
+        <li>
+          Fixture dependencies were missing, so the first OpenCode rerun was
+          void. The harness now refuses to run in that state; the tasks were
+          rerun.
+        </li>
+      </ul>
+      <p class="mt-3 text-xs {muted}">
+        Both fixes are recorded in the <a
+          href={`${REPO}/blob/main/PROTOCOL.md`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={link}>protocol amendments</a
+        >.
+      </p>
+    </div>
+
+    <article class="mt-4 {card}">
+      <h3 class="text-lg font-semibold text-foreground dark:text-white">
+        Bottom line
+      </h3>
+      <ul
+        class="mt-4 list-disc space-y-3 pl-4 text-sm leading-relaxed marker:text-muted-foreground dark:marker:text-white/35 {muted}"
+      >
+        <li>Revera: unchanged. Keep Exa auto.</li>
+        <li>
+          OpenCode: Exa and Parallel are now about equal on speed. Exa is
+          slightly better at rank 1 ({uncachedExa.evidence[1]} vs {parallelControl
+            .evidence[1]}); Parallel is about {Math.round(
+            uncachedExa.usd_per_query / parallelControl.usd_per_query,
+          )}x cheaper. Exa lite is a middle option. These data do not settle it.
+        </li>
+        <li>
+          Firecrawl users: Developer Index for code questions. Neither Firecrawl
+          mode handled security advisories well. It still trails Exa and
+          Parallel on this set.
+        </li>
+      </ul>
+      <p class="mt-5 text-sm">
+        <a
+          href={`${REPO}/blob/main/REPORT.md#post-hoc-additions-2026-10-24`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={link}>Read the full post-hoc analysis</a
+        >
+      </p>
+    </article>
   </section>
 
   <section

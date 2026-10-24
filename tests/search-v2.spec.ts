@@ -12,6 +12,82 @@ if (executablePath) {
 
 const shots = join(homedir(), ".local/tmp/sse/shots");
 mkdirSync(shots, { recursive: true });
+const posthocShots = join(homedir(), ".local/tmp/sanityboard-shots");
+mkdirSync(posthocShots, { recursive: true });
+
+test("post-hoc additions keep all retrieval rows and show the Developer Index result", async ({
+  page,
+}) => {
+  await page.goto("http://localhost:4173/evals/search-v2");
+  const section = page.getByRole("region", {
+    name: "What changed after the frozen evaluation?",
+    exact: true,
+  });
+  await expect(
+    section.getByRole("heading", {
+      name: "What changed after the frozen evaluation?",
+    }),
+  ).toBeVisible();
+  await expect(section).toContainText("Post-hoc additions, 2026-10-24");
+  const retrieval = section.getByRole("table", {
+    name: "Post-hoc retrieval",
+    exact: true,
+  });
+  await expect(retrieval.locator("tbody tr")).toHaveCount(11);
+  const developer = retrieval.getByRole("row").filter({
+    has: page.getByRole("rowheader", {
+      name: "firecrawl:developer new",
+      exact: true,
+    }),
+  });
+  await expect(developer.getByRole("cell").nth(1)).toHaveText("19/24");
+  await expect(
+    retrieval.getByRole("row").filter({ hasText: "exa:auto-uncached" }),
+  ).toContainText("control");
+  await expect(
+    retrieval.getByRole("link", { name: "Cache-flattered latency; see note" }),
+  ).toHaveAttribute("href", "#posthoc-latency-note");
+  await expect(section.locator("#posthoc-latency-note")).toContainText(
+    "use exa:auto-uncached for latency",
+  );
+  const agents = section.getByRole("table", { name: "Post-hoc agents" });
+  await expect(agents.locator("tbody tr")).toHaveCount(2);
+  await expect(
+    agents.getByRole("row").filter({ hasText: "firecrawl:developer" }),
+  ).toContainText("4/4");
+  await page.setViewportSize({ width: 390, height: 900 });
+  const scrollRegion = section.getByRole("region", {
+    name: "Post-hoc retrieval results, scroll horizontally",
+    exact: true,
+  });
+  await scrollRegion.focus();
+  await page.keyboard.press("ArrowRight");
+  await expect
+    .poll(() => scrollRegion.evaluate((element) => element.scrollLeft))
+    .toBeGreaterThan(0);
+});
+
+test("OpenCode recommendation links to the separate post-hoc section", async ({
+  page,
+}) => {
+  await page.goto("http://localhost:4173/evals/search-v2");
+  const card = page.locator("#recommendations article").filter({
+    has: page.getByRole("heading", {
+      name: "OpenCode: Parallel fast",
+      exact: true,
+    }),
+  });
+  const update = card.getByRole("link", { name: "see post-hoc additions" });
+  await expect(update).toHaveAttribute("href", "#posthoc");
+  await update.click();
+  await expect(page).toHaveURL(/\/evals\/search-v2#posthoc$/);
+  await expect(page.locator("#posthoc-title")).toBeInViewport();
+  await expect(
+    page
+      .getByRole("navigation", { name: "Report sections" })
+      .getByRole("link", { name: "Post-hoc" }),
+  ).toHaveAttribute("href", "#posthoc");
+});
 
 test("retrieval filters and question inspection work with the keyboard", async ({
   page,
@@ -294,6 +370,11 @@ for (const theme of ["light", "dark"] as const) {
         path: join(shots, `search-v2-${theme}-${width}.png`),
         fullPage: true,
         animations: "disabled",
+      });
+      await page.locator("#posthoc").screenshot({
+        path: join(posthocShots, `search-v2-posthoc-${theme}-${width}.png`),
+        animations: "disabled",
+        style: "nav { visibility: hidden !important; }",
       });
     });
   }
